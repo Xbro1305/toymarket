@@ -430,7 +430,7 @@
   }
   .categoryProducts .catalogItem_cards .catalogItem_card {
     width: 100%;
-    height: 300px !important;
+    height: 275px !important;
 
     .product-image {
       max-width: 100% !important;
