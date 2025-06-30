@@ -39,6 +39,7 @@ function SinglePage() {
   const [colors, setColors] = useState(new Set());
   const [open_marketPlaces, setOpen_marketPlaces] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedModelID, setSelectedModelID] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,27 +57,32 @@ function SinglePage() {
         //     product.inStock &&
         //     parseInt(product.inStock) !== 0
         // );
-        setProducts(processedProducts);
         setProduct(processedProducts.find((p) => p.id === +id));
+        setProducts(processedProducts);
+        const modelID = processedProducts.find((p) => p.id === +id).modelID;
         // setTotalSlides(
         //   product?.otherPhotos?.length + 1 + product?.review ? 1 : 0
         // );
 
-        setColors(
-          new Set(
-            Object.values(
-              allProducts.reduce((acc, item) => {
-                if (!acc[item.color]) {
-                  acc[item.color] = {
-                    color: item.color,
-                    img: `https://shop-api.toyseller.site/api/image/${item.id}/${item.photo}`,
-                  };
-                }
-                return acc;
-              }, {})
+        setTimeout(() => {
+          setColors(
+            new Set(
+              Object.values(
+                allProducts
+                  .filter((item) => item.modelID == modelID)
+                  .reduce((acc, item) => {
+                    if (!acc[item.color]) {
+                      acc[item.color] = {
+                        color: item.color,
+                        img: `https://shop-api.toyseller.site/api/image/${item.id}/${item.photo}`,
+                      };
+                    }
+                    return acc;
+                  }, {})
+              )
             )
-          )
-        );
+          );
+        }, 100);
 
         setIsSizeBtn(
           processedProducts
