@@ -442,10 +442,8 @@
     height: 150px;
     max-height: 150px;
   }
-  .categoryProducts .product-img-link {
-    .mark_new_product {
-      top: 100%;
-    }
+  .categoryProducts .product-img-link .mark_new_product {
+    top: 100%;
   }
 
   .modal-header {
