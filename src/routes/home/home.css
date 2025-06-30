@@ -1,0 +1,35 @@
+.go-to-order-wrap {
+  align-items: center;
+  background-color: #fff;
+  background-color: #2a2a2a;
+  border-radius: 14px 14px 0 0;
+  bottom: 75px;
+  box-shadow: none;
+  box-shadow: 0 -6px 16px -16px #ababab;
+  color: #fff;
+  flex-wrap: wrap;
+  font-size: 13px;
+  justify-content: space-between;
+  left: 0;
+  margin: -1px auto;
+  max-width: 480px;
+  max-width: 300px;
+  padding: 9px 12px;
+  position: fixed;
+  right: 0;
+  text-align: center;
+  -webkit-user-select: none;
+  user-select: none;
+  width: 100%;
+  z-index: 101;
+}
+
+
+.go-to-order-wrap{
+  bottom: 0;
+}
+@media screen and (max-width:768px) {
+  .go-to-order-wrap {
+    bottom: 80px;
+  }
+}

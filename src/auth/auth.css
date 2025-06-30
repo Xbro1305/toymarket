@@ -1,0 +1,56 @@
+.container-order-data {
+    max-width: 100%;
+    margin: auto;
+    background-color: #1c1c1c;
+    height: 100vh;
+}
+
+.order-form {
+    padding: 20px 15px 220px;
+    margin: 0 auto;
+}
+
+.order-form-auth {
+    max-width: 500px;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.logo-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logoIcon {
+    width: 247px;
+    height: 57px;
+    cursor: pointer;
+}
+
+.telegram-wrapper {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.telegram-wrapper .politic {
+    width: 650px;
+    display: block;
+    text-align: center;
+    color: #fff;
+}
+
+.footer-auth {
+    display: block;
+    justify-content: center;
+    width: 300px !important;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 50px;
+    color: #fff;
+}

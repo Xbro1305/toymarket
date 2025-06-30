@@ -1,0 +1,501 @@
+// import React, { useState, useEffect, useMemo } from "react";
+// import {
+//   useGetCategoriesQuery,
+//   useLazyGetNewProductsLazyQuery,
+//   useLazyGetProductsByTypeWithLimitQuery,
+// } from "../../context/service/productsApi";
+// import { LuChevronRight } from "react-icons/lu";
+// import { Link, useNavigate } from "react-router-dom";
+// import formatNumber from "../../utils/numberFormat";
+// import { FiPlus, FiMinus } from "react-icons/fi";
+// import "./Catalog.css";
+// import { useDispatch, useSelector } from "react-redux";
+// import { decrementQuantity, incrementQuantity } from "../../context/cartSlice";
+// import loader from "./loader1.svg";
+
+// function Catalog() {
+//   const nav = useNavigate();
+//   const dispatch = useDispatch();
+//   const cartData = useSelector((state) => state.cart.items);
+//   const [products, setProducts] = useState([]);
+//   const [isLoading, setIsLoading] = useState(false);
+
+//   const [newProductsData] = useLazyGetNewProductsLazyQuery();
+
+//   const { data: categoriesData } = useGetCategoriesQuery();
+
+//   const [triggerGetProducts] = useLazyGetProductsByTypeWithLimitQuery();
+
+//   const categories = categoriesData?.data || [];
+
+//   useEffect(() => {
+//     if (categories.length === 0) return;
+
+//     const fetchAllProducts = async () => {
+//       setIsLoading(true);
+//       try {
+//         // Fetch new products
+//         const newProductsResponse = await newProductsData({ limit: 9 });
+//         const newProducts = newProductsResponse?.data?.data || [];
+
+//         // Fetch products by category in parallel
+//         const categoryProducts = await Promise.all(
+//           categories.map(async ({ id, name }) => {
+//             try {
+//               const { data: productsData } = await triggerGetProducts({ id });
+//               return {
+//                 categoryName: name,
+//                 products:
+//                   productsData?.data?.filter((p) => +p?.inStock !== 0) || [],
+//                 id,
+//               };
+//             } catch (err) {
+//               console.error(
+//                 `Error fetching products for category ID ${id}:`,
+//                 err
+//               );
+//               return {
+//                 categoryName: name,
+//                 products: [],
+//                 id,
+//               };
+//             }
+//           })
+//         );
+
+//         // Set final product state
+//         setProducts([
+//           {
+//             categoryName: "Новинки",
+//             products: newProducts?.filter((p) => +p?.inStock !== 0),
+//           },
+//           ...categoryProducts,
+//         ]);
+//       } catch (err) {
+//         console.error("Error fetching products:", err);
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     };
+
+//     fetchAllProducts();
+//   }, [categories]);
+
+//   const getDisplayQuantity = (inCart, product) => {
+//     if (!inCart || !product) return 0;
+//     const boxQuantity = Number(inCart.quantity) * Number(product.inBox);
+//     const packageSize = Number(product.inPackage);
+//     return packageSize && boxQuantity % packageSize !== 0
+//       ? Math.ceil(boxQuantity)
+//       : Math.floor(boxQuantity);
+//   };
+
+//   const handleIncrement = (product) => {
+//     dispatch(
+//       incrementQuantity({
+//         productId: product.id,
+//         inBox: product.inBox,
+//         inPackage: product.inPackage,
+//         inStock: product.inStock,
+//         inTheBox: product.inTheBox,
+//       })
+//     );
+//   };
+
+//   const handleDecrement = (product) => dispatch(decrementQuantity({ product }));
+
+//   const catalogs = useMemo(() => {
+//     const shuffleArray = (array) => {
+//       return array
+//         .map((item) => ({ item, sort: Math.random() }))
+//         .sort((a, b) => a.sort - b.sort)
+//         .map(({ item }) => item);
+//     };
+
+//     return products.map((item) => ({
+//       ...item,
+//       originalIndex: item.products[0]?.categoryID || 0,
+//       products: shuffleArray(
+//         item.products.reduce((unique, product) => {
+//           if (product.categoryID === 3) {
+//             const key = `${product.color}-${product.size}`;
+//             const exists = unique.some((p) => `${p.color}-${p.size}` === key);
+//             if (!exists) {
+//               unique.push(product);
+//             }
+//           } else {
+//             unique.push(product);
+//           }
+//           return unique;
+//         }, [])
+//       ),
+//     }));
+//   }, [products]);
+
+//   return (
+//     <div className="catalog container">
+//       {isLoading ? (
+//         <div className="loader">
+//           <img width={100} src={loader} alt="" />
+//         </div>
+//       ) : (
+//         <>
+//           {catalogs?.map((item, index) => (
+//             <div key={index} className="catalogItem">
+//               <p
+//                 onClick={
+//                   () =>
+//                     item.categoryName === "Новинки"
+//                       ? nav("/news/")
+//                       : nav("/category/" + item.id)
+//                   // nav("/category/" + item.categoryName)
+//                 }
+//                 className="catalogItem_title"
+//               >
+//                 <span>{item.categoryName}</span>
+//                 <LuChevronRight />
+//               </p>
+//               <div className="catalogItem_cards">
+//                 {item?.products?.slice(0, 9)?.map((product) => {
+//                   const inCart = cartData.find(
+//                     (item) => item.id === product.id
+//                   );
+//                   const displayQuantity = getDisplayQuantity(inCart, product);
+
+//                   return (
+//                     <div key={product.id} className="catalogItem_card">
+//                       <Link
+//                         className="product-img-link"
+//                         to={`/product/${product.productTypeID}/${product.id}`}
+//                       >
+//                         {+product?.discountedPrice !== +product?.price ? (
+//                           <div className="mark_discount">%</div>
+//                         ) : null}
+//                         <img
+//                           src={`https://shop-api.toyseller.site/api/image/${product.id}/${product.image}`}
+//                           alt={product.article}
+//                           // className="picture"
+//                           className={`product-image ${
+//                             isLoading ? "loading" : "loaded"
+//                           }`}
+//                           onLoad={() => setIsLoading(false)}
+//                         />
+//                         {product.isNew === 1 ? (
+//                           <div className="mark_new_product">
+//                             <span>Новинка</span>
+//                           </div>
+//                         ) : null}
+//                       </Link>
+//                       <p className="name">{product.name}</p>
+//                       <p className="weight">Осталось: {product.remained} шт</p>
+//                       <p className="weight">
+//                         от {product?.recomendedMinimalSize} шт по{" "}
+//                         {product?.discountedPrice} ₽{" "}
+//                       </p>
+
+//                       {inCart ? (
+//                         <div className="add catalog_counter">
+//                           <FiMinus onClick={() => handleDecrement(product)} />
+//                           <p className="amount">{displayQuantity}</p>
+//                           <FiPlus onClick={() => handleIncrement(product)} />
+//                         </div>
+//                       ) : (
+//                         <div
+//                           className="price"
+//                           onClick={() =>
+//                             nav(
+//                               `/product/${product.productTypeID}/${product.id}`
+//                             )
+//                           }
+//                         >
+//                           {formatNumber(+product.price)} ₽
+//                         </div>
+//                       )}
+//                     </div>
+//                   );
+//                 })}
+//               </div>
+//             </div>
+//           ))}
+//         </>
+//       )}
+//     </div>
+//   );
+// }
+
+// export default Catalog;
+
+import React, { useState, useEffect, useMemo } from "react";
+import {
+  useGetCategoriesQuery,
+  useLazyGetNewProductsLazyQuery,
+  useLazyGetProductsByTypeWithLimitQuery,
+} from "../../context/service/productsApi";
+import { LuChevronRight } from "react-icons/lu";
+import { Link, useNavigate } from "react-router-dom";
+import formatNumber from "../../utils/numberFormat";
+import { FiPlus, FiMinus } from "react-icons/fi";
+import "./Catalog.css";
+import { useDispatch, useSelector } from "react-redux";
+import { decrementQuantity, incrementQuantity } from "../../context/cartSlice";
+import loader from "./loader1.svg";
+
+function Catalog() {
+  const nav = useNavigate();
+  const dispatch = useDispatch();
+  const cartData = useSelector((state) => state.cart.items);
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasInitialized, setHasInitialized] = useState(false);
+
+  const [newProductsData] = useLazyGetNewProductsLazyQuery();
+  const { data: categoriesData } = useGetCategoriesQuery();
+  const [triggerGetProducts] = useLazyGetProductsByTypeWithLimitQuery();
+
+  const categories = categoriesData?.data || [];
+
+  useEffect(() => {
+    if (categories.length === 0 || hasInitialized) return;
+
+    const fetchAllProducts = async () => {
+      setIsLoading(true);
+      try {
+        // Keshdan tekshirish
+        const cachedProducts = sessionStorage.getItem("catalogProducts");
+        if (cachedProducts) {
+          setProducts(JSON.parse(cachedProducts));
+          setHasInitialized(true);
+          setIsLoading(false);
+          return;
+        }
+
+        // Fetch new products
+        const newProductsResponse = await newProductsData({ limit: 9 });
+        const newProducts = newProductsResponse?.data?.data || [];
+
+        // Fetch products by category in parallel
+        const categoryProducts = await Promise.all(
+          categories.map(async ({ id, name }) => {
+            try {
+              const { data: productsData } = await triggerGetProducts({ id });
+              return {
+                categoryName: name,
+                products:
+                  productsData?.data?.filter((p) => +p?.inStock !== 0) || [],
+                id,
+              };
+            } catch (err) {
+              console.error(
+                `Error fetching products for category ID ${id}:`,
+                err
+              );
+              return {
+                categoryName: name,
+                products: [],
+                id,
+              };
+            }
+          })
+        );
+
+        const finalProducts = [
+          {
+            categoryName: "Новинки",
+            products: newProducts?.filter((p) => +p?.inStock !== 0),
+          },
+          ...categoryProducts,
+        ];
+
+        // Ma'lumotlarni keshga saqlash
+        sessionStorage.setItem(
+          "catalogProducts",
+          JSON.stringify(finalProducts)
+        );
+        setProducts(finalProducts);
+        setHasInitialized(true);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAllProducts();
+  }, [categories, hasInitialized]);
+
+  // Sahifa o'zgarganda keshni tozalash
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      // Faqat boshqa sahifaga o'tganda keshni tozalash
+      sessionStorage.removeItem("catalogProducts");
+    };
+
+    return () => {
+      setHasInitialized(false);
+    };
+  }, []);
+
+  const getDisplayQuantity = (inCart, product) => {
+    if (!inCart || !product) return 0;
+    const boxQuantity = Number(inCart.quantity) * Number(product.inBox);
+    const packageSize = Number(product.inPackage);
+    return packageSize && boxQuantity % packageSize !== 0
+      ? Math.ceil(boxQuantity)
+      : Math.floor(boxQuantity);
+  };
+
+  const handleIncrement = (product) => {
+    dispatch(
+      incrementQuantity({
+        productId: product.id,
+        inBox: product.inBox,
+        inPackage: product.inPackage,
+        inStock: product.inStock,
+        inTheBox: product.inTheBox,
+      })
+    );
+  };
+
+  const handleDecrement = (product) => {
+    dispatch(
+      decrementQuantity({
+        productId: product.id,
+        inBox: product.inBox,
+        inPackage: product.inPackage,
+        inTheBox: product.inTheBox,
+      })
+    );
+  };
+
+  const catalogs = useMemo(() => {
+    const shuffleArray = (array) => {
+      return array
+        .map((item) => ({ item, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ item }) => item);
+    };
+
+    return products.map((item) => ({
+      ...item,
+      originalIndex: item.products[0]?.categoryID || 0,
+      products: shuffleArray(
+        item.products.reduce((unique, product) => {
+          if (product.categoryID === 3) {
+            const key = `${product.color}-${product.size}`;
+            const exists = unique.some((p) => `${p.color}-${p.size}` === key);
+            if (!exists) {
+              unique.push(product);
+            }
+          } else {
+            unique.push(product);
+          }
+          return unique;
+        }, [])
+      ),
+    }));
+  }, [products]);
+
+  if (isLoading)
+    return (
+      <div className="loader">
+        <img width={100} src={loader} alt="" />
+      </div>
+    );
+
+  return (
+    <div className="catalog container">
+      {catalogs?.map(
+        (item, index) =>
+          item.products.length > 0 && (
+            <div key={index} className="catalogItem">
+              <p
+                onClick={() =>
+                  item.categoryName === "Новинки"
+                    ? nav("/news/")
+                    : nav("/category/" + item.id)
+                }
+                className="catalogItem_title"
+              >
+                <span>{item.categoryName}</span>
+                <LuChevronRight />
+              </p>
+              <div className="catalogItem_cards">
+                {item?.products?.slice(0, 9)?.map((product) => {
+                  const inCart = cartData.find(
+                    (item) => item.id === product.id
+                  );
+                  const displayQuantity = getDisplayQuantity(inCart, product);
+
+                  return (
+                    <div key={product.id} className="catalogItem_card">
+                      <Link
+                        className="product-img-link"
+                        onClick={() =>
+                          window.Telegram.WebApp.HapticFeedback.impactOccurred(
+                            "light"
+                          )
+                        }
+                        to={`/product/${product.productTypeID}/${product.id}`}
+                      >
+                        {+product?.discountedPrice !== +product?.price &&
+                        +product.price &&
+                        +product.discountedPrice ? (
+                          <div className="mark_discount">%</div>
+                        ) : null}
+                        <img
+                          src={`https://shop-api.toyseller.site/api/image/${product.id}/${product.image}`}
+                          alt={product.article}
+                          className="product-image loaded"
+                        />
+                        {product.isNew === 1 ? (
+                          <div className="mark_new_product">
+                            <span>Новинка</span>
+                          </div>
+                        ) : null}
+                      </Link>
+                      <p className="name">{product.name}</p>
+                      <p className="weight">Осталось: {product.inStock} шт</p>
+                      <p className="weight">
+                        от {product?.recomendedMinimalSize} шт по{" "}
+                        {product?.discountedPrice} ₽{" "}
+                      </p>
+
+                      {inCart ? (
+                        <div className="add catalog_counter">
+                          <FiMinus
+                            style={{ cursor: "pointer" }}
+                            onClick={() => handleDecrement(product)}
+                          />
+                          <p className="amount">{displayQuantity}</p>
+                          <FiPlus
+                            style={{ cursor: "pointer" }}
+                            onClick={() => handleIncrement(product)}
+                          />
+                        </div>
+                      ) : (
+                        <div
+                          className="price"
+                          onClick={() =>
+                            nav(
+                              `/product/${product.productTypeID}/${product.id}`
+                            )
+                          }
+                        >
+                          {formatNumber(
+                            +product.price || +product.discountedPrice
+                          )}{" "}
+                          ₽
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )
+      )}
+    </div>
+  );
+}
+
+export default Catalog;
