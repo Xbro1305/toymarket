@@ -206,10 +206,12 @@
   display: flex;
   align-items: flex-start;
   gap: 40px;
+  width: 100%;
+
   .product-content {
     display: flex;
     flex-direction: column;
-    width: 400px;
+    width: calc(100% - 370px);
     /* margin-left: 100px; */
 
     .price_and_discounts {
@@ -775,6 +777,26 @@
           height: 24px;
         }
       }
+    }
+  }
+  @media (max-width: 1360px) {
+    align-items: flex-start;
+
+    .product-content {
+      width: 400px;
+    }
+  }
+
+  @media (max-width: 1040px) {
+    .product-content {
+      width: 100%;
+    }
+  }
+  @media (max-width: 975px) {
+    align-items: center;
+    width: 500px;
+    .product-content {
+      width: 500px;
     }
   }
 }

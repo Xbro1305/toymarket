@@ -43,7 +43,7 @@ const NewCart = () => {
     email: "",
   });
 
-  const [paymentDelivered, setPaymentDelivered] = useState(false);
+  const [paymentDelivered, setPaymentDelivered] = useState(true);
   const [modal1, setModal1] = useState(false);
   const [selectedPickupId, setSelectedPickupId] = useState(null);
   const [selectedPickup, setSelectedPickup] = useState(null);
@@ -513,18 +513,20 @@ const NewCart = () => {
                   <li>
                     <p>Оплата при получении</p>
                     <Switch
-                      defaultChecked={true}
+                      defaultChecked={false}
                       onChange={(e) => setPaymentDelivered(!e)}
                     />
                   </li>
                 )}
-                {deliveryData != "courier" && selectedPickup && (
-                  <li>
-                    <p>
-                      Срок хранения заказа: {selectedPickup.deliveryTime} дн.
-                    </p>
-                  </li>
-                )}
+                {deliveryData != "courier" &&
+                  selectedPickup &&
+                  !paymentDelivered && (
+                    <li>
+                      <p>
+                        Срок хранения заказа: {selectedPickup.deliveryTime} дн.
+                      </p>
+                    </li>
+                  )}
               </ul>
               <button onClick={createOrder} className="orderButton">
                 {deliveryData == "courier"
@@ -570,23 +572,23 @@ const NewCart = () => {
                   value={data.phone}
                   onChange={(e) => setData({ ...data, phone: e.target.value })}
                 />
-
-                <textarea
-                  type="text"
-                  className="formInput"
-                  placeholder={
-                    deliveryData !== "pickup"
-                      ? "Адрес доставки"
-                      : selectedPickupName ||
-                        "Республика Крым, г. Симферополь, ул. Ленина, д 120"
-                  }
-                  value={data.address}
-                  readOnly={deliveryData === "pickup"}
-                  onChange={(e) => {
-                    setData({ ...data, address: e.target.value });
-                  }}
-                />
-
+                {deliveryData != "courier" && (
+                  <textarea
+                    type="text"
+                    className="formInput"
+                    placeholder={
+                      deliveryData !== "pickup"
+                        ? "Адрес доставки"
+                        : selectedPickupName ||
+                          "Республика Крым, г. Симферополь, ул. Ленина, д 120"
+                    }
+                    value={data.address}
+                    readOnly={deliveryData === "pickup"}
+                    onChange={(e) => {
+                      setData({ ...data, address: e.target.value });
+                    }}
+                  />
+                )}
                 <textarea
                   type="text"
                   className="formInput"

@@ -216,7 +216,7 @@ function SinglePage() {
     <div className="container singlepage">
       <div className="caption">
         <div className="caption-box">
-          <Link to={"/category/" + product?.categoryName}>
+          <Link to={"/category/" + product?.productTypeID}>
             <span>{product?.categoryName}</span>
           </Link>
           <FaChevronRight />
