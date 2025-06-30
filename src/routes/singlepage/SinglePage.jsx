@@ -62,27 +62,49 @@ function SinglePage() {
         //   product?.otherPhotos?.length + 1 + product?.review ? 1 : 0
         // );
 
-        setColors(
-          new Set(
-            Object.values(
-              allProducts.reduce((acc, item) => {
-                if (!acc[item.color]) {
-                  acc[item.color] = {
-                    color: item.color,
-                    img: `https://shop-api.toyseller.site/api/image/${item.id}/${item.photo}`,
-                  };
-                }
-                return acc;
-              }, {})
-            )
-          )
-        );
+        const selectedModelID = product.modelID;
+
+        // setColors(
+        //   new Set(
+        //     Object.values(
+        //       allProducts.reduce((acc, item) => {
+        //         if (!acc[item.color]) {
+        //           acc[item.color] = {
+        //             color: item.color,
+        //             img: `https://shop-api.toyseller.site/api/image/${item.id}/${item.photo}`,
+        //           };
+        //         }
+        //         return acc;
+        //       }, {})
+        //     )
+        //   )
+        // );
 
         setIsSizeBtn(
           processedProducts
             .map((item) => item.article.slice(-2))
             .filter((item) => item !== "")[0]
         );
+
+        const getColorsByModel = (modelID) => {
+          const unique = new Map();
+
+          allProducts
+            .filter((item) => item.modelID === modelID)
+            .forEach((item) => {
+              if (!unique.has(item.color)) {
+                unique.set(item.color, {
+                  color: item.color,
+                  img: `https://shop-api.toyseller.site/api/image/${item.id}/${item.photo}`,
+                });
+              }
+            });
+
+          return [...unique.values()];
+        };
+
+        const colors = getColorsByModel(selectedModelID);
+        setColors(colors);
 
         setIsLoading(false);
       } catch (error) {
