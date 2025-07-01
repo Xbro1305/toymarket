@@ -67,6 +67,7 @@ function App() {
   return (
     <div className="app">
       <Toaster />
+
       {!isAuthPage && <Header />}
       {/* <Header /> */}
       <Routes>
