@@ -247,9 +247,9 @@ const NewCart = () => {
                 checked={selectedAll || selectedItems.length === cart.length}
                 onChange={(e) => {
                   let state = e.target.checked;
-                  if (state) {
-                    setSelectedItems([...cart]);
-                  }
+                  if (state) setSelectedItems([...cart]);
+                  else setSelectedItems([]);
+
                   setSelectedAll(state);
                 }}
               />
