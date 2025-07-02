@@ -380,10 +380,12 @@ function Catalog() {
       originalIndex: item.products[0]?.categoryID || 0,
       products: shuffleArray(
         item.products.reduce((unique, product) => {
-          if (product.categoryID === 3) {
-            const key = `${product.color}-${product.size}`;
-            const exists = unique.some((p) => `${p.color}-${p.size}` === key);
-            if (!exists) {
+          if (+product.categoryID === 3) {
+            if (
+              !unique.some(
+                (u) => u.modelID == product.modelID && u.color == product.color
+              )
+            ) {
               unique.push(product);
             }
           } else {

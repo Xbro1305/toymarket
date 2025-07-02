@@ -79,16 +79,27 @@ function CategoryProducts() {
         if (!seen.has(key)) {
           seen.add(key);
 
-          if (product.categoryID === 3) {
-            // color-size bo'yicha unikal qilish
-            const cat3Key = `${product.color}-${product.size}`;
-            if (!seenCat3.has(cat3Key)) {
-              seenCat3.add(cat3Key);
+          if (+product.categoryID === 3) {
+            if (
+              !products.some(
+                (u) => u.modelID == product.modelID && u.color == product.color
+              )
+            ) {
               products.push(product);
             }
           } else {
             products.push(product);
           }
+
+          // if (product.categoryID === 3) {
+          //   const cat3Key = `${product.color}-${product.size}`;
+          //   if (!seenCat3.has(cat3Key)) {
+          //     seenCat3.add(cat3Key);
+          //     products.push(product);
+          //   }
+          // } else {
+          //   products.push(product);
+          // }
         }
       });
 

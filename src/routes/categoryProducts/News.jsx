@@ -86,9 +86,11 @@ function CategoryProducts() {
       .filter((p) => +p.inStock > 0)
       .forEach((product) => {
         if (+product.categoryID === 3) {
-          // Для категории «Кроссовки» исключаем дубли color-size
-          const key = `${product.color}-${product.size}`;
-          if (!unique.some((u) => `${u.color}-${u.size}` === key)) {
+          if (
+            !unique.some(
+              (u) => u.modelID == product.modelID && u.color == product.color
+            )
+          ) {
             unique.push(product);
           }
         } else {

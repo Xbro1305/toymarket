@@ -216,7 +216,7 @@ function SinglePage() {
     <div className="container singlepage">
       <div className="caption">
         <div className="caption-box">
-          <Link to={"/category/" + product?.productTypeID}>
+          <Link to={"/category/" + product?.categoryID}>
             <span>{product?.categoryName}</span>
           </Link>
           <FaChevronRight />
@@ -233,10 +233,10 @@ function SinglePage() {
             className="copy_article"
             onClick={() => {
               toast.success("Скопировано");
-              navigator.clipboard.writeText(productTypeID + "/" + id);
+              navigator.clipboard.writeText(product?.article);
             }}
           >
-            <IoCopyOutline /> {productTypeID + "/" + id}
+            <IoCopyOutline /> {product?.article}
           </span>
           <span
             className="copy_article"
@@ -366,7 +366,7 @@ function SinglePage() {
                 </div>
               </>
             )}
-            <span className="remained">Осталось {product?.remained} шт. </span>
+            <span className="remained">Осталось {product?.inStock} шт. </span>
 
             <div className="singlepageInfoBtns">
               <button

@@ -127,10 +127,6 @@
   place-items: center;
 }
 
-.swiper-wrapper {
-  gap: 7px;
-}
-
 .swiper {
   height: 668px;
   width: 500px;
@@ -631,7 +627,7 @@
     .product_button_block {
       display: flex;
       align-items: center;
-      margin-top: 7px;
+      margin-top: 20px;
       gap: 15px;
 
       .counter-container {
@@ -978,6 +974,10 @@
   position: relative;
   overflow: hidden;
   border-radius: 6px;
+
+  iframe {
+    border: none;
+  }
 }
 
 .iframe-overlay {

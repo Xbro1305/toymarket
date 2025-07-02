@@ -351,9 +351,13 @@ const NewCart = () => {
                       </div>
                       {product.inStock > 0 ? (
                         <div className="counter_box">
-                          <div className="cart_item_min_order">
-                            Мин. заказ от {product.inPackage} шт.
-                          </div>
+                          {product.inPackage > 1 ? (
+                            <div className="cart_item_min_order">
+                              Мин. заказ от {product.inPackage} шт.
+                            </div>
+                          ) : (
+                            <div className="cart_item_min_order"></div>
+                          )}
                           <div className="cart-item-counter">
                             <FaMinus onClick={() => handleDecrement(product)} />
                             <div className="cic-count">{displayQuantity}</div>
@@ -371,6 +375,7 @@ const NewCart = () => {
                               }}
                             />
                           </div>
+
                           <div className="rmz">
                             РШЗ: {product.recomendedMinimalSize} шт.
                           </div>
@@ -509,7 +514,7 @@ const NewCart = () => {
                   <h2>Итого:</h2>
                   <h2>{formatNumber(totalPrice)} ₽</h2>
                 </li>
-                {deliveryData !== "courier" && (
+                {deliveryData !== "courier" && selectedPickupId && (
                   <li>
                     <p>Оплата при получении</p>
                     <Switch
@@ -528,8 +533,14 @@ const NewCart = () => {
                     </li>
                   )}
               </ul>
-              <button onClick={createOrder} className="orderButton">
-                {deliveryData == "courier"
+              <button
+                disabled={!selectedPickupId && deliveryData === "pickup"}
+                onClick={createOrder}
+                className="orderButton"
+              >
+                {!selectedPickupId && deliveryData === "pickup"
+                  ? "Выберите пункт выдачи"
+                  : deliveryData == "courier"
                   ? "Оплатить онлайн"
                   : paymentDelivered
                   ? "Оплатить онлайн"
@@ -572,7 +583,7 @@ const NewCart = () => {
                   value={data.phone}
                   onChange={(e) => setData({ ...data, phone: e.target.value })}
                 />
-                {deliveryData != "courier" && (
+                {deliveryData === "courier" && (
                   <textarea
                     type="text"
                     className="formInput"
