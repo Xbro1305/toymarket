@@ -239,7 +239,7 @@
 @media screen and (max-width: 550px) {
   .catalogItem_card {
     margin: 0;
-    min-width: 130px;
+    min-width: 0;
     gap: 5px;
     height: auto;
 
