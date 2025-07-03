@@ -182,6 +182,7 @@
           .cart_right-prices {
             display: flex;
             flex-direction: column;
+            align-items: flex-end;
 
             .cart-item-price {
               color: #1fb73a;

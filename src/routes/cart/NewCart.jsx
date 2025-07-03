@@ -325,14 +325,19 @@ const NewCart = () => {
                           {formatNumber(displayQuantity * currentPrice)} ₽
                         </span>
                         <span className="cart_item_discount">
+                          <span>
+                            {formatNumber(
+                              displayQuantity >= product.recomendedMinimalSize
+                                ? product?.discountedPrice || product?.price
+                                : product?.price
+                            )}{" "}
+                            ₽
+                          </span>
                           {product.discountedPrice &&
                             product.price &&
                             displayQuantity >=
                               (product.recomendedMinimalSize || Infinity) && (
                               <>
-                                <span>
-                                  {formatNumber(product?.discountedPrice)} ₽
-                                </span>
                                 <span className="percent">
                                   <span>
                                     -{" "}
@@ -356,7 +361,7 @@ const NewCart = () => {
                               Мин. заказ от {product.inPackage} шт.
                             </div>
                           ) : (
-                            <div className="cart_item_min_order"></div>
+                            <div className="cart_item_min_order">&nbsp;</div>
                           )}
                           <div className="cart-item-counter">
                             <FaMinus onClick={() => handleDecrement(product)} />
@@ -376,9 +381,11 @@ const NewCart = () => {
                             />
                           </div>
 
-                          <div className="rmz">
-                            РШЗ: {product.recomendedMinimalSize} шт.
-                          </div>
+                          {product.recomendedMinimalSize > 1 && (
+                            <div className="rmz">
+                              РШЗ: {product.recomendedMinimalSize} шт.
+                            </div>
+                          )}
                         </div>
                       ) : (
                         <div className="cart-item-counter notqqq">
