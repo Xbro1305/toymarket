@@ -105,8 +105,6 @@ function CategoryProducts() {
 
       const updatedTotalData = [...totalData, ...products];
 
-      console.log("++++++++++++++", updatedTotalData);
-
       setTotalData(updatedTotalData);
       setProducts(updatedTotalData);
       setFilteredProducts(updatedTotalData);
@@ -242,7 +240,9 @@ function CategoryProducts() {
                   className="product-img-link"
                   to={`/product/${product.productTypeID}/${product.id}`}
                 >
-                  {+product?.discountedPrice !== +product?.price ? (
+                  {+product?.discountedPrice !== +product?.price &&
+                  +product?.price &&
+                  +product?.discountedPrice ? (
                     <div className="mark_discount">%</div>
                   ) : null}
                   <img
@@ -277,7 +277,7 @@ function CategoryProducts() {
                       nav(`/product/${product.productTypeID}/${product.id}`)
                     }
                   >
-                    {formatNumber(+product.price)} ₽
+                    {formatNumber(+product.price || +product.discountedPrice)} ₽
                   </div>
                 )}
               </div>

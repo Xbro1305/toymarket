@@ -110,7 +110,7 @@ const ProductSlider = ({ product }) => {
 
       <Swiper
         onSwiper={setThumbsSwiper}
-        spaceBetween={8}
+        spaceBetween={10}
         slidesPerView={6}
         freeMode={{ enabled: true, sticky: true }}
         mousewheel={{ forceToAxis: true }}
@@ -120,7 +120,7 @@ const ProductSlider = ({ product }) => {
         modules={[FreeMode, Navigation, Thumbs, Mousewheel]}
         className="mySwiper2 pt-2"
       >
-        <SwiperSlide>
+        <SwiperSlide style={{ marginRight: "10px !important" }}>
           <img
             src={`https://shop-api.toyseller.site/api/image/${product?.id}/${product?.photo}`}
             alt={`thumb-${product?.id}`}

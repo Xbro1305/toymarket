@@ -47,9 +47,7 @@ const NewCart = () => {
   const [modal1, setModal1] = useState(false);
   const [selectedPickupId, setSelectedPickupId] = useState(null);
   const [selectedPickup, setSelectedPickup] = useState(null);
-  const [selectedPickupName, setSelectedPickupName] = useState(
-    "Выберите пункт выдачи заказа"
-  );
+  const [selectedPickupName, setSelectedPickupName] = useState("Не выбран");
 
   useEffect(() => {
     setSelectedItems(cart);
@@ -235,10 +233,12 @@ const NewCart = () => {
                 nav(-1);
               }}
             />
-            <h3>Корзина</h3>
-            <span>
-              {getDeclination(cart.length, ["товар", "товара", "товаров"])}
-            </span>
+            <div>
+              <h3>Корзина</h3>
+              <span>
+                {getDeclination(cart.length, ["товар", "товара", "товаров"])}
+              </span>
+            </div>
           </div>
           <div className="selectAll_deleteAll">
             <div className="selection">
@@ -511,7 +511,7 @@ const NewCart = () => {
                 <li>
                   <span>Товары, {totalCount} шт.</span>
                   {/* <span>{formatNumber(totalPrice)} ₽</span> */}
-                  <span>{formatNumber(totalPriceNotDiscounted)} ₽</span>
+                  <span>{formatNumber(totalPrice + totalSavings)} ₽</span>
                 </li>
                 <li>
                   <span>Экономия</span>
@@ -618,13 +618,6 @@ const NewCart = () => {
                   style={{ borderBottom: "1px solid #7d7d7d00 !important" }}
                 />
               </div>
-
-              {deliveryData === "pickup" && (
-                <p>
-                  <Checkbox id="checkbox" /> Отправить квитанцию об оплате на
-                  указанный e-mail
-                </p>
-              )}
             </div>
           </div>
         </div>

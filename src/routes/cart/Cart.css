@@ -576,6 +576,14 @@
   .cart_mobile_footer {
     display: none;
   }
+
+  @media (max-width: 768px) {
+    padding-bottom: 100px;
+  }
+}
+
+.box {
+  max-height: none;
 }
 
 /* media */
@@ -647,6 +655,9 @@
 }
 
 @media screen and (max-width: 876px) {
+  .box {
+    height: 100vh;
+  }
   .card-block {
     .card-block-list {
       .cart-item-row {
@@ -667,7 +678,7 @@
   .card-block {
     margin-top: 0;
     position: relative;
-    height: 100vh;
+    height: 100%;
 
     .card-block-element {
       padding: 0;
@@ -675,6 +686,15 @@
       padding-top: 21px;
 
       .card-block-element-title {
+        align-items: flex-start;
+
+        div {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          gap: 10px;
+        }
+
         svg {
           display: block;
           color: #fff;
@@ -683,7 +703,6 @@
 
         h3 {
           font-size: 24px;
-          margin-left: 12px;
         }
       }
 
@@ -807,6 +826,14 @@
         display: flex;
         margin-bottom: 24px;
         gap: 12px;
+
+        div {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: center;
+          gap: 10px;
+        }
       }
 
       .deliveryInfo {

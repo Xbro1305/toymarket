@@ -82,6 +82,20 @@ function CategoryProducts() {
   useEffect(() => {
     const unique = [];
 
+    // newProducts.reduce((_, product) => {
+    //   if (+product.categoryID === 3) {
+    //     if (
+    //       !unique.some(
+    //         (u) => u.modelID == product.modelID && u.color == product.color
+    //       )
+    //     ) {
+    //       unique.push(product);
+    //     }
+    //   } else {
+    //     unique.push(product);
+    //   }
+    // }, []);
+
     newProducts
       .filter((p) => +p.inStock > 0)
       .forEach((product) => {
