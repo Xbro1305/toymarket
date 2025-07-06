@@ -186,7 +186,7 @@ function TypesProducts() {
             <div key={product.id} className="catalogItem_card">
               <Link
                 className="product-img-link"
-                to={`/product/${product.productTypeID}/${product.id}`}
+                to={`/item/${product.productTypeID}/${product.id}`}
               >
                 {+product?.discountedPrice !== +product?.price ? (
                   <div className="mark_discount">%</div>
@@ -223,7 +223,7 @@ function TypesProducts() {
                 <div
                   className="price"
                   onClick={() =>
-                    nav(`/product/${product.productTypeID}/${product.id}`)
+                    nav(`/item/${product.productTypeID}/${product.id}`)
                   }
                 >
                   {formatNumber(+product.price)} ₽

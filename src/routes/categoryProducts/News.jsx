@@ -240,7 +240,7 @@ function CategoryProducts() {
               <div key={product.id} className="catalogItem_card">
                 <Link
                   className="product-img-link"
-                  to={`/product/${product.productTypeID}/${product.id}`}
+                  to={`/item/${product.productTypeID}/${product.id}`}
                 >
                   {+product.discountedPrice !== +product.price && (
                     <div className="mark_discount">%</div>
@@ -280,7 +280,7 @@ function CategoryProducts() {
                     className="price"
                     onClick={() =>
                       navigate(
-                        `/product/${product.productTypeID}/${product.id}`
+                        `/item/${product.productTypeID}/${product.id}`
                       )
                     }
                   >
@@ -319,7 +319,7 @@ function CategoryProducts() {
 export default CategoryProducts;
 
 // import React, { useState, useEffect } from "react";
-// import { useGetNewProductsQuery } from "../../context/service/productsApi";
+// import { useGetNewProductsQuery } from "../../context/service/itemsApi";
 // import { useDispatch, useSelector } from "react-redux";
 // import { decrementQuantity, incrementQuantity } from "../../context/cartSlice";
 // import { FiPlus, FiMinus } from "react-icons/fi";
@@ -519,7 +519,7 @@ export default CategoryProducts;
 //               <div key={product.id} className="catalogItem_card">
 //                 <Link
 //                   className="product-img-link"
-//                   to={`/product/${product.productTypeID}/${product.id}`}
+//                   to={`/item/${product.productTypeID}/${product.id}`}
 //                 >
 //                   {product.discountedPrice ? (
 //                     <div className="mark_discount">%</div>
@@ -555,7 +555,7 @@ export default CategoryProducts;
 //                     className="price"
 //                     onClick={() =>
 //                       navigate(
-//                         `/product/${product.productTypeID}/${product.id}`
+//                         `/item/${product.productTypeID}/${product.id}`
 //                       )
 //                     }
 //                   >

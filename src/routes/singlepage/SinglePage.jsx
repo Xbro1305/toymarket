@@ -216,15 +216,15 @@ function SinglePage() {
     <div className="container singlepage">
       <div className="caption">
         <div className="caption-box">
-          <Link to={"/category/" + product?.categoryID}>
+          <Link to={"/cat/" + product?.categoryID}>
             <span>{product?.categoryName}</span>
           </Link>
           <FaChevronRight />
-          <Link to={"/sub-category/" + product?.subCategoryID}>
+          <Link to={"/subcat/" + product?.subCategoryID}>
             <span>{product?.subCategoryName}</span>
           </Link>
           <FaChevronRight />
-          <Link to={"/type-products/" + productTypeID}>
+          <Link to={"/type/" + productTypeID}>
             <span>{product?.productTypeName}</span>
           </Link>
         </div>

@@ -146,7 +146,7 @@ export const Header = () => {
           <p
             onClick={() => {
               handleSidebarToggle();
-              nav("/news");
+              nav("/new");
               window.Telegram.WebApp.HapticFeedback.impactOccurred("light");
             }}
             className="category"
@@ -196,7 +196,7 @@ export const Header = () => {
                       subCategory?.types?.map((model, k) => (
                         <p
                           onClick={() => {
-                            nav("/type-products/" + model.id);
+                            nav("/type/" + model.id);
                             handleSidebarToggle();
                             window.Telegram.WebApp.HapticFeedback.impactOccurred(
                               "light"

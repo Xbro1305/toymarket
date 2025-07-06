@@ -72,16 +72,16 @@ function App() {
       {/* <Header /> */}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/product/:productTypeID/:id" element={<SinglePage />} />
+        <Route path="/item/:productTypeID/:id" element={<SinglePage />} />
         <Route path="/cart" element={<NewCart />} />
         <Route path="/orders" element={<Order />} />
         <Route path="/orderInfo/:id" element={<OrderInfo />} />
-        <Route path="/category/:id" element={<CategoryProducts />} />
-        <Route path="/type-products/:id" element={<TypesProducts />} />
-        <Route path="/sub-category/:id" element={<BySubcategories />} />
+        <Route path="/cat/:id" element={<CategoryProducts />} />
+        <Route path="/type/:id" element={<TypesProducts />} />
+        <Route path="/subcat/:id" element={<BySubcategories />} />
 
         <Route path="/search" element={<Search />} />
-        <Route path="/news" element={<News />} />
+        <Route path="/new" element={<News />} />
         <Route path="/auth" element={<AuthTelegram />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
