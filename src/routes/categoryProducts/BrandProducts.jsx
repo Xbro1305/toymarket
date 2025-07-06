@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./CategoryProducts.css";
-import { useLazyGetProductsByCategoryNameWithLimitQuery } from "../../context/service/productsApi";
+import { useLazyGetProductsByBrandQuery } from "../../context/service/productsApi";
 import filterIcon from "../../img/filter.svg";
 import sortIcon from "../../img/sort.svg";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,20 +9,22 @@ import formatNumber from "../../utils/numberFormat";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import FilterModal from "./FilterModal";
 import { BsChevronLeft } from "react-icons/bs";
+import "./CategoryProducts.css";
 import SortModal from "./SortModal";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { setSearchQuery } from "../../context/searchSlice";
 
-function CategoryProducts() {
+function BrandProducts() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const nav = useNavigate();
-
-  const [triggerGetProducts, { isLoading }] =
-    useLazyGetProductsByCategoryNameWithLimitQuery();
+  const [isLoading, setIsLoading] = useState(true);
+  const [getProductsByBrand] = useLazyGetProductsByBrandQuery();
 
   const searchQuery = useSelector((state) => state.search.searchQuery);
 
   const [products, setProducts] = useState([]);
+  const [categoryName, setCategoryName] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [statusAccordionOpen, setStatusAccordionOpen] = useState(false);
@@ -58,61 +59,57 @@ function CategoryProducts() {
     setTotalData([]); // yangi kategoriya tanlanganda eski ma'lumotlarni tozalaymiz
   }, [id]);
 
-  // 2. Ma'lumotlarni olib kelish
   useEffect(() => {
-    const fetchProducts = async () => {
-      const { data: products1 } = await triggerGetProducts({
-        id: id,
+    const fetchData = async () => {
+      const { data: products1 } = await getProductsByBrand({
+        id,
         limit,
         offset,
       });
 
-      let seen = new Set();
-      let seenCat3 = new Set();
-      let products = [];
+      let products = products1?.data
+        ?.filter((p) => +p?.inStock !== 0)
+        ?.reduce((unique, product) => {
+          const isDuplicate = unique.some((p) => {
+            const { _id, id, ...pRest } = p;
+            const { _id: _, id: __, ...productRest } = product;
+            return JSON.stringify(pRest) === JSON.stringify(productRest);
+          });
 
-      products1?.data?.forEach((product) => {
-        // Unikal aniqlash uchun _id va id ni olib tashlaymiz
-        const { _id, id, ...rest } = product;
-        const key = JSON.stringify(rest);
+          if (!isDuplicate) {
+            unique.push(product);
+          }
 
-        if (!seen.has(key)) {
-          seen.add(key);
-
+          return unique;
+        }, [])
+        .reduce((unique, product) => {
           if (+product.categoryID === 3) {
             if (
-              !products.some(
+              !unique.some(
                 (u) => u.modelID == product.modelID && u.color == product.color
               )
             ) {
-              products.push(product);
+              unique.push(product);
             }
           } else {
-            products.push(product);
+            unique.push(product);
           }
+          return unique;
+        }, []);
 
-          // if (product.categoryID === 3) {
-          //   const cat3Key = `${product.color}-${product.size}`;
-          //   if (!seenCat3.has(cat3Key)) {
-          //     seenCat3.add(cat3Key);
-          //     products.push(product);
-          //   }
-          // } else {
-          //   products.push(product);
-          // }
-        }
-      });
-
-      const updatedTotalData = [...totalData, ...products];
-
+      let d = filteredProducts?.length > 20 ? totalData : [];
+      const updatedTotalData = [...d, ...products];
       setTotalData(updatedTotalData);
       setProducts(updatedTotalData);
       setFilteredProducts(updatedTotalData);
+
+      setCategoryName(updatedTotalData?.[0]?.tradeMarkName || "Товары");
     };
 
-    fetchProducts();
-  }, [offset, id]);
+    fetchData();
+  }, [id, offset]);
 
+  // Apply additional filters (status, price, article) and search
   useEffect(() => {
     let result = [...products];
 
@@ -192,14 +189,12 @@ function CategoryProducts() {
       )
     );
 
-  console.log(filteredProducts);
-
   return (
-    <div className="container categoryProducts">
+    <div className="container  categoryProducts">
       <div className="categoryProducts_title">
         <div onClick={() => navigate(-1)} className="left">
           <BsChevronLeft />
-          <span>{filteredProducts[0]?.categoryName}</span>
+          <span>{categoryName}</span>
         </div>
         <input
           onChange={handleSearchChange}
@@ -222,69 +217,78 @@ function CategoryProducts() {
           </div>
         </div>
       </div>
-      <InfiniteScroll
-        dataLength={filteredProducts.length}
-        next={fetchMoreData}
-        hasMore={hasMore}
-        loader={<p className="noMore">Загрузка...</p>}
-        endMessage={<p className="noMore">Других товаров нет!</p>}
-      >
-        <div className="catalogItem_cards">
-          {filteredProducts?.map((product, inx) => {
-            const inCart = cartData.find((item) => item.id === product.id);
-            const displayQuantity = getDisplayQuantity(inCart, product);
-
-            return (
-              <div key={product.id} className="catalogItem_card">
-                <Link
-                  className="product-img-link"
-                  to={`/item/${product.productTypeID}/${product.id}`}
-                >
-                  {+product?.discountedPrice !== +product?.price &&
-                  +product?.price &&
-                  +product?.discountedPrice ? (
-                    <div className="mark_discount">%</div>
-                  ) : null}
-                  <img
-                    src={`https://shop-api.toyseller.site/api/image/${product.id}/${product.image}`}
-                    alt={product.article}
-                    // className="picture"
-                    className={`product-image`}
-                  />
-                  {product.isNew === 1 ? (
-                    <div className="mark_new_product">
-                      <span>Новинка</span>
-                    </div>
-                  ) : null}
-                </Link>
-                <p className="name">{product.name}</p>
-                <p className="weight">Осталось: {product.remained} шт</p>
-                <p className="weight">
-                  от {product?.recomendedMinimalSize} шт по{" "}
-                  {product?.discountedPrice} ₽{" "}
-                </p>
-
-                {inCart ? (
-                  <div className="add catalog_counter">
-                    <FiMinus onClick={() => handleDecrement(product)} />
-                    <p className="amount">{displayQuantity}</p>
-                    <FiPlus onClick={() => handleIncrement(product)} />
-                  </div>
-                ) : (
-                  <div
-                    className="price"
-                    onClick={() =>
-                      nav(`/item/${product.productTypeID}/${product.id}`)
-                    }
-                  >
-                    {formatNumber(+product.price || +product.discountedPrice)} ₽
-                  </div>
-                )}
-              </div>
-            );
-          })}
+      {filteredProducts?.length === 0 ? (
+        <div className="noProducts">
+          <p className="noMore">Товаров нет!</p>
         </div>
-      </InfiniteScroll>
+      ) : (
+        <InfiniteScroll
+          dataLength={filteredProducts.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          // loader={<p className="noMore">Загрузка...</p>}
+          endMessage={<p className="noMore">Других товаров нет!</p>}
+        >
+          <div className="catalogItem_cards">
+            {filteredProducts?.map((product, inx) => {
+              const inCart = cartData.find((item) => item.id === product.id);
+              const displayQuantity = getDisplayQuantity(inCart, product);
+
+              return (
+                <div key={product.id} className="catalogItem_card">
+                  <Link
+                    className="product-img-link"
+                    to={`/item/${product.productTypeID}/${product.id}`}
+                  >
+                    {+product?.discountedPrice !== +product?.price ? (
+                      <div className="mark_discount">%</div>
+                    ) : null}
+                    <img
+                      src={`https://shop-api.toyseller.site/api/image/${product.id}/${product.image}`}
+                      alt={product.article}
+                      // className="picture"
+                      className={`product-image ${
+                        isLoading ? "loading" : "loaded"
+                      }`}
+                      onLoad={() => setIsLoading(false)}
+                    />
+                    {product.isNew === 1 ? (
+                      <div className="mark_new_product">
+                        <span>Новинка</span>
+                      </div>
+                    ) : null}
+                  </Link>
+                  <p className="name">{product.name}</p>
+                  <p className="weight">Осталось: {product.remained} шт</p>
+                  <p className="weight">
+                    от {product?.recomendedMinimalSize} шт по{" "}
+                    {product?.discountedPrice} ₽{" "}
+                  </p>
+
+                  {inCart ? (
+                    <div className="add catalog_counter">
+                      <FiMinus onClick={() => handleDecrement(product)} />
+                      <p className="amount">{displayQuantity}</p>
+                      <FiPlus onClick={() => handleIncrement(product)} />
+                    </div>
+                  ) : (
+                    <div
+                      className="price"
+                      onClick={() =>
+                        nav(`/item/${product.productTypeID}/${product.id}`)
+                      }
+                    >
+                      {formatNumber(+product.price || +product.discountedPrice)}{" "}
+                      ₽
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </InfiniteScroll>
+      )}
+
       <FilterModal
         isFilterOpen={isFilterOpen}
         setIsFilterOpen={setIsFilterOpen}
@@ -308,4 +312,4 @@ function CategoryProducts() {
   );
 }
 
-export default CategoryProducts;
+export default BrandProducts;

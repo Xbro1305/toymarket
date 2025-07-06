@@ -284,7 +284,7 @@ const NewCart = () => {
                   <div
                     className="cart-item-picture"
                     onClick={() =>
-                      nav(`/product/${product.productTypeID}/${product.id}`)
+                      nav(`/item/${product.productTypeID}/${product.id}`)
                     }
                   >
                     <img

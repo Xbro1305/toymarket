@@ -413,8 +413,8 @@ function Catalog() {
               <p
                 onClick={() =>
                   item.categoryName === "Новинки"
-                    ? nav("/news/")
-                    : nav("/category/" + item.id)
+                    ? nav("/new/")
+                    : nav("/cat/" + item.id)
                 }
                 className="catalogItem_title"
               >
@@ -437,7 +437,7 @@ function Catalog() {
                             "light"
                           )
                         }
-                        to={`/product/${product.productTypeID}/${product.id}`}
+                        to={`/item/${product.productTypeID}/${product.id}`}
                       >
                         {+product?.discountedPrice !== +product?.price &&
                         +product.price &&
@@ -479,7 +479,7 @@ function Catalog() {
                           className="price"
                           onClick={() =>
                             nav(
-                              `/product/${product.productTypeID}/${product.id}`
+                              `/item/${product.productTypeID}/${product.id}`
                             )
                           }
                         >

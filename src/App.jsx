@@ -19,6 +19,7 @@ import TypesProducts from "./routes/categoryProducts/TypesProducts";
 import BySubcategories from "./routes/categoryProducts/BySubcategoriyes";
 import { useLocation } from "react-router-dom";
 import { NotFound } from "./routes/NotFound/NotFound";
+import BrandProducts from "./routes/categoryProducts/BrandProducts";
 
 function App() {
   // const dispatch = useDispatch();
@@ -72,16 +73,17 @@ function App() {
       {/* <Header /> */}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/product/:productTypeID/:id" element={<SinglePage />} />
+        <Route path="/item/:productTypeID/:id" element={<SinglePage />} />
         <Route path="/cart" element={<NewCart />} />
         <Route path="/orders" element={<Order />} />
         <Route path="/orderInfo/:id" element={<OrderInfo />} />
-        <Route path="/category/:id" element={<CategoryProducts />} />
-        <Route path="/type-products/:id" element={<TypesProducts />} />
-        <Route path="/sub-category/:id" element={<BySubcategories />} />
+        <Route path="/cat/:id" element={<CategoryProducts />} />
+        <Route path="/type/:id" element={<TypesProducts />} />
+        <Route path="/subcat/:id" element={<BySubcategories />} />
+        <Route path="/brand/:id" element={<BrandProducts />} />
 
         <Route path="/search" element={<Search />} />
-        <Route path="/news" element={<News />} />
+        <Route path="/new" element={<News />} />
         <Route path="/auth" element={<AuthTelegram />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

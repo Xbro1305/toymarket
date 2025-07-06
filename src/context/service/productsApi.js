@@ -77,6 +77,14 @@ export const productsApi = api.injectEndpoints({
     getPickupPoints: builder.query({
       query: () => "https://shop-api.toyseller.site/api/pickup-points",
     }),
+    getProductsByBrand: builder.query({
+      query: ({ id, limit, offset }) =>
+        "https://shop-api.toyseller.site/api/products?tradeMarkID=" +
+        id +
+        "&in_stock=1" +
+        (limit ? "&limit=" + limit : "") +
+        (offset ? "&offset=" + offset : ""),
+    }),
   }),
 });
 
@@ -93,4 +101,5 @@ export const {
   useLazyGetProductsByIdQuery,
   useGetPickupPointsQuery,
   useGetProductsByTypeWithLimitQuery,
+  useLazyGetProductsByBrandQuery,
 } = productsApi;
