@@ -64,7 +64,7 @@ export const productsApi = api.injectEndpoints({
     }),
 
     getCategories: builder.query({
-      query: () => "https://shop-api.toyseller.site/api/categories?in_stock=1",
+      query: () => "https://shop-api.toyseller.site/api/categories?exist=1",
     }),
     getProductsById: builder.query({
       query: (value) =>
@@ -81,7 +81,6 @@ export const productsApi = api.injectEndpoints({
       query: ({ id, limit, offset }) =>
         "https://shop-api.toyseller.site/api/products?tradeMarkID=" +
         id +
-        "&in_stock=1" +
         (limit ? "&limit=" + limit : "") +
         (offset ? "&offset=" + offset : ""),
     }),
