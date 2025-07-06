@@ -6,7 +6,6 @@ export const productsApi = api.injectEndpoints({
       query: ({ id, limit, offset }) =>
         "https://shop-api.toyseller.site/api/products?type=" +
         id +
-        "&in_stock=1" +
         (limit ? "&limit=" + limit : "") +
         (offset ? "&offset=" + offset : ""),
     }),
@@ -14,63 +13,50 @@ export const productsApi = api.injectEndpoints({
       query: ({ id, limit, offset }) =>
         "https://shop-api.toyseller.site/api/products?sub_category=" +
         id +
-        "&in_stock=1" +
         (limit ? "&limit=" + limit : "") +
         (offset ? "&offset=" + offset : ""),
     }),
     getProductsForSinglePage: builder.query({
-      query: (id) =>
-        "https://shop-api.toyseller.site/api/products?type=" +
-        id +
-        "&in_stock=1",
+      query: (id) => "https://shop-api.toyseller.site/api/products?type=" + id,
     }),
 
     getProductsByTypeWithLimit: builder.query({
       query: ({ id, limit, offset }) =>
         "https://shop-api.toyseller.site/api/products?category=" +
         id +
-        "&in_stock=1" +
         (limit ? "&limit=" + limit : "") +
         (offset ? "&offset=" + offset : ""),
     }),
 
     getProductsByCategoryNameWithLimit: builder.query({
       query: ({ id, limit, offset }) =>
-        "https://shop-api.toyseller.site/api/products?category=" +
-        id +
-        "&in_stock=1",
+        "https://shop-api.toyseller.site/api/products?category=" + id,
     }),
 
     getNewProducts: builder.query({
       query: (limit, offset) =>
         "https://shop-api.toyseller.site/api/products?category=-1" +
-        "&in_stock=1" +
         (limit ? `&limit=${limit}` : ""),
     }),
 
     getNewProductsLazy: builder.query({
       query: ({ limit, offset }) =>
         "https://shop-api.toyseller.site/api/products?category=-1" +
-        "&in_stock=1" +
         (limit ? `&limit=${limit}` : "") +
         (offset ? `&offset=${offset}` : ""),
     }),
 
     getProductsBySearch: builder.query({
       query: (value) =>
-        "https://shop-api.toyseller.site/api/products?query=name=" +
-        value +
-        "&in_stock=1",
+        "https://shop-api.toyseller.site/api/products?query=name=" + value,
     }),
 
     getCategories: builder.query({
-      query: () => "https://shop-api.toyseller.site/api/categories?exist=1",
+      query: () => "https://shop-api.toyseller.site/api/categories?exists=1",
     }),
     getProductsById: builder.query({
       query: (value) =>
-        "https://shop-api.toyseller.site/api/products?query=id=" +
-        value +
-        "&in_stock=1",
+        "https://shop-api.toyseller.site/api/products?query=id=" + value,
     }),
 
     // pickup points /api/pickup-points
@@ -102,3 +88,5 @@ export const {
   useGetProductsByTypeWithLimitQuery,
   useLazyGetProductsByBrandQuery,
 } = productsApi;
+
+// а, понял, у нас происходит кеширование каталога при первом входе на сайт, что означает что все товары сохраняются

@@ -259,7 +259,7 @@ function BrandProducts() {
                     ) : null}
                   </Link>
                   <p className="name">{product.name}</p>
-                  <p className="weight">Осталось: {product.remained} шт</p>
+                  <p className="weight">Осталось: {product.inStock} шт</p>
                   <p className="weight">
                     от {product?.recomendedMinimalSize} шт по{" "}
                     {product?.discountedPrice} ₽{" "}

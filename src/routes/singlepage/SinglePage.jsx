@@ -227,10 +227,14 @@ function SinglePage() {
           <Link to={"/type/" + productTypeID}>
             <span>{product?.productTypeName}</span>
           </Link>
-          <FaChevronRight />
-          <Link to={"/brand/" + product?.tradeMarkID}>
-            <span>{product?.tradeMarkName}</span>
-          </Link>
+          {product?.tradeMarkName && (
+            <>
+              <FaChevronRight />
+              <Link to={"/brand/" + product?.tradeMarkID}>
+                <span>{product?.tradeMarkName}</span>
+              </Link>
+            </>
+          )}
         </div>
         <div className="caption_right">
           <span

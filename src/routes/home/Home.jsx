@@ -19,7 +19,7 @@ function Home() {
   }, [cart]);
 
   return (
-    <>
+    <div className="home">
       <Banner />
       <Catalog />
       {totalPrice > 0 && (
@@ -27,7 +27,7 @@ function Home() {
           В корзине товаров на {formatNumber(totalPrice)} ₽
         </div>
       )}
-    </>
+    </div>
   );
 }
 

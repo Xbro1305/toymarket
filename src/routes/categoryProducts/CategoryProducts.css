@@ -47,11 +47,6 @@
   cursor: pointer;
 }
 
-.categoryProducts .catalogItem_cards {
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-
 .modal-container {
   position: fixed;
   display: flex;
@@ -424,29 +419,6 @@
 }
 
 @media screen and (max-width: 550px) {
-  .categoryProducts .catalogItem_cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 5px;
-  }
-  .categoryProducts .catalogItem_cards .catalogItem_card {
-    width: 100%;
-    height: auto !important;
-
-    .product-image {
-      max-width: 100% !important;
-    }
-  }
-  .categoryProducts .product-img-link {
-    top: 0 !important;
-    max-width: 100% !important;
-    width: 100%;
-    aspect-ratio: 1 / 1;
-  }
-  .categoryProducts .product-img-link .mark_new_product {
-    top: 100%;
-  }
-
   .modal-header {
     display: flex;
     justify-content: flex-start;
