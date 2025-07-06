@@ -19,6 +19,7 @@ import TypesProducts from "./routes/categoryProducts/TypesProducts";
 import BySubcategories from "./routes/categoryProducts/BySubcategoriyes";
 import { useLocation } from "react-router-dom";
 import { NotFound } from "./routes/NotFound/NotFound";
+import BrandProducts from "./routes/categoryProducts/BrandProducts";
 
 function App() {
   // const dispatch = useDispatch();
@@ -79,6 +80,7 @@ function App() {
         <Route path="/cat/:id" element={<CategoryProducts />} />
         <Route path="/type/:id" element={<TypesProducts />} />
         <Route path="/subcat/:id" element={<BySubcategories />} />
+        <Route path="/brand/:id" element={<BrandProducts />} />
 
         <Route path="/search" element={<Search />} />
         <Route path="/new" element={<News />} />
