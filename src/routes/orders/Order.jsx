@@ -10,6 +10,7 @@ function Order() {
   const nav = useNavigate();
   let userInfo = useSelector((state) => state.cart.userInfo);
   let ordersStory = userInfo?.orders;
+  console.log(userInfo);
 
   const customDate = (orderDate) => {
     let date = new Date(orderDate * 1000).toLocaleDateString("ru-RU", {

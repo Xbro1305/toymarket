@@ -10,9 +10,9 @@ import Order from "./routes/orders/Order";
 import OrderInfo from "./routes/orderInfo/OrderInfo";
 import CategoryProducts from "./routes/categoryProducts/CategoryProducts";
 import AuthTelegram from "./auth/Auth";
-// import { useDispatch } from "react-redux";
-// import { getUser } from "./api";
-// import { setUserInfo } from "./context/cartSlice";
+import { useDispatch } from "react-redux";
+import { getUser } from "./api";
+import { setUserInfo } from "./context/cartSlice";
 import News from "./routes/categoryProducts/News";
 import Search from "./routes/categoryProducts/Search";
 import TypesProducts from "./routes/categoryProducts/TypesProducts";
@@ -22,31 +22,31 @@ import { NotFound } from "./routes/NotFound/NotFound";
 import BrandProducts from "./routes/categoryProducts/BrandProducts";
 
 function App() {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   let user = {
-  //     id: 996493305,
-  //     first_name: "Bahromjon",
-  //     last_name: "Abdulhayev",
-  //     username: "bahromjon_abdulhayev",
-  //     photo_url:
-  //       "https://t.me/i/userpic/320/nVfgAIJCi2wAIgtXWO_XkPV6MnhijbgkA-0x26KCbww.jpg",
-  //     auth_date: 1746269747,
-  //     hash: "6375b26c48865b32e33fb7345fe4dac2f66cc5ad0492a2ed06cce9cfa551b650",
-  //   };
-  //   localStorage.setItem("user", JSON.stringify(user));
-  // }, []);
+  useEffect(() => {
+    let user = {
+      id: 996493305,
+      first_name: "Bahromjon",
+      last_name: "Abdulhayev",
+      username: "bahromjon_abdulhayev",
+      photo_url:
+        "https://t.me/i/userpic/320/nVfgAIJCi2wAIgtXWO_XkPV6MnhijbgkA-0x26KCbww.jpg",
+      auth_date: 1746269747,
+      hash: "6375b26c48865b32e33fb7345fe4dac2f66cc5ad0492a2ed06cce9cfa551b650",
+    };
+    localStorage.setItem("user", JSON.stringify(user));
+  }, []);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const userData = await getUser();
-  //     if (userData) {
-  //       dispatch(setUserInfo(userData));
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const userData = await getUser();
+      if (userData) {
+        dispatch(setUserInfo(userData));
+      }
+    };
+    fetchData();
+  }, []);
 
   const location = useLocation();
 

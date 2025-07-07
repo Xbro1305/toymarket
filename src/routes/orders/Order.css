@@ -1,12 +1,16 @@
 .orders {
   width: 100%;
   padding: 20px;
-  
+
   .card-block-element-title {
     display: flex;
     gap: 32px;
     align-items: center;
     margin-bottom: 39px;
+
+    svg {
+      display: none;
+    }
 
     h3 {
       color: rgb(217, 217, 217);
@@ -172,6 +176,7 @@
       svg {
         color: #fff;
         font-size: 25px;
+        display: block;
       }
 
       h3 {
