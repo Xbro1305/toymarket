@@ -154,9 +154,9 @@ function OrderInfo() {
             className={
               singleOrder?.statusName === "Ожидает получателя" ||
               singleOrder?.statusName === "Выдан"
-                ? "greenStatsus"
+                ? "greenStatsus status"
                 : singleOrder?.statusName === "Отменен"
-                ? "redStatsus"
+                ? "redStatsus status"
                 : "status"
             }
           >

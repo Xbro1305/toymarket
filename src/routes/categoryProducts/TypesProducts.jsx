@@ -234,23 +234,24 @@ function TypesProducts() {
               const inCart = cartData.find((item) => item.id === product.id);
               const displayQuantity = getDisplayQuantity(inCart, product);
 
-              return (
+              return product?.price != 0 &&
+                product?.discountedPrice != 0 &&
+                [222, 223, 224].includes(product.accessabilitySettingsID) ? (
                 <div key={product.id} className="catalogItem_card">
                   <Link
                     className="product-img-link"
                     to={`/item/${product.productTypeID}/${product.id}`}
                   >
-                    {+product?.discountedPrice !== +product?.price ? (
+                    {+product?.discountedPrice !== +product?.price &&
+                    +product?.price &&
+                    +product?.discountedPrice ? (
                       <div className="mark_discount">%</div>
                     ) : null}
                     <img
                       src={`https://shop-api.toyseller.site/api/image/${product.id}/${product.image}`}
                       alt={product.article}
                       // className="picture"
-                      className={`product-image ${
-                        isLoading ? "loading" : "loaded"
-                      }`}
-                      onLoad={() => setIsLoading(false)}
+                      className={`product-image`}
                     />
                     {product.isNew === 1 ? (
                       <div className="mark_new_product">
@@ -259,30 +260,68 @@ function TypesProducts() {
                     ) : null}
                   </Link>
                   <p className="name">{product.name}</p>
-                  <p className="weight">Осталось: {product.inStock} шт</p>
-                  <p className="weight">
-                    от {product?.recomendedMinimalSize} шт по{" "}
-                    {product?.discountedPrice} ₽{" "}
-                  </p>
+                  {product?.accessabilitySettingsID == 222 ? (
+                    product?.inStock > 0 ? (
+                      <p className="weight">Осталось: {product.inStock} шт</p>
+                    ) : (
+                      ""
+                    )
+                  ) : product?.accessabilitySettingsID == 223 ? (
+                    product?.storeDeliveryInDays != "" &&
+                    product?.prepayPercent != "" ? (
+                      <>
+                        <p className="weight">
+                          Под заказ: {product?.storeDeliveryInDays} дн.
+                        </p>
 
-                  {inCart ? (
-                    <div className="add catalog_counter">
-                      <FiMinus onClick={() => handleDecrement(product)} />
-                      <p className="amount">{displayQuantity}</p>
-                      <FiPlus onClick={() => handleIncrement(product)} />
-                    </div>
+                        <p className="weight">
+                          Предоплата: {product?.prepayPercent} %
+                        </p>
+                      </>
+                    ) : (
+                      <p className="weight">Осталось: {product.inStock} шт</p>
+                    )
+                  ) : product?.accessabilitySettingsID == 224 ? (
+                    <p className="weight">Всегда в наличии</p>
                   ) : (
-                    <div
-                      className="price"
-                      onClick={() =>
-                        nav(`/item/${product.productTypeID}/${product.id}`)
-                      }
-                    >
-                      {formatNumber(+product.price || +product.discountedPrice)}{" "}
-                      ₽
-                    </div>
+                    ""
+                  )}
+
+                  {product?.discountedPrice != 0 &&
+                    product?.price != 0 &&
+                    product?.recomendedMinimalSizeEnabled === 1 &&
+                    product?.recomendedMinimalSize > 1 && (
+                      <p className="weight">
+                        от {product?.recomendedMinimalSize} шт по{" "}
+                        {product?.discountedPrice} ₽{" "}
+                      </p>
+                    )}
+                  {product?.inStock > 0 ? (
+                    inCart ? (
+                      <div className="add catalog_counter">
+                        <FiMinus onClick={() => handleDecrement(product)} />
+                        <p className="amount">{displayQuantity}</p>
+                        <FiPlus onClick={() => handleIncrement(product)} />
+                      </div>
+                    ) : (
+                      <div
+                        className="price"
+                        onClick={() =>
+                          nav(`/item/${product.productTypeID}/${product.id}`)
+                        }
+                      >
+                        {formatNumber(
+                          +product.price || +product.discountedPrice
+                        )}{" "}
+                        ₽
+                      </div>
+                    )
+                  ) : (
+                    <div className="price">Нет в наличии</div>
                   )}
                 </div>
+              ) : (
+                ""
               );
             })}
           </div>

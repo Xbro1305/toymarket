@@ -327,7 +327,12 @@ const NewCart = () => {
                         <span className="cart_item_discount">
                           <span>
                             {formatNumber(
-                              displayQuantity >= product.recomendedMinimalSize
+                              product.accessabilitySettingsID == 223
+                                ? product?.prepayAmount ||
+                                    product?.discountedPrice ||
+                                    product?.price
+                                : displayQuantity >=
+                                  product.recomendedMinimalSize
                                 ? product?.discountedPrice || product?.price
                                 : product?.price
                             )}{" "}
@@ -340,13 +345,23 @@ const NewCart = () => {
                               <>
                                 <span className="percent">
                                   <span>
-                                    -{" "}
-                                    {Math.round(
-                                      (1 -
-                                        Number(product?.discountedPrice) /
-                                          Number(product?.price)) *
-                                        100
-                                    )}{" "}
+                                    {product.accessabilitySettingsID != 223 &&
+                                      product.prepayPercent != "" &&
+                                      "-"}{" "}
+                                    {product.accessabilitySettingsID != 223
+                                      ? Math.round(
+                                          (1 -
+                                            Number(product?.discountedPrice) /
+                                              Number(product?.price)) *
+                                            100
+                                        )
+                                      : product.prepayPercent ||
+                                        Math.round(
+                                          (1 -
+                                            Number(product?.discountedPrice) /
+                                              Number(product?.price)) *
+                                            100
+                                        )}{" "}
                                     %
                                   </span>
                                 </span>
@@ -368,15 +383,16 @@ const NewCart = () => {
                             <div className="cic-count">{displayQuantity}</div>
                             <FaPlus
                               onClick={() => {
-                                dispatch(
-                                  incrementQuantity({
-                                    productId: product.id,
-                                    inBox: product.inBox,
-                                    inPackage: product.inPackage,
-                                    inStock: product.inStock,
-                                    inTheBox: product.inTheBox,
-                                  })
-                                );
+                                displayQuantity < product.inStock &&
+                                  dispatch(
+                                    incrementQuantity({
+                                      productId: product.id,
+                                      inBox: product.inBox,
+                                      inPackage: product.inPackage,
+                                      inStock: product.inStock,
+                                      inTheBox: product.inTheBox,
+                                    })
+                                  );
                               }}
                             />
                           </div>
@@ -404,8 +420,12 @@ const NewCart = () => {
           style={{ right: openTotalBlock ? "0" : "-100%" }}
           className="rightBlock"
         >
-          <div className="card-block-element-title">
-            <FaChevronLeft onClick={() => setOpenTotalBlock(false)} />
+          <div
+            onClick={() => setOpenTotalBlock(false)}
+            className="card-block-element-title"
+            id="title"
+          >
+            <FaChevronLeft />
             <div>
               <h3>Оформление заказа</h3>
               <span>
@@ -515,7 +535,10 @@ const NewCart = () => {
                 </li>
                 <li>
                   <span>Экономия</span>
-                  <span>- {formatNumber(totalSavings)} ₽</span>
+                  <span>
+                    {totalSavings > 0 && "- "}
+                    {formatNumber(totalSavings)} ₽
+                  </span>
                 </li>
                 <li>
                   <h2>Итого:</h2>
@@ -628,7 +651,12 @@ const NewCart = () => {
               selectedItems.length == 0 && "hidden"
             }`}
           >
-            <button onClick={() => setOpenTotalBlock(true)}>
+            <button
+              onClick={() => {
+                setOpenTotalBlock(true);
+                window.scrollTo(0, 0);
+              }}
+            >
               <span>К оформлению</span>
               <p>на {formatNumber(totalPrice)} ₽</p>
             </button>

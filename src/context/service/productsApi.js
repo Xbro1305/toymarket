@@ -34,16 +34,19 @@ export const productsApi = api.injectEndpoints({
     }),
 
     getNewProducts: builder.query({
-      query: (limit, offset) =>
+      query: (limit, offset, inStock) =>
         "https://shop-api.toyseller.site/api/products?category=-1" +
-        (limit ? `&limit=${limit}` : ""),
+        (limit ? `&limit=${limit}` : "") +
+        (offset ? `&offset=${offset}` : "") +
+        (inStock ? `&in_stock=${inStock}` : ""),
     }),
 
     getNewProductsLazy: builder.query({
-      query: ({ limit, offset }) =>
+      query: ({ limit, offset, inStock }) =>
         "https://shop-api.toyseller.site/api/products?category=-1" +
         (limit ? `&limit=${limit}` : "") +
-        (offset ? `&offset=${offset}` : ""),
+        (offset ? `&offset=${offset}` : "") +
+        (inStock ? `&in_stock=${inStock}` : ""),
     }),
 
     getProductsBySearch: builder.query({
@@ -65,7 +68,7 @@ export const productsApi = api.injectEndpoints({
     }),
     getProductsByBrand: builder.query({
       query: ({ id, limit, offset }) =>
-        "https://shop-api.toyseller.site/api/products?tradeMarkID=" +
+        "https://shop-api.toyseller.site/api/products?query=tradeMarkID=" +
         id +
         (limit ? "&limit=" + limit : "") +
         (offset ? "&offset=" + offset : ""),

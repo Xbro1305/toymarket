@@ -374,7 +374,16 @@ function SinglePage() {
                 </div>
               </>
             )}
-            <span className="remained">Осталось {product?.inStock} шт. </span>
+
+            {product?.accessabilitySettingsID == 224 ? (
+              <span className="remained">Всегда в наличии </span>
+            ) : product?.accessabilitySettingsID == 223 ? (
+              <span className="remained">Можно заказать </span>
+            ) : product?.inStock > 0 ? (
+              <span className="remained">Осталось {product?.inStock} шт. </span>
+            ) : (
+              <span className="remained">Нет в наличии</span>
+            )}
 
             <div className="singlepageInfoBtns">
               <button
@@ -394,14 +403,16 @@ function SinglePage() {
                 Описание
               </button>
               {/* {product?.preorder === "true" && ( */}
-              <button
-                className={`small-white-button ${
-                  description === "order_conditions" ? "activePr" : ""
-                }`}
-                onClick={() => setDescription("order_conditions")}
-              >
-                Под заказ
-              </button>
+              {product.accessabilitySettingsID != 222 && (
+                <button
+                  className={`small-white-button ${
+                    description === "order_conditions" ? "activePr" : ""
+                  }`}
+                  onClick={() => setDescription("order_conditions")}
+                >
+                  Под заказ
+                </button>
+              )}
               {/* )} */}
             </div>
 
@@ -457,38 +468,25 @@ function SinglePage() {
               )}
               {description === "order_conditions" && (
                 <>
-                  {product?.preorderConditions && (
-                    <SpecRow
-                      label="Условия заказа"
-                      value={product?.preorderConditions || "-"}
-                    />
-                  )}
-                  {product?.artstoreDeliveryInDaysicle && (
-                    <SpecRow
-                      label="Длительность доставки"
-                      value={product?.artstoreDeliveryInDaysicle || "-"}
-                    />
-                  )}
+                  <SpecRow
+                    label="Условия заказа"
+                    value={product?.preorderConditions || "-"}
+                  />
 
-                  {product?.prepayPercent && (
-                    <SpecRow
-                      label="Предоплата"
-                      value={product?.prepayPercent + "%" || "-"}
-                    />
-                  )}
-                  {product?.prepayAmount && (
-                    <SpecRow
-                      label="Сумма предоплаты"
-                      value={product?.prepayAmount || "-"}
-                    />
-                  )}
+                  <SpecRow
+                    label="Предоплата"
+                    value={product?.prepayPercent || "-"}
+                  />
 
-                  {product?.prepayAmount && (
-                    <SpecRow
-                      label="Сумма предоплаты"
-                      value={product?.prepayAmount || "-"}
-                    />
-                  )}
+                  <SpecRow
+                    label="Размер предоплаты"
+                    value={product?.prepayAmount || "-"}
+                  />
+
+                  <SpecRow
+                    label="Срок ожидания (дн)"
+                    value={product?.storeDeliveryInDays || "-"}
+                  />
                 </>
               )}
             </div>
@@ -571,10 +569,18 @@ function SinglePage() {
               )}
             </div>
 
-            {product?.packageSize != 1 && (
-              <p className="min_order">
-                Мин. заказ от {product?.packageSize} шт
-              </p>
+            {product?.packageSize > 1 && (
+              <p className="min_order">Фасовка по {product?.packageSize} шт</p>
+            )}
+
+            {product?.accessabilitySettingsID == 224 ? (
+              <p className="min_order">Всегда в наличии </p>
+            ) : product?.accessabilitySettingsID == 223 ? (
+              <p className="min_order">Можно заказать </p>
+            ) : product?.inStock > 0 ? (
+              <p className="min_order">Осталось {product?.inStock} шт. </p>
+            ) : (
+              <p className="min_order">Нет в наличии</p>
             )}
             <div className="product_button_block">
               {+product?.inStock > 0 ? (
@@ -628,9 +634,11 @@ function SinglePage() {
               )}
             </div>
 
-            <div className="rshz">
-              РШЗ: {product?.recomendedMinimalSize} шт.
-            </div>
+            {product?.recomendedMinimalSize > 1 && (
+              <div className="rshz">
+                РШЗ: {product?.recomendedMinimalSize} шт.
+              </div>
+            )}
             {!inCart ? (
               <>
                 {openMarketPlaces ? (

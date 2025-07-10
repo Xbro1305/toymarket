@@ -578,12 +578,16 @@
   }
 
   @media (max-width: 768px) {
-    padding-bottom: 100px;
+    padding-bottom: 75px;
   }
 }
 
 .box {
   max-height: none;
+
+  @media (max-width: 768px) {
+    height: auto !important;
+  }
 }
 
 /* media */
@@ -683,7 +687,6 @@
     .card-block-element {
       padding: 0;
       background-color: transparent;
-      padding-top: 21px;
 
       .card-block-element-title {
         align-items: flex-start;
@@ -708,7 +711,7 @@
 
       .selectAll_deleteAll {
         .selection {
-          display: none;
+          margin-left: 10px;
         }
 
         button {
@@ -732,6 +735,7 @@
       .card-block-list {
         .cart-item-row {
           height: 215px;
+          min-height: 215px;
           padding-right: 10px;
 
           .cart-item-picture {
@@ -915,6 +919,10 @@
         }
       }
     }
+  }
+
+  .card-block-element-title {
+    padding-top: 10px !important;
   }
 }
 

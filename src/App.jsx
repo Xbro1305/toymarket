@@ -21,6 +21,7 @@ import { useLocation } from "react-router-dom";
 import { NotFound } from "./routes/NotFound/NotFound";
 import BrandProducts from "./routes/categoryProducts/BrandProducts";
 
+
 function App() {
   const dispatch = useDispatch();
 

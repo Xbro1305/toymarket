@@ -239,6 +239,8 @@ import "./Catalog.css";
 import { useDispatch, useSelector } from "react-redux";
 import { decrementQuantity, incrementQuantity } from "../../context/cartSlice";
 import loader from "./loader1.svg";
+import { FreeMode } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 function Catalog() {
   const nav = useNavigate();
@@ -270,7 +272,10 @@ function Catalog() {
         }
 
         // Fetch new products
-        const newProductsResponse = await newProductsData({ limit: 9 });
+        const newProductsResponse = await newProductsData({
+          limit: 9,
+          inStock: 1,
+        });
         const newProducts = newProductsResponse?.data?.data || [];
 
         // Fetch products by category in parallel
@@ -297,6 +302,9 @@ function Catalog() {
             }
           })
         );
+
+        console.log("Category Products:", categoryProducts);
+        console.log("New Products:", newProducts);
 
         const finalProducts = [
           {
@@ -421,77 +429,96 @@ function Catalog() {
                 <span>{item.categoryName}</span>
                 <LuChevronRight />
               </p>
-              <div className="catalogItem_cards">
-                {item?.products?.slice(0, 9)?.map((product) => {
-                  const inCart = cartData.find(
-                    (item) => item.id === product.id
-                  );
-                  const displayQuantity = getDisplayQuantity(inCart, product);
+              <div>
+                <Swiper
+                  modules={[FreeMode]}
+                  freeMode={true}
+                  spaceBetween={16}
+                  slidesPerView={"auto"}
+                  className="product-swiper"
+                >
+                  {item?.products?.slice(0, 9)?.map((product) => {
+                    const inCart = cartData.find(
+                      (item) => item.id === product.id
+                    );
+                    const displayQuantity = getDisplayQuantity(inCart, product);
 
-                  return (
-                    <div key={product.id} className="catalogItem_card">
-                      <Link
-                        className="product-img-link"
-                        onClick={() =>
-                          window.Telegram.WebApp.HapticFeedback.impactOccurred(
-                            "light"
-                          )
-                        }
-                        to={`/item/${product.productTypeID}/${product.id}`}
-                      >
-                        {+product?.discountedPrice !== +product?.price &&
-                        +product.price &&
-                        +product.discountedPrice ? (
-                          <div className="mark_discount">%</div>
-                        ) : null}
-                        <img
-                          src={`https://shop-api.toyseller.site/api/image/${product.id}/${product.image}`}
-                          alt={product.article}
-                          className="product-image loaded"
-                        />
-                        {product.isNew === 1 ? (
-                          <div className="mark_new_product">
-                            <span>Новинка</span>
-                          </div>
-                        ) : null}
-                      </Link>
-                      <p className="name">{product.name}</p>
-                      <p className="weight">Осталось: {product.inStock} шт</p>
-                      <p className="weight">
-                        от {product?.recomendedMinimalSize} шт по{" "}
-                        {product?.discountedPrice} ₽{" "}
-                      </p>
-
-                      {inCart ? (
-                        <div className="add catalog_counter">
-                          <FiMinus
-                            style={{ cursor: "pointer" }}
-                            onClick={() => handleDecrement(product)}
-                          />
-                          <p className="amount">{displayQuantity}</p>
-                          <FiPlus
-                            style={{ cursor: "pointer" }}
-                            onClick={() => handleIncrement(product)}
-                          />
-                        </div>
-                      ) : (
+                    return (
+                      <SwiperSlide style={{ width: "170px" }} key={product.id}>
                         <div
-                          className="price"
-                          onClick={() =>
-                            nav(
-                              `/item/${product.productTypeID}/${product.id}`
-                            )
-                          }
+                          style={{ width: "170px" }}
+                          className="catalogItem_card"
                         >
-                          {formatNumber(
-                            +product.price || +product.discountedPrice
-                          )}{" "}
-                          ₽
+                          <Link
+                            className="product-img-link"
+                            onClick={() =>
+                              window.Telegram.WebApp.HapticFeedback.impactOccurred(
+                                "light"
+                              )
+                            }
+                            to={`/item/${product.productTypeID}/${product.id}`}
+                          >
+                            {+product?.discountedPrice !== +product?.price &&
+                            +product.price &&
+                            +product.discountedPrice ? (
+                              <div className="mark_discount">%</div>
+                            ) : null}
+                            <img
+                              src={`https://shop-api.toyseller.site/api/image/${product.id}/${product.image}`}
+                              alt={product.article}
+                              className="product-image loaded"
+                            />
+                            {product.isNew === 1 ? (
+                              <div className="mark_new_product">
+                                <span>Новинка</span>
+                              </div>
+                            ) : null}
+                          </Link>
+                          {product.name ? (
+                            <p className="name">{product.name}</p>
+                          ) : (
+                            <p className="name">&nbsp;</p>
+                          )}
+                          <p className="weight">
+                            Осталось: {product.inStock} шт
+                          </p>
+                          <p className="weight">
+                            от {product?.recomendedMinimalSize} шт по{" "}
+                            {product?.discountedPrice} ₽{" "}
+                          </p>
+
+                          {inCart ? (
+                            <div className="add catalog_counter">
+                              <FiMinus
+                                style={{ cursor: "pointer" }}
+                                onClick={() => handleDecrement(product)}
+                              />
+                              <p className="amount">{displayQuantity}</p>
+                              <FiPlus
+                                style={{ cursor: "pointer" }}
+                                onClick={() => handleIncrement(product)}
+                              />
+                            </div>
+                          ) : (
+                            <div
+                              className="price"
+                              onClick={() =>
+                                nav(
+                                  `/item/${product.productTypeID}/${product.id}`
+                                )
+                              }
+                            >
+                              {formatNumber(
+                                +product.price || +product.discountedPrice
+                              )}{" "}
+                              ₽
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
-                  );
-                })}
+                      </SwiperSlide>
+                    );
+                  })}
+                </Swiper>
               </div>
             </div>
           )

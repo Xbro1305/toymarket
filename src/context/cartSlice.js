@@ -68,12 +68,21 @@ const cartSlice = createSlice({
       if (item.quantity >= maxQuantity) return;
 
       const boxQuantity = Number(item.quantity) * Number(inBox);
-      let incrementAmount = 1;
-      if (Number(inBox) > boxQuantity) {
-        incrementAmount = 1 / (Number(inBox) / Number(inPackage));
-      }
+      let incrementAmount = 1 / (Number(inBox) / Number(inPackage));
 
-      item.quantity = Number((item.quantity + incrementAmount).toFixed(2));
+      const getDisplayQuantity = (product) => {
+        if (!product) return 0;
+        const boxQuantity = Number(product.quantity) * Number(product.inBox);
+        const packageSize = Number(product.inPackage);
+        return packageSize && boxQuantity % packageSize !== 0
+          ? Math.ceil(boxQuantity)
+          : Math.floor(boxQuantity);
+      };
+
+      const newQuantity = Number((item.quantity + incrementAmount).toFixed(2));
+
+      item.quantity =
+        getDisplayQuantity(item) < item.inStock ? newQuantity : item.quantity;
       saveCartToStorage(state.items); // Har bir o'zgarishdan keyin saqlash
     },
     decrementQuantity: (state, action) => {
@@ -81,13 +90,13 @@ const cartSlice = createSlice({
       const item = state.items.find((item) => item.id === productId);
       if (!item || item.quantity <= 0) return;
 
-      let minusAmount = 1;
-      const boxQuantity = Number(item.quantity) * Number(inBox);
-      if (Number(inBox) >= boxQuantity) {
-        minusAmount = 1 / (Number(inBox) / Number(inPackage));
-      } else if (Number(inBox) + Number(inTheBox) <= boxQuantity) {
-        minusAmount = Number(inTheBox) / Number(inBox);
-      }
+      let minusAmount = 1 / (Number(inBox) / Number(inPackage));
+      // const boxQuantity = Number(item.quantity) * Number(inBox);
+      // if (Number(inBox) >= boxQuantity) {
+      //   minusAmount = 1 / (Number(inBox) / Number(inPackage));
+      // } else if (Number(inBox) + Number(inTheBox) <= boxQuantity) {
+      //   minusAmount = Number(inTheBox) / Number(inBox);
+      // }
 
       const newQuantity = Number((item.quantity - minusAmount).toFixed(2));
       if (newQuantity > 0) {
