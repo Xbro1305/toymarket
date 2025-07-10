@@ -234,8 +234,7 @@ function CategoryProducts() {
             const inCart = cartData.find((item) => item.id === product.id);
             const displayQuantity = getDisplayQuantity(inCart, product);
 
-            return product?.price != 0 &&
-              product?.discountedPrice != 0 &&
+            return (product?.price != 0 || product?.discountedPrice != 0) &&
               [222, 223, 224].includes(product.accessabilitySettingsID) ? (
               <div key={product.id} className="catalogItem_card">
                 <Link

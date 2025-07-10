@@ -68,7 +68,7 @@ function BrandProducts() {
       });
 
       let products = products1?.data
-        ?.filter((p) => +p?.inStock !== 0)
+        // ?.filter((p) => +p?.inStock !== 0)
         ?.reduce((unique, product) => {
           const isDuplicate = unique.some((p) => {
             const { _id, id, ...pRest } = p;
@@ -97,17 +97,17 @@ function BrandProducts() {
           return unique;
         }, []);
 
-      let d = filteredProducts?.length > 20 ? totalData : [];
-      const updatedTotalData = [...d, ...products];
-      setTotalData(updatedTotalData);
-      setProducts(updatedTotalData);
-      setFilteredProducts(updatedTotalData);
+      setTotalData(products);
+      setProducts(products);
+      setFilteredProducts(products);
 
-      setCategoryName(updatedTotalData?.[0]?.tradeMarkName || "Товары");
+      setCategoryName(products?.[0]?.tradeMarkName || "Товары");
     };
 
     fetchData();
   }, [id, offset]);
+
+  console.log(filteredProducts);
 
   // Apply additional filters (status, price, article) and search
   useEffect(() => {
@@ -234,8 +234,7 @@ function BrandProducts() {
               const inCart = cartData.find((item) => item.id === product.id);
               const displayQuantity = getDisplayQuantity(inCart, product);
 
-              return product?.price != 0 &&
-                product?.discountedPrice != 0 &&
+              return (product?.price != 0 || product?.discountedPrice != 0) &&
                 [222, 223, 224].includes(product.accessabilitySettingsID) ? (
                 <div key={product.id} className="catalogItem_card">
                   <Link

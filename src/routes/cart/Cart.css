@@ -734,8 +734,7 @@
 
       .card-block-list {
         .cart-item-row {
-          height: 215px;
-          min-height: 215px;
+          min-height: 200px;
           padding-right: 10px;
 
           .cart-item-picture {
@@ -947,7 +946,7 @@
             .cart-item-picture {
               min-width: 87px;
               width: 87px;
-              height: 215px;
+              height: 100%;
               padding: 5px;
 
               img {
