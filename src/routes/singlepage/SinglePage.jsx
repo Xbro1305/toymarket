@@ -25,6 +25,8 @@ import { toast } from "react-hot-toast";
 import ProductSlider from "./ProductSlider";
 import { setSearchQuery } from "../../context/searchSlice";
 import loader from "../../components/catalog/loader1.svg";
+import { SwiperSlide, Swiper } from "swiper/react";
+import { FreeMode } from "swiper/modules";
 
 function SinglePage() {
   const dispatch = useDispatch();
@@ -193,7 +195,7 @@ function SinglePage() {
 
   let copyFunction = () => {
     toast.success("Скопировано");
-    navigator.clipboard.writeText(product?.article);
+    navigator.clipboard.writeText(product?.publicBarcode);
   };
 
   if (isLoading)
@@ -241,10 +243,10 @@ function SinglePage() {
             className="copy_article"
             onClick={() => {
               toast.success("Скопировано");
-              navigator.clipboard.writeText(product?.article);
+              navigator.clipboard.writeText(product?.publicBarcode);
             }}
           >
-            <IoCopyOutline /> {product?.article}
+            <IoCopyOutline /> {product?.publicBarcode}
           </span>
           <span
             className="copy_article"
@@ -358,18 +360,27 @@ function SinglePage() {
                   </div>
 
                   <div className="size_container">
-                    {Array.from(sizes).map((size, i) => (
-                      <div
-                        key={i}
-                        className={`size-block ${
-                          isSizeBtn === size && "activeSize"
-                        } `}
-                        onClick={() => setIsSizeBtn(size)}
-                      >
-                        <span className="size-letter">{size}</span>
-                        <div className="size-description"></div>
-                      </div>
-                    ))}
+                    <Swiper
+                      spaceBetween={10}
+                      className="sizes-slider"
+                      freeMode={true}
+                      modules={[FreeMode]}
+                    >
+                      {Array.from(sizes).map((size, i) => (
+                        <SwiperSlide style={{ width: "100px !important" }}>
+                          <div
+                            key={i}
+                            className={`size-block ${
+                              isSizeBtn === size && "activeSize"
+                            } `}
+                            onClick={() => setIsSizeBtn(size)}
+                          >
+                            <span className="size-letter">{size}</span>
+                            <div className="size-description"></div>
+                          </div>
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
                   </div>
                 </div>
               </>
@@ -439,7 +450,7 @@ function SinglePage() {
                   {product?.article && (
                     <SpecRow
                       label="Артикул"
-                      value={product.article}
+                      value={product.publicBarcode}
                       icon={<IoCopyOutline />}
                       func={copyFunction}
                     />
@@ -480,7 +491,7 @@ function SinglePage() {
 
                   <SpecRow
                     label="Размер предоплаты"
-                    value={product?.prepayAmount || "-"}
+                    value={product?.prepayAmount + " ₽" || "-"}
                   />
 
                   <SpecRow
@@ -707,11 +718,12 @@ function SinglePage() {
                 )}
               </>
             ) : (
-              product?.recomendedMinimalSize && (
+              product?.recomendedMinimalSize &&
+              product?.recomendedMinimalSizeEnabled == 1 &&
+              product.recomendedMinimalSize > 1 && (
                 <p className="tos">
                   Если продавец включил РШЗ = {product?.recomendedMinimalSize},
-                  то количество увеличивается на размер этого шага, и
-                  уменьшается на размер минимального заказа.
+                  то при заказе менее этого значения цена без скидки
                 </p>
               )
             )}

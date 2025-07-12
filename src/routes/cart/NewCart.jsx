@@ -115,7 +115,10 @@ const NewCart = () => {
   // Umumiy narxni hisoblash
   const totalPrice = selectedItems?.reduce((acc, product) => {
     const displayQuantity = getDisplayQuantity(product);
-    const currentPrice = getCurrentPrice(product);
+    const currentPrice =
+      product.accessabilitySettingsID == 223
+        ? product.prepayAmount
+        : getCurrentPrice(product);
 
     acc += displayQuantity * currentPrice;
     return acc;
@@ -261,7 +264,10 @@ const NewCart = () => {
           </div>
           <div className="card-block-list">
             {cart.map((product) => {
-              const currentPrice = getCurrentPrice(product);
+              const currentPrice =
+                product.accessabilitySettingsID != 223
+                  ? getCurrentPrice(product)
+                  : product.prepayAmount;
               const displayQuantity = getDisplayQuantity(product);
 
               return (
@@ -326,47 +332,49 @@ const NewCart = () => {
                         </span>
                         <span className="cart_item_discount">
                           <span>
-                            {formatNumber(
-                              product.accessabilitySettingsID == 223
-                                ? product?.prepayAmount ||
-                                    product?.discountedPrice ||
-                                    product?.price
-                                : displayQuantity >=
-                                  product.recomendedMinimalSize
-                                ? product?.discountedPrice || product?.price
-                                : product?.price
-                            )}{" "}
+                            {product.accessabilitySettingsID == 223
+                              ? product?.prepayAmount
+                              : formatNumber(
+                                  displayQuantity >=
+                                    product.recomendedMinimalSize
+                                    ? product?.discountedPrice || product?.price
+                                    : product?.price
+                                )}{" "}
                             ₽
                           </span>
-                          {product.discountedPrice &&
+                          {product.accessabilitySettingsID == 223 ? (
+                            <span
+                              className="percent"
+                              style={{ background: "#1fb73a" }}
+                            >
+                              <span>
+                                {formatNumber(product?.prepayPercent)} %
+                              </span>
+                            </span>
+                          ) : product.discountedPrice &&
                             product.price &&
                             displayQuantity >=
-                              (product.recomendedMinimalSize || Infinity) && (
-                              <>
-                                <span className="percent">
-                                  <span>
-                                    {product.accessabilitySettingsID != 223 &&
-                                      product.prepayPercent != "" &&
-                                      "-"}{" "}
-                                    {product.accessabilitySettingsID != 223
-                                      ? Math.round(
-                                          (1 -
-                                            Number(product?.discountedPrice) /
-                                              Number(product?.price)) *
-                                            100
-                                        )
-                                      : product.prepayPercent ||
-                                        Math.round(
-                                          (1 -
-                                            Number(product?.discountedPrice) /
-                                              Number(product?.price)) *
-                                            100
-                                        )}{" "}
-                                    %
-                                  </span>
+                              (product.recomendedMinimalSize || Infinity) ? (
+                            <>
+                              <span className="percent">
+                                <span>
+                                  {product.accessabilitySettingsID != 223 &&
+                                    product.prepayPercent != "" &&
+                                    "-"}{" "}
+                                  {product.accessabilitySettingsID != 223 &&
+                                    Math.round(
+                                      (1 -
+                                        Number(product?.discountedPrice) /
+                                          Number(product?.price)) *
+                                        100
+                                    )}
+                                  %
                                 </span>
-                              </>
-                            )}
+                              </span>
+                            </>
+                          ) : (
+                            ""
+                          )}
                         </span>
                       </div>
                       {product.inStock > 0 ? (
@@ -383,16 +391,21 @@ const NewCart = () => {
                             <div className="cic-count">{displayQuantity}</div>
                             <FaPlus
                               onClick={() => {
-                                displayQuantity < product.inStock &&
-                                  dispatch(
-                                    incrementQuantity({
-                                      productId: product.id,
-                                      inBox: product.inBox,
-                                      inPackage: product.inPackage,
-                                      inStock: product.inStock,
-                                      inTheBox: product.inTheBox,
-                                    })
-                                  );
+                                if (
+                                  displayQuantity < product.inStock &&
+                                  product.accessabilitySettingsID != 223
+                                )
+                                  return;
+
+                                dispatch(
+                                  incrementQuantity({
+                                    productId: product.id,
+                                    inBox: product.inBox,
+                                    inPackage: product.inPackage,
+                                    inStock: product.inStock,
+                                    inTheBox: product.inTheBox,
+                                  })
+                                );
                               }}
                             />
                           </div>

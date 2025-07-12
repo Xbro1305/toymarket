@@ -433,7 +433,7 @@ function Catalog() {
                 <Swiper
                   modules={[FreeMode]}
                   freeMode={true}
-                  spaceBetween={16}
+                  spaceBetween={10}
                   slidesPerView={"auto"}
                   className="product-swiper"
                 >
@@ -443,30 +443,32 @@ function Catalog() {
                     );
                     const displayQuantity = getDisplayQuantity(inCart, product);
 
-                    return (
-                      <SwiperSlide style={{ width: "170px" }} key={product.id}>
-                        <div
-                          style={{ width: "170px" }}
-                          className="catalogItem_card"
-                        >
+                    return (product?.price != 0 ||
+                      product?.discountedPrice != 0) &&
+                      [222, 223, 224].includes(
+                        product.accessabilitySettingsID
+                      ) ? (
+                      <SwiperSlide
+                        style={{
+                          width: "180px",
+                          paddingRight: "10px !important",
+                        }}
+                      >
+                        <div key={product.id} className="catalogItem_card">
                           <Link
                             className="product-img-link"
-                            onClick={() =>
-                              window.Telegram.WebApp.HapticFeedback.impactOccurred(
-                                "light"
-                              )
-                            }
                             to={`/item/${product.productTypeID}/${product.id}`}
                           >
                             {+product?.discountedPrice !== +product?.price &&
-                            +product.price &&
-                            +product.discountedPrice ? (
+                            +product?.price &&
+                            +product?.discountedPrice ? (
                               <div className="mark_discount">%</div>
                             ) : null}
                             <img
                               src={`https://shop-api.toyseller.site/api/image/${product.id}/${product.image}`}
                               alt={product.article}
-                              className="product-image loaded"
+                              // className="picture"
+                              className={`product-image`}
                             />
                             {product.isNew === 1 ? (
                               <div className="mark_new_product">
@@ -474,48 +476,74 @@ function Catalog() {
                               </div>
                             ) : null}
                           </Link>
-                          {product.name ? (
-                            <p className="name">{product.name}</p>
-                          ) : (
-                            <p className="name">&nbsp;</p>
-                          )}
-                          <p className="weight">
-                            Осталось: {product.inStock} шт
-                          </p>
-                          <p className="weight">
-                            от {product?.recomendedMinimalSize} шт по{" "}
-                            {product?.discountedPrice} ₽{" "}
-                          </p>
+                          <p className="name">{product.name}</p>
+                          {product?.accessabilitySettingsID == 222 ? (
+                            product?.inStock > 0 ? (
+                              <p className="weight">
+                                Осталось: {product.inStock} шт
+                              </p>
+                            ) : (
+                              ""
+                            )
+                          ) : product?.accessabilitySettingsID == 223 ? (
+                            <>
+                              <p className="weight">
+                                Под заказ: {product?.storeDeliveryInDays} дн.
+                              </p>
 
-                          {inCart ? (
-                            <div className="add catalog_counter">
-                              <FiMinus
-                                style={{ cursor: "pointer" }}
-                                onClick={() => handleDecrement(product)}
-                              />
-                              <p className="amount">{displayQuantity}</p>
-                              <FiPlus
-                                style={{ cursor: "pointer" }}
-                                onClick={() => handleIncrement(product)}
-                              />
-                            </div>
+                              <p className="weight">
+                                Предоплата: {product?.prepayPercent} %
+                              </p>
+                            </>
+                          ) : product?.accessabilitySettingsID == 224 ? (
+                            <p className="weight">Всегда в наличии</p>
                           ) : (
-                            <div
-                              className="price"
-                              onClick={() =>
-                                nav(
-                                  `/item/${product.productTypeID}/${product.id}`
-                                )
-                              }
-                            >
-                              {formatNumber(
-                                +product.price || +product.discountedPrice
-                              )}{" "}
-                              ₽
-                            </div>
+                            ""
+                          )}
+
+                          {product?.discountedPrice != 0 &&
+                            product?.price != 0 &&
+                            product?.accessabilitySettingsID != 223 &&
+                            product?.recomendedMinimalSizeEnabled === 1 &&
+                            product?.recomendedMinimalSize > 1 && (
+                              <p className="weight">
+                                от {product?.recomendedMinimalSize} шт по{" "}
+                                {product?.discountedPrice} ₽{" "}
+                              </p>
+                            )}
+                          {product?.inStock > 0 ? (
+                            inCart ? (
+                              <div className="add catalog_counter">
+                                <FiMinus
+                                  onClick={() => handleDecrement(product)}
+                                />
+                                <p className="amount">{displayQuantity}</p>
+                                <FiPlus
+                                  onClick={() => handleIncrement(product)}
+                                />
+                              </div>
+                            ) : (
+                              <div
+                                className="price"
+                                onClick={() =>
+                                  nav(
+                                    `/item/${product.productTypeID}/${product.id}`
+                                  )
+                                }
+                              >
+                                {formatNumber(
+                                  +product.price || +product.discountedPrice
+                                )}{" "}
+                                ₽
+                              </div>
+                            )
+                          ) : (
+                            <div className="price">Нет в наличии</div>
                           )}
                         </div>
                       </SwiperSlide>
+                    ) : (
+                      ""
                     );
                   })}
                 </Swiper>

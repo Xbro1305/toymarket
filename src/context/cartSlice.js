@@ -65,9 +65,9 @@ const cartSlice = createSlice({
       if (!item) return;
 
       const maxQuantity = inStock * (Number(inTheBox) / Number(inBox));
-      if (item.quantity >= maxQuantity) return;
+      if (item.quantity >= maxQuantity && item.accessabilitySettingsID != 223)
+        return;
 
-      const boxQuantity = Number(item.quantity) * Number(inBox);
       let incrementAmount = 1 / (Number(inBox) / Number(inPackage));
 
       const getDisplayQuantity = (product) => {
@@ -79,7 +79,9 @@ const cartSlice = createSlice({
           : Math.floor(boxQuantity);
       };
 
-      const newQuantity = Number((item.quantity + incrementAmount).toFixed(2));
+      const newQuantity = Number(item.quantity + incrementAmount);
+
+      console.log(newQuantity);
 
       item.quantity =
         getDisplayQuantity(item) < item.inStock ? newQuantity : item.quantity;
@@ -98,7 +100,10 @@ const cartSlice = createSlice({
       //   minusAmount = Number(inTheBox) / Number(inBox);
       // }
 
-      const newQuantity = Number((item.quantity - minusAmount).toFixed(2));
+      const newQuantity = Number(item.quantity - minusAmount);
+
+      console.log(newQuantity);
+
       if (newQuantity > 0) {
         item.quantity = newQuantity;
       } else {
