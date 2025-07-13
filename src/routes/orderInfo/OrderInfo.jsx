@@ -67,13 +67,16 @@ function OrderInfo() {
     return `${date} ${hour}`;
   };
 
-  const getDisplayQuantity = (product) => {
-    if (!product) return 0;
-    const boxQuantity = Number(product.quantity) * Number(product.inBox);
-    const packageSize = Number(product.inPackage);
-    return packageSize && boxQuantity % packageSize !== 0
-      ? Math.ceil(boxQuantity)
-      : Math.floor(boxQuantity);
+  const getDisplayQuantity = (inCart, product) => {
+    if (!inCart || !product) return 0;
+
+    // const boxQuantity = Number(inCart.quantity) * Number(product.inBox);
+    // const packageSize = Number(product.inPackage);
+    // return packageSize && boxQuantity % packageSize !== 0
+    //   ? Math.ceil(boxQuantity)
+    //   : Math.floor(boxQuantity);
+
+    return inCart.quantity;
   };
 
   const getCurrentPrice = (product) => {

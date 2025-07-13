@@ -136,11 +136,13 @@ function SinglePage() {
   const getDisplayQuantity = (inCart, product) => {
     if (!inCart || !product) return 0;
 
-    const boxQuantity = Number(inCart.quantity) * Number(product.inBox);
-    const packageSize = Number(product.inPackage);
-    return packageSize && boxQuantity % packageSize !== 0
-      ? Math.ceil(boxQuantity)
-      : Math.floor(boxQuantity);
+    // const boxQuantity = Number(inCart.quantity) * Number(product.inBox);
+    // const packageSize = Number(product.inPackage);
+    // return packageSize && boxQuantity % packageSize !== 0
+    //   ? Math.ceil(boxQuantity)
+    //   : Math.floor(boxQuantity);
+
+    return inCart.quantity;
   };
 
   const handleIncrement = () => {
@@ -583,7 +585,7 @@ function SinglePage() {
             {product?.packageSize > 1 && (
               <p className="min_order">Фасовка по {product?.packageSize} шт</p>
             )}
-
+            {/* 
             {product?.accessabilitySettingsID == 224 ? (
               <p className="min_order">Всегда в наличии </p>
             ) : product?.accessabilitySettingsID == 223 ? (
@@ -592,7 +594,7 @@ function SinglePage() {
               <p className="min_order">Осталось {product?.inStock} шт. </p>
             ) : (
               <p className="min_order">Нет в наличии</p>
-            )}
+            )} */}
             <div className="product_button_block">
               {+product?.inStock > 0 ? (
                 <>

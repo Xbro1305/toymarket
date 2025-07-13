@@ -181,12 +181,16 @@ function CategoryProducts() {
   };
 
   const getDisplayQuantity = (inCart, product) => {
-    if (!inCart) return 0;
-    const boxQty = Number(inCart.quantity) * Number(product.inBox);
-    const pkg = Number(product.inPackage);
-    return pkg && boxQty % pkg !== 0 ? Math.ceil(boxQty) : Math.floor(boxQty);
-  };
+    if (!inCart || !product) return 0;
 
+    // const boxQuantity = Number(inCart.quantity) * Number(product.inBox);
+    // const packageSize = Number(product.inPackage);
+    // return packageSize && boxQuantity % packageSize !== 0
+    //   ? Math.ceil(boxQuantity)
+    //   : Math.floor(boxQuantity);
+
+    return inCart.quantity;
+  };
   const handleLocalSearch = (e) => {
     const value = e.target.value.toLowerCase();
     setFilteredProducts(

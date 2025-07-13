@@ -65,11 +65,13 @@ const NewCart = () => {
 
   const getDisplayQuantity = (product) => {
     if (!product) return 0;
-    const boxQuantity = Number(product.quantity) * Number(product.inBox);
-    const packageSize = Number(product.inPackage);
-    return packageSize && boxQuantity % packageSize !== 0
-      ? Math.ceil(boxQuantity)
-      : Math.floor(boxQuantity);
+    // const boxQuantity = Number(product.quantity) * Number(product.inBox);
+    // const packageSize = Number(product.inPackage);
+    // return packageSize && boxQuantity % packageSize !== 0
+    //   ? Math.ceil(boxQuantity)
+    //   : Math.floor(boxQuantity);
+
+    return Number(product.quantity);
   };
 
   const handleDecrement = (product) => {

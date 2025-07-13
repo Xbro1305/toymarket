@@ -151,11 +151,14 @@ function BySubcategories() {
 
   const getDisplayQuantity = (inCart, product) => {
     if (!inCart || !product) return 0;
-    const boxQuantity = Number(inCart.quantity) * Number(product.inBox);
-    const packageSize = Number(product.inPackage);
-    return packageSize && boxQuantity % packageSize !== 0
-      ? Math.ceil(boxQuantity)
-      : Math.floor(boxQuantity);
+
+    // const boxQuantity = Number(inCart.quantity) * Number(product.inBox);
+    // const packageSize = Number(product.inPackage);
+    // return packageSize && boxQuantity % packageSize !== 0
+    //   ? Math.ceil(boxQuantity)
+    //   : Math.floor(boxQuantity);
+
+    return inCart.quantity;
   };
 
   const handleIncrement = (product) => {

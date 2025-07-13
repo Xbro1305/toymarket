@@ -25,13 +25,26 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
+      // const existingItem = state.items.find(
+      //   (item) => item.id === action.payload.id
+      // );
+      // if (existingItem) {
+      //   existingItem.quantity += 1;
+      // } else {
+      //   state.items.push({ ...action.payload, quantity: 1 });
+      // }
+
+      console.log(action.payload);
       const existingItem = state.items.find(
         (item) => item.id === action.payload.id
       );
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
-        state.items.push({ ...action.payload, quantity: 1 });
+        state.items.push({
+          ...action.payload,
+          quantity: Number(action.payload.recomendedMinimalSize),
+        });
       }
       saveCartToStorage(state.items);
     },
@@ -64,27 +77,32 @@ const cartSlice = createSlice({
       const item = state.items.find((item) => item.id === productId);
       if (!item) return;
 
-      const maxQuantity = inStock * (Number(inTheBox) / Number(inBox));
-      if (item.quantity >= maxQuantity && item.accessabilitySettingsID != 223)
+      // const maxQuantity = inStock * (Number(inTheBox) / Number(inBox));
+      if (item.quantity >= inStock && item.accessabilitySettingsID != 223)
         return;
 
-      let incrementAmount = 1 / (Number(inBox) / Number(inPackage));
+      // let incrementAmount = 1 / (Number(inBox) / Number(inPackage));
 
-      const getDisplayQuantity = (product) => {
-        if (!product) return 0;
-        const boxQuantity = Number(product.quantity) * Number(product.inBox);
-        const packageSize = Number(product.inPackage);
-        return packageSize && boxQuantity % packageSize !== 0
-          ? Math.ceil(boxQuantity)
-          : Math.floor(boxQuantity);
-      };
+      // const getDisplayQuantity = (product) => {
+      //   if (!product) return 0;
+      //   const boxQuantity = Number(product.quantity) * Number(product.inBox);
+      //   const packageSize = Number(product.inPackage);
+      //   return packageSize && boxQuantity % packageSize !== 0
+      //     ? Math.ceil(boxQuantity)
+      //     : Math.floor(boxQuantity);
+      // };
 
-      const newQuantity = Number(item.quantity + incrementAmount);
+      // const newQuantity = Number(item.quantity + incrementAmount);
 
-      console.log(newQuantity);
+      // console.log(newQuantity);
 
-      item.quantity =
-        getDisplayQuantity(item) < item.inStock ? newQuantity : item.quantity;
+      // item.quantity =
+      //   getDisplayQuantity(item) < item.inStock ? newQuantity : item.quantity;
+
+      const newQuantity = Number(item.quantity) + Number(item.inPackage);
+
+      item.quantity = newQuantity < item.inStock ? newQuantity : item.quantity;
+
       saveCartToStorage(state.items); // Har bir o'zgarishdan keyin saqlash
     },
     decrementQuantity: (state, action) => {
@@ -92,7 +110,8 @@ const cartSlice = createSlice({
       const item = state.items.find((item) => item.id === productId);
       if (!item || item.quantity <= 0) return;
 
-      let minusAmount = 1 / (Number(inBox) / Number(inPackage));
+      // let minusAmount = 1 / (Number(inBox) / Number(inPackage));
+      let minusAmount = inPackage;
       // const boxQuantity = Number(item.quantity) * Number(inBox);
       // if (Number(inBox) >= boxQuantity) {
       //   minusAmount = 1 / (Number(inBox) / Number(inPackage));
@@ -102,8 +121,13 @@ const cartSlice = createSlice({
 
       const newQuantity = Number(item.quantity - minusAmount);
 
-      console.log(newQuantity);
+      // console.log(newQuantity);
 
+      // if (newQuantity > 0) {
+      //   item.quantity = newQuantity;
+      // } else {
+      //   state.items = state.items.filter((item) => item.id !== productId);
+      // }
       if (newQuantity > 0) {
         item.quantity = newQuantity;
       } else {
