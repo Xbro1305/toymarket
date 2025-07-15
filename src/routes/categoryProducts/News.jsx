@@ -52,7 +52,6 @@ function CategoryProducts() {
         const res = await fetchNewProducts({
           limit: PAGE_LIMIT,
           offset,
-          inStock: 1,
         }).unwrap();
         const data = res?.data ?? [];
 
@@ -99,7 +98,6 @@ function CategoryProducts() {
     const temp = [];
 
     newProducts
-      .filter((p) => +p.inStock > 0)
       .forEach((i) => {
         const uniqueById = temp.find((p) => p.id == i.id);
         temp.push(i);

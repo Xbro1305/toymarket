@@ -67,7 +67,6 @@ function BySubcategories() {
       });
 
       let products = products1?.data
-        ?.filter((p) => +p?.inStock !== 0)
         ?.reduce((unique, product) => {
           const isDuplicate = unique.some((p) => {
             const { _id, id, ...pRest } = p;

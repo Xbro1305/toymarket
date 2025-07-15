@@ -13,11 +13,12 @@ import { BsChevronLeft } from "react-icons/bs";
 import SortModal from "./SortModal";
 import { getDeclination } from "../../utils/getDeclination";
 import { setSearchQuery } from "../../context/searchSlice";
+import loader from "../../components/catalog/loader1.svg";
 
 function TypesProducts() {
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const searchQuery = useSelector((state) => state.search.searchQuery);
   const { data: productsData } = useGetProductsBySearchQuery(searchQuery);
@@ -40,22 +41,22 @@ function TypesProducts() {
   const navigate = useNavigate();
 
   const handleSearchChange = (e) => dispatch(setSearchQuery(e.target.value));
+  console.log(isLoading);
 
   useEffect(() => {
     const fetchData = async () => {
-      let allProducts = productsData?.data || [];
+      setIsLoading(true);
+      let allProducts = (await productsData?.data) || [];
       let categoryNameTemp = allProducts?.[0]?.productTypeName;
 
-      const processedProducts = allProducts
-        .filter((p) => p.inStock && parseInt(p.inStock) !== 0)
-        .reduce((unique, product) => {
-          const key = `${product.color}-${product.size}`; // Deduplicate by color and size
-          const exists = unique.some((p) => `${p.color}-${p.size}` === key);
-          if (!exists) {
-            unique.push(product);
-          }
-          return unique;
-        }, []);
+      const processedProducts = await allProducts.reduce((unique, product) => {
+        const key = `${product.color}-${product.size}`; // Deduplicate by color and size
+        const exists = unique.some((p) => `${p.color}-${p.size}` === key);
+        if (!exists) {
+          unique.push(product);
+        }
+        return unique;
+      }, []);
 
       setProducts(processedProducts);
       setCategoryName(categoryNameTemp);
@@ -64,6 +65,10 @@ function TypesProducts() {
 
     fetchData();
   }, [searchQuery, productsData]);
+
+  useEffect(() => {
+    filteredProducts.length && setIsLoading(false);
+  }, [filteredProducts]);
 
   // Apply additional filters (status, price, article) and search
   useEffect(() => {
@@ -179,13 +184,14 @@ function TypesProducts() {
         </div>
       </div>
 
+      {isLoading && <div style={{ color: "white" }}>Загрузка...</div>}
+
       <div className="catalogItem_cards">
         {filteredProducts?.map((product, inx) => {
           const inCart = cartData.find((item) => item.id === product.id);
           const displayQuantity = getDisplayQuantity(inCart, product);
 
-          return (product?.price != 0 ||
-            product?.discountedPrice != 0) &&
+          return (product?.price != 0 || product?.discountedPrice != 0) &&
             [222, 223, 224].includes(product.accessabilitySettingsID) ? (
             <div key={product.id} className="catalogItem_card">
               <Link

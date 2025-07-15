@@ -3,7 +3,7 @@
   align-items: center;
   padding: 8px 0;
   border-bottom: 1px solid #333;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .row:last-child {
@@ -13,9 +13,9 @@
 .label {
   width: 200px;
   color: rgb(125, 125, 125);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
-  line-height: 22px;
+  line-height: 18px;
   letter-spacing: 0%;
   text-align: left;
 }

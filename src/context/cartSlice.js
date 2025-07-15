@@ -101,7 +101,7 @@ const cartSlice = createSlice({
 
       const newQuantity = Number(item.quantity) + Number(item.inPackage);
 
-      item.quantity = newQuantity < item.inStock ? newQuantity : item.quantity;
+      item.quantity = newQuantity <= item.inStock ? newQuantity : item.quantity;
 
       saveCartToStorage(state.items); // Har bir o'zgarishdan keyin saqlash
     },

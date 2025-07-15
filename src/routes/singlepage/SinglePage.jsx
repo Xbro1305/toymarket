@@ -367,6 +367,7 @@ function SinglePage() {
                       className="sizes-slider"
                       freeMode={true}
                       modules={[FreeMode]}
+                      slidesPerView={4}
                     >
                       {Array.from(sizes).map((size, i) => (
                         <SwiperSlide style={{ width: "100px !important" }}>
@@ -452,7 +453,7 @@ function SinglePage() {
                   {product?.article && (
                     <SpecRow
                       label="Артикул"
-                      value={product.publicBarcode}
+                      value={product.article}
                       icon={<IoCopyOutline />}
                       func={copyFunction}
                     />
@@ -536,13 +537,29 @@ function SinglePage() {
                       ? displayQuantity >= product.recomendedMinimalSize
                         ? product.discountedPrice
                         : +product?.price
-                      : +product?.price
+                      : product.recomendedMinimalSizeEnabled &&
+                        product.recomendedMinimalSize > 1
+                      ? product.price
+                      : product.discountedPrice
                   )}{" "}
                   ₽
+                  {product?.price != "" &&
+                    product?.discountedPrice != "" &&
+                    product.recomendedMinimalSize == 1 && (
+                      <>
+                        <span className="old-price">
+                          {formatNumber(product.price)} ₽
+                        </span>
+                        <span className="percent">
+                          {formatNumber(discount)} %
+                        </span>
+                      </>
+                    )}
                   {inCart &&
                     product?.price != "" &&
                     product?.discountedPrice != "" &&
-                    displayQuantity >= product.recomendedMinimalSize && (
+                    displayQuantity >= product.recomendedMinimalSize &&
+                    product.recomendedMinimalSize != 1 && (
                       <>
                         <span className="old-price">
                           {formatNumber(
@@ -560,24 +577,28 @@ function SinglePage() {
               </div>
               {+product?.price > 0 && (
                 <>
-                  {!inCart && (
-                    <div className="p_discount">
-                      <div className="p_discount_number">
-                        <span>от {product?.recomendedMinimalSize} шт.</span>
-                        <h3>{formatNumber(+product?.discountedPrice)} ₽</h3>
+                  {!inCart &&
+                    (product.recomendedMinimalSizeEnabled &&
+                    product.recomendedMinimalSize > 1 ? (
+                      <div className="p_discount">
+                        <div className="p_discount_number">
+                          <span>от {product?.recomendedMinimalSize} шт.</span>
+                          <h3>{formatNumber(+product?.discountedPrice)} ₽</h3>
+                        </div>
+                        {product?.discountedPrice && product.price ? (
+                          <>
+                            <div className="discount_percent">
+                              <span>Скидка</span>
+                              <p>{discount}%</p>
+                            </div>
+                          </>
+                        ) : (
+                          <></>
+                        )}
                       </div>
-                      {product?.discountedPrice && product.price ? (
-                        <>
-                          <div className="discount_percent">
-                            <span>Скидка</span>
-                            <p>{discount}%</p>
-                          </div>
-                        </>
-                      ) : (
-                        <></>
-                      )}
-                    </div>
-                  )}
+                    ) : (
+                      <></>
+                    ))}
                 </>
               )}
             </div>
