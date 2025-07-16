@@ -368,6 +368,14 @@ function SinglePage() {
                       freeMode={true}
                       modules={[FreeMode]}
                       slidesPerView={4}
+                      breakpoints={{
+                        0: {
+                          slidesPerView: 3,
+                        },
+                        421: {
+                          slidesPerView: 4,
+                        },
+                      }}
                     >
                       {Array.from(sizes).map((size, i) => (
                         <SwiperSlide style={{ width: "100px !important" }}>
