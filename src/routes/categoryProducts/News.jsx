@@ -97,12 +97,11 @@ function CategoryProducts() {
     // }, []);
     const temp = [];
 
-    newProducts
-      .forEach((i) => {
-        const uniqueById = temp.find((p) => p.id == i.id);
-        temp.push(i);
-        if (!uniqueById) return i;
-      });
+    newProducts.forEach((i) => {
+      const uniqueById = temp.find((p) => p.id == i.id);
+      temp.push(i);
+      if (!uniqueById) return i;
+    });
 
     temp.forEach((product) => {
       if (
@@ -323,8 +322,23 @@ function CategoryProducts() {
                       ₽
                     </div>
                   )
-                ) : (
+                ) : product.accessabilitySettingsID != 223 ? (
                   <div className="price">Нет в наличии</div>
+                ) : inCart ? (
+                  <div className="add catalog_counter">
+                    <FiMinus onClick={() => handleDecrement(product)} />
+                    <p className="amount">{displayQuantity}</p>
+                    <FiPlus onClick={() => handleIncrement(product)} />
+                  </div>
+                ) : (
+                  <div
+                    className="price"
+                    onClick={() =>
+                      navigate(`/item/${product.productTypeID}/${product.id}`)
+                    }
+                  >
+                    {formatNumber(+product.price || +product.discountedPrice)} ₽
+                  </div>
                 )}
               </div>
             ) : (

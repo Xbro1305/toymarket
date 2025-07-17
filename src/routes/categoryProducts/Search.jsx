@@ -269,8 +269,23 @@ function TypesProducts() {
                     {formatNumber(+product.price || +product.discountedPrice)} ₽
                   </div>
                 )
-              ) : (
+              ) : product.accessabilitySettingsID != 223 ? (
                 <div className="price">Нет в наличии</div>
+              ) : inCart ? (
+                <div className="add catalog_counter">
+                  <FiMinus onClick={() => handleDecrement(product)} />
+                  <p className="amount">{displayQuantity}</p>
+                  <FiPlus onClick={() => handleIncrement(product)} />
+                </div>
+              ) : (
+                <div
+                  className="price"
+                  onClick={() =>
+                    nav(`/item/${product.productTypeID}/${product.id}`)
+                  }
+                >
+                  {formatNumber(+product.price || +product.discountedPrice)} ₽
+                </div>
               )}
             </div>
           ) : (

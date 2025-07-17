@@ -39,7 +39,7 @@ const cartSlice = createSlice({
         (item) => item.id === action.payload.id
       );
       if (existingItem) {
-        existingItem.quantity += 1;
+        existingItem.quantity += action.payload.inPackage;
       } else {
         state.items.push({
           ...action.payload,
@@ -78,8 +78,6 @@ const cartSlice = createSlice({
       if (!item) return;
 
       // const maxQuantity = inStock * (Number(inTheBox) / Number(inBox));
-      if (item.quantity >= inStock && item.accessabilitySettingsID != 223)
-        return;
 
       // let incrementAmount = 1 / (Number(inBox) / Number(inPackage));
 
@@ -101,9 +99,17 @@ const cartSlice = createSlice({
 
       const newQuantity = Number(item.quantity) + Number(item.inPackage);
 
-      item.quantity = newQuantity <= item.inStock ? newQuantity : item.quantity;
+      console.log(item.quantity, newQuantity);
 
-      saveCartToStorage(state.items); // Har bir o'zgarishdan keyin saqlash
+      if (item.accessabilitySettingsID == 223) {
+        item.quantity = newQuantity;
+        saveCartToStorage(state.items);
+      } else {
+        if (item.quantity >= inStock) return;
+        item.quantity =
+          newQuantity <= item.inStock ? newQuantity : item.quantity;
+        saveCartToStorage(state.items);
+      }
     },
     decrementQuantity: (state, action) => {
       const { productId, inBox, inPackage, inTheBox } = action.payload;
@@ -133,7 +139,7 @@ const cartSlice = createSlice({
       } else {
         state.items = state.items.filter((item) => item.id !== productId);
       }
-      saveCartToStorage(state.items); // Har bir o'zgarishdan keyin saqlash
+      saveCartToStorage(state.items);
     },
   },
 });
