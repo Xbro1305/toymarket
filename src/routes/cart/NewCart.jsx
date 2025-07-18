@@ -393,7 +393,7 @@ const NewCart = () => {
                             <div className="cic-count">{displayQuantity}</div>
                             <FaPlus
                               onClick={() => {
-                                product.accessabilitySettingsID == 223 &&
+                                product.accessabilitySettingsID != 222 &&
                                   dispatch(
                                     incrementQuantity({
                                       productId: product.id,
@@ -406,7 +406,7 @@ const NewCart = () => {
 
                                 if (
                                   displayQuantity < product.inStock &&
-                                  product.accessabilitySettingsID == 223
+                                  product.accessabilitySettingsID != 222
                                 )
                                   return;
 

@@ -34,16 +34,15 @@ const cartSlice = createSlice({
       //   state.items.push({ ...action.payload, quantity: 1 });
       // }
 
-      console.log(action.payload);
       const existingItem = state.items.find(
         (item) => item.id === action.payload.id
       );
       if (existingItem) {
-        existingItem.quantity += action.payload.inPackage;
+        existingItem.quantity += action.payload.inPackage || 1;
       } else {
         state.items.push({
           ...action.payload,
-          quantity: Number(action.payload.recomendedMinimalSize),
+          quantity: Number(action.payload.recomendedMinimalSize || 1),
         });
       }
       saveCartToStorage(state.items);
@@ -97,11 +96,10 @@ const cartSlice = createSlice({
       // item.quantity =
       //   getDisplayQuantity(item) < item.inStock ? newQuantity : item.quantity;
 
-      const newQuantity = Number(item.quantity) + Number(item.inPackage);
+      const newQuantity = Number(item.quantity) + Number(item.inPackage || 1);
 
-      console.log(item.quantity, newQuantity);
 
-      if (item.accessabilitySettingsID == 223) {
+      if (item.accessabilitySettingsID != 222) {
         item.quantity = newQuantity;
         saveCartToStorage(state.items);
       } else {
@@ -117,7 +115,7 @@ const cartSlice = createSlice({
       if (!item || item.quantity <= 0) return;
 
       // let minusAmount = 1 / (Number(inBox) / Number(inPackage));
-      let minusAmount = inPackage;
+      let minusAmount = inPackage || 1;
       // const boxQuantity = Number(item.quantity) * Number(inBox);
       // if (Number(inBox) >= boxQuantity) {
       //   minusAmount = 1 / (Number(inBox) / Number(inPackage));

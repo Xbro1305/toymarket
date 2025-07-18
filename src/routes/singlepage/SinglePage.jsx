@@ -49,9 +49,9 @@ function SinglePage() {
         setIsLoading(true);
         const productsData = await getProductsByType(productTypeID);
 
-        let allProducts = productsData || [];
+        let allProducts = (await productsData) || [];
 
-        const processedProducts = allProducts;
+        const processedProducts = await allProducts;
         // .filter(
         //   (product) =>
         //     product.price &&
@@ -61,7 +61,8 @@ function SinglePage() {
         // );
         setProduct(processedProducts.find((p) => p.id === +id));
         setProducts(processedProducts);
-        const modelID = processedProducts.find((p) => p.id === +id).modelID;
+        const modelID = await processedProducts.find((p) => p.id === +id)
+          .modelID;
         // setTotalSlides(
         //   product?.otherPhotos?.length + 1 + product?.review ? 1 : 0
         // );
@@ -181,10 +182,17 @@ function SinglePage() {
     !product?.YaMarketAccessible;
 
   let openMarketPlaces =
-    (product?.WBAccessible === 0 && product?.WBURL) ||
-    (product?.OzonAccessible === 0 && product?.OzonURL) ||
-    (product?.AvitoAccessible === 0 && product?.AvitoURL) ||
-    (product?.YaMarketAccessible === 0 && product?.YaMarketURL);
+    (product?.WBAccessible === 1 && product?.WBURL) ||
+    (product?.OzonAccessible === 1 && product?.OzonURL) ||
+    (product?.AvitoAccessible === 1 && product?.AvitoURL) ||
+    (product?.YaMarketAccessible === 1 && product?.YaMarketURL);
+
+  // console.log(
+  //   openMarketPlaces,
+  //   " dsfa",
+  //   some_marketPlaces,
+  //   product?.WBAccessible === 0 && product?.WBURL
+  // );
 
   // скидка = (1 - discountedPrice / product.price) * 100%
   let a = Number(product?.discountedPrice || 0) / Number(product?.price || 0);
@@ -218,7 +226,7 @@ function SinglePage() {
 
   return (
     <div className="container singlepage">
-      <div className="caption">
+      <div className="caption top">
         <div className="caption-box">
           <Link to={"/cat/" + product?.categoryID}>
             <span>{product?.categoryName}</span>
@@ -277,22 +285,38 @@ function SinglePage() {
                     +product?.price <= 0
                       ? product.discountedPrice
                       : inCart
-                      ? displayQuantity >= product.recomendedMinimalSize
+                      ? product.recomendedMinimalSizeEnabled != true ||
+                        product.recomendedMinimalSize == 1
+                        ? +product?.discountedPrice
+                        : displayQuantity >= product.recomendedMinimalSize
                         ? product.discountedPrice
                         : +product?.price
-                      : +product?.price
+                      : product.recomendedMinimalSizeEnabled &&
+                        product.recomendedMinimalSize > 1
+                      ? +product?.price
+                      : product.discountedPrice
                   )}{" "}
                   ₽
-                  {inCart &&
+                  {(inCart || product.recomendedMinimalSize <= 1) &&
                     product?.price != "" &&
                     product?.discountedPrice != "" &&
                     displayQuantity >= product.recomendedMinimalSize && (
                       <>
                         <span className="old-price">
-                          {formatNumber(
-                            inCart ? +product.price : +product.discountedPrice
-                          )}{" "}
-                          ₽
+                          {formatNumber(+product.price)} ₽
+                        </span>
+                        <span className="percent">
+                          {formatNumber(discount)} %
+                        </span>
+                      </>
+                    )}{" "}
+                  {!inCart &&
+                    product?.price != "" &&
+                    product?.discountedPrice != "" &&
+                    product.recomendedMinimalSize <= 1 && (
+                      <>
+                        <span className="old-price">
+                          {formatNumber(+product.price)} ₽
                         </span>
                         <span className="percent">
                           {formatNumber(discount)} %
@@ -302,28 +326,30 @@ function SinglePage() {
                 </h3>
                 <span>за 1 шт.</span>
               </div>
-              {+product?.price > 0 && (
-                <>
-                  {!inCart && (
-                    <div className="p_discount">
-                      <div className="p_discount_number">
-                        <span>от {product?.recomendedMinimalSize} шт.</span>
-                        <h3>{formatNumber(+product?.discountedPrice)} ₽</h3>
+              {+product?.price &&
+                product.recomendedMinimalSizeEnabled &&
+                product.recomendedMinimalSize > 1 && (
+                  <>
+                    {!inCart && (
+                      <div className="p_discount">
+                        <div className="p_discount_number">
+                          <span>от {product?.recomendedMinimalSize} шт.</span>
+                          <h3>{formatNumber(+product?.discountedPrice)} ₽</h3>
+                        </div>
+                        {product?.discountedPrice && product.price ? (
+                          <>
+                            <div className="discount_percent">
+                              <span>Скидка</span>
+                              <p>{discount}%</p>
+                            </div>
+                          </>
+                        ) : (
+                          <></>
+                        )}
                       </div>
-                      {product?.discountedPrice && product.price ? (
-                        <>
-                          <div className="discount_percent">
-                            <span>Скидка</span>
-                            <p>{discount}%</p>
-                          </div>
-                        </>
-                      ) : (
-                        <></>
-                      )}
-                    </div>
-                  )}
-                </>
-              )}
+                    )}
+                  </>
+                )}
             </div>
 
             <span className="product_name">{product?.name}</span>
@@ -425,7 +451,7 @@ function SinglePage() {
                 Описание
               </button>
               {/* {product?.preorder === "true" && ( */}
-              {product.accessabilitySettingsID != 222 && (
+              {product.accessabilitySettingsID == 223 && (
                 <button
                   className={`small-white-button ${
                     description === "order_conditions" ? "activePr" : ""
@@ -479,7 +505,7 @@ function SinglePage() {
                     <SpecRow label="Пол" value={product.kidGender} />
                   )}
                   {/* Bu doim chiqadi, shartli emas */}
-                  <SpecRow label="Возраст" value="от 10 лет" />
+                  {/* <SpecRow label="Возраст" value="от 10 лет" /> */}
                   {product?.shoeSizeLength && (
                     <SpecRow
                       label="Размер"
@@ -532,6 +558,35 @@ function SinglePage() {
                 </div>
               </div>
             )}
+
+            <div className="caption">
+              <div className="caption_right mob">
+                <span
+                  className="copy_article"
+                  onClick={() => {
+                    toast.success("Скопировано");
+                    navigator.clipboard.writeText(product?.publicBarcode);
+                  }}
+                >
+                  <IoCopyOutline /> {product?.publicBarcode}
+                </span>
+                <span
+                  className="copy_article"
+                  onClick={() => {
+                    const url = encodeURIComponent(window.location.href);
+                    const text = encodeURIComponent(
+                      "Привет, посмотри, что я нашел"
+                    );
+                    window.open(
+                      `https://t.me/share/url?url=${url}&text=${text}`,
+                      "_blank"
+                    );
+                  }}
+                >
+                  <IoPaperPlaneOutline /> Поделиться
+                </span>
+              </div>
+            </div>
           </div>
 
           <div className="product_price_box">
@@ -542,14 +597,17 @@ function SinglePage() {
                     +product?.price <= 0
                       ? product.discountedPrice
                       : inCart
-                      ? displayQuantity >= product.recomendedMinimalSize
+                      ? product.recomendedMinimalSizeEnabled != true ||
+                        product.recomendedMinimalSize == 1
+                        ? +product?.discountedPrice
+                        : displayQuantity >= product.recomendedMinimalSize
                         ? product.discountedPrice
                         : +product?.price
                       : product.recomendedMinimalSizeEnabled &&
                         product.recomendedMinimalSize > 1
-                      ? product.price
+                      ? +product?.price
                       : product.discountedPrice
-                  )}{" "}
+                  )}
                   ₽
                   {product?.price != "" &&
                     product?.discountedPrice != "" &&
@@ -625,7 +683,8 @@ function SinglePage() {
               <p className="min_order">Нет в наличии</p>
             )} */}
             <div className="product_button_block">
-              {+product?.inStock > 0 ? (
+              {+product?.inStock > 0 ||
+              product.accessabilitySettingsID != 222 ? (
                 <>
                   {inCart && (
                     <div className="counter-container">
@@ -707,7 +766,7 @@ function SinglePage() {
                       </button>
                       {open_marketPlaces && (
                         <div className="marketPlaces">
-                          {product?.WBAccessible === 0 && product?.WBURL ? (
+                          {product?.WBAccessible === 1 && product?.WBURL ? (
                             <Link to={product?.WBURL}>
                               <img src={wildberries} alt="" />
                               Купить на Wildberries
@@ -715,7 +774,7 @@ function SinglePage() {
                           ) : (
                             ""
                           )}
-                          {product?.OzonAccessible === 0 && product?.OzonURL ? (
+                          {product?.OzonAccessible === 1 && product?.OzonURL ? (
                             <Link to={product?.OzonURL}>
                               <img src={ozon} alt="" />
                               Купить на OZON
@@ -723,7 +782,7 @@ function SinglePage() {
                           ) : (
                             ""
                           )}
-                          {product?.AvitoAccessible === 0 &&
+                          {product?.AvitoAccessible === 1 &&
                           product?.AvitoURL ? (
                             <Link to={product?.AvitoURL}>
                               <img src={avito} alt="" /> Купить на Авито
@@ -731,7 +790,7 @@ function SinglePage() {
                           ) : (
                             ""
                           )}
-                          {product?.YaMarketAccessible === 0 &&
+                          {product?.YaMarketAccessible === 1 &&
                           product?.YaMarketURL ? (
                             <Link to={product?.YaMarketURL}>
                               <img src={yandex} alt="" />

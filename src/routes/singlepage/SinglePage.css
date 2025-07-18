@@ -31,6 +31,10 @@
     display: flex;
     align-items: center;
     gap: 30px;
+
+    &.mob {
+      display: none;
+    }
   }
 
   span {
@@ -835,7 +839,13 @@
 
 @media screen and (max-width: 1050px) {
   .caption {
-    display: none;
+    &.top {
+      display: none;
+    }
+
+    .caption_right.mob {
+      display: flex !important  ;
+    }
   }
 }
 
