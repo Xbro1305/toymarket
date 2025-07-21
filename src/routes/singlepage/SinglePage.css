@@ -55,6 +55,11 @@
     display: flex;
     align-items: center;
     gap: 10px;
+
+    @media (max-width: 1050px) {
+      font-size: 16px;
+      align-items: flex-start;
+    }
   }
 }
 
@@ -880,12 +885,6 @@
         }
       }
     }
-  }
-}
-
-@media (max-width: 768px) {
-  .singlepage {
-    padding-bottom: 120px !important;
   }
 }
 

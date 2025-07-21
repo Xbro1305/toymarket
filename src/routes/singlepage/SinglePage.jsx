@@ -297,7 +297,7 @@ function SinglePage() {
                       : product.discountedPrice
                   )}{" "}
                   ₽
-                  {(inCart || product.recomendedMinimalSize <= 1) &&
+                  {inCart &&
                     product?.price != "" &&
                     product?.discountedPrice != "" &&
                     displayQuantity >= product.recomendedMinimalSize && (
@@ -354,15 +354,16 @@ function SinglePage() {
 
             <span className="product_name">{product?.name}</span>
 
-            {+product?.categoryID !== 3 ? (
+            {/* {+product?.categoryID !== 3 ? (
               <></>
-            ) : (
-              <>
+            ) : ( */}
+            <>
+              {product?.textColor && (
                 <div className="color-box">
                   <span className="colorText">Цвет: {product?.textColor}</span>
 
                   <div className="colors">
-                    {Array.from(colors).map((color, i) => (
+                    {Array?.from(colors).map((color, i) => (
                       <div
                         key={i}
                         className={`color-block ${
@@ -380,7 +381,9 @@ function SinglePage() {
                     ))}
                   </div>
                 </div>
+              )}
 
+              {product.shoeSizeLength && (
                 <div className="shoesSizes">
                   <div className="shoesSizeTitle">
                     <h3 className="shoesSizeTitle_caption">Выберите размер:</h3>
@@ -420,8 +423,9 @@ function SinglePage() {
                     </Swiper>
                   </div>
                 </div>
-              </>
-            )}
+              )}
+            </>
+            {/* )} */}
 
             {product?.accessabilitySettingsID == 224 ? (
               <span className="remained">Всегда в наличии </span>
@@ -558,35 +562,6 @@ function SinglePage() {
                 </div>
               </div>
             )}
-
-            <div className="caption">
-              <div className="caption_right mob">
-                <span
-                  className="copy_article"
-                  onClick={() => {
-                    toast.success("Скопировано");
-                    navigator.clipboard.writeText(product?.publicBarcode);
-                  }}
-                >
-                  <IoCopyOutline /> {product?.publicBarcode}
-                </span>
-                <span
-                  className="copy_article"
-                  onClick={() => {
-                    const url = encodeURIComponent(window.location.href);
-                    const text = encodeURIComponent(
-                      "Привет, посмотри, что я нашел"
-                    );
-                    window.open(
-                      `https://t.me/share/url?url=${url}&text=${text}`,
-                      "_blank"
-                    );
-                  }}
-                >
-                  <IoPaperPlaneOutline /> Поделиться
-                </span>
-              </div>
-            </div>
           </div>
 
           <div className="product_price_box">
@@ -632,6 +607,19 @@ function SinglePage() {
                             inCart ? +product.price : +product.discountedPrice
                           )}{" "}
                           ₽
+                        </span>
+                        <span className="percent">
+                          {formatNumber(discount)} %
+                        </span>
+                      </>
+                    )}
+                  {!inCart &&
+                    product?.price != "" &&
+                    product?.discountedPrice != "" &&
+                    product.recomendedMinimalSize <= 1 && (
+                      <>
+                        <span className="old-price">
+                          {formatNumber(+product.price)} ₽
                         </span>
                         <span className="percent">
                           {formatNumber(discount)} %
@@ -817,6 +805,34 @@ function SinglePage() {
                 </p>
               )
             )}
+          </div>
+          <div className="caption">
+            <div className="caption_right mob">
+              <span
+                className="copy_article"
+                onClick={() => {
+                  toast.success("Скопировано");
+                  navigator.clipboard.writeText(product?.publicBarcode);
+                }}
+              >
+                <IoCopyOutline /> {product?.publicBarcode}
+              </span>
+              <span
+                className="copy_article"
+                onClick={() => {
+                  const url = encodeURIComponent(window.location.href);
+                  const text = encodeURIComponent(
+                    "Привет, посмотри, что я нашел"
+                  );
+                  window.open(
+                    `https://t.me/share/url?url=${url}&text=${text}`,
+                    "_blank"
+                  );
+                }}
+              >
+                <IoPaperPlaneOutline /> Поделиться
+              </span>
+            </div>
           </div>
         </div>
       </div>

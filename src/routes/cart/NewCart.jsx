@@ -89,8 +89,11 @@ const NewCart = () => {
     const displayQuantity = getDisplayQuantity(product);
 
     if (
-      displayQuantity >= (+product.recomendedMinimalSize || Infinity) &&
-      product.discountedPrice
+      (displayQuantity >= (+product.recomendedMinimalSize || Infinity) &&
+        product.discountedPrice) ||
+      product.recomendedMinimalSizeEnabled == false ||
+      product.recomendedMinimalSize == 0 ||
+      product.recomendedMinimalSize == 1
     ) {
       return Number(product.discountedPrice); // Chegirmali narx
     }
@@ -319,9 +322,11 @@ const NewCart = () => {
                         {product.material &&
                           ` | Материал: ${product?.material}`}
                       </div>
-                      <div className="cart_item_details">
-                        Осталось {product.inStock} шт.
-                      </div>
+                      {product.accessabilitySettingsID == 222 && (
+                        <div className="cart_item_details">
+                          Осталось {product.inStock} шт.
+                        </div>
+                      )}
                       <IoMdTrash
                         className="deleteCartItemIcon"
                         onClick={() => dispatch(removeFromCart(product.id))}
@@ -379,7 +384,8 @@ const NewCart = () => {
                           )}
                         </span>
                       </div>
-                      {product.inStock > 0 ? (
+                      {product.inStock > 0 ||
+                      product.accessabilitySettingsID != 222 ? (
                         <div className="counter_box">
                           {product.inPackage > 1 ? (
                             <div className="cart_item_min_order">
@@ -405,7 +411,7 @@ const NewCart = () => {
                                   );
 
                                 if (
-                                  displayQuantity < product.inStock &&
+                                  displayQuantity < product.inStock ||
                                   product.accessabilitySettingsID != 222
                                 )
                                   return;
