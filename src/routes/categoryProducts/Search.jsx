@@ -269,7 +269,7 @@ function TypesProducts() {
                     {formatNumber(+product.price || +product.discountedPrice)} ₽
                   </div>
                 )
-              ) : product.accessabilitySettingsID != 223 ? (
+              ) : product.accessabilitySettingsID == 222 ? (
                 <div className="price">Нет в наличии</div>
               ) : inCart ? (
                 <div className="add catalog_counter">

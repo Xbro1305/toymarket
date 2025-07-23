@@ -326,6 +326,14 @@ const NewCart = () => {
                         <div className="cart_item_details">
                           Осталось {product.inStock} шт.
                         </div>
+                      )}{" "}
+                      {product.accessabilitySettingsID == 223 && (
+                        <div className="cart_item_details">Можно заказать</div>
+                      )}{" "}
+                      {product.accessabilitySettingsID == 224 && (
+                        <div className="cart_item_details">
+                          Всегда в наличии
+                        </div>
                       )}
                       <IoMdTrash
                         className="deleteCartItemIcon"
@@ -339,14 +347,11 @@ const NewCart = () => {
                         </span>
                         <span className="cart_item_discount">
                           <span>
-                            {product.accessabilitySettingsID == 223
-                              ? product?.prepayAmount
-                              : formatNumber(
-                                  displayQuantity >=
-                                    product.recomendedMinimalSize
-                                    ? product?.discountedPrice || product?.price
-                                    : product?.price
-                                )}{" "}
+                            {formatNumber(
+                              displayQuantity >= product.recomendedMinimalSize
+                                ? product?.discountedPrice || product?.price
+                                : product?.price
+                            )}{" "}
                             ₽
                           </span>
                           {product.accessabilitySettingsID == 223 ? (
@@ -411,7 +416,7 @@ const NewCart = () => {
                                   );
 
                                 if (
-                                  displayQuantity < product.inStock ||
+                                  displayQuantity > product.inStock ||
                                   product.accessabilitySettingsID != 222
                                 )
                                   return;
@@ -683,7 +688,8 @@ const NewCart = () => {
               selectedItems.length == 0 && "hidden"
             }`}
           >
-            <button
+            <a
+              href="#title"
               onClick={() => {
                 setOpenTotalBlock(true);
                 window.scrollTo(0, 0);
@@ -691,7 +697,7 @@ const NewCart = () => {
             >
               <span>К оформлению</span>
               <p>на {formatNumber(totalPrice)} ₽</p>
-            </button>
+            </a>
           </div>
         )}
       </div>

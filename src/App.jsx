@@ -20,7 +20,7 @@ import BySubcategories from "./routes/categoryProducts/BySubcategoriyes";
 import { useLocation } from "react-router-dom";
 import { NotFound } from "./routes/NotFound/NotFound";
 import BrandProducts from "./routes/categoryProducts/BrandProducts";
-
+import { HelmetProvider } from "react-helmet-async";
 
 function App() {
   const dispatch = useDispatch();
@@ -68,28 +68,30 @@ function App() {
 
   return (
     <div className="app">
-      <Toaster />
+      <HelmetProvider>
+        <Toaster />
 
-      {!isAuthPage && <Header />}
-      {/* <Header /> */}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/item/:productTypeID/:id" element={<SinglePage />} />
-        <Route path="/cart" element={<NewCart />} />
-        <Route path="/orders" element={<Order />} />
-        <Route path="/orderInfo/:id" element={<OrderInfo />} />
-        <Route path="/cat/:id" element={<CategoryProducts />} />
-        <Route path="/type/:id" element={<TypesProducts />} />
-        <Route path="/subcat/:id" element={<BySubcategories />} />
-        <Route path="/brand/:id" element={<BrandProducts />} />
+        {!isAuthPage && <Header />}
+        {/* <Header /> */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/item/:productTypeID/:id" element={<SinglePage />} />
+          <Route path="/cart" element={<NewCart />} />
+          <Route path="/orders" element={<Order />} />
+          <Route path="/orderInfo/:id" element={<OrderInfo />} />
+          <Route path="/cat/:id" element={<CategoryProducts />} />
+          <Route path="/type/:id" element={<TypesProducts />} />
+          <Route path="/subcat/:id" element={<BySubcategories />} />
+          <Route path="/brand/:id" element={<BrandProducts />} />
 
-        <Route path="/search" element={<Search />} />
-        <Route path="/new" element={<News />} />
-        <Route path="/auth" element={<AuthTelegram />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      {!isAuthPage && <Footer />}
-      {/* <Footer /> */}
+          <Route path="/search" element={<Search />} />
+          <Route path="/new" element={<News />} />
+          <Route path="/auth" element={<AuthTelegram />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        {!isAuthPage && <Footer />}
+        {/* <Footer /> */}
+      </HelmetProvider>
     </div>
   );
 }

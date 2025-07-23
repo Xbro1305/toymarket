@@ -45,7 +45,7 @@ function CategoryProducts() {
   const limit = 20;
 
   const fetchMoreData = () => {
-    if (filteredProducts.length < 200) {
+    if (hasMore) {
       setOffset(offset + 20);
     } else {
       setHasMore(false);
@@ -108,6 +108,13 @@ function CategoryProducts() {
       setTotalData(updatedTotalData);
       setProducts(updatedTotalData);
       setFilteredProducts(updatedTotalData);
+
+      if (
+        products1.length < 20 ||
+        updatedTotalData.length + products1.length >= 200
+      ) {
+        setHasMore(false);
+      }
     };
 
     fetchProducts();
@@ -229,7 +236,7 @@ function CategoryProducts() {
         dataLength={filteredProducts.length}
         next={fetchMoreData}
         hasMore={hasMore}
-        loader={<p className="noMore">Загрузка...</p>}
+        // loader={<p className="noMore">Загрузка...</p>}
         endMessage={<p className="noMore">Других товаров нет!</p>}
       >
         <div className="catalogItem_cards">
@@ -316,7 +323,7 @@ function CategoryProducts() {
                       ₽
                     </div>
                   )
-                ) : product.accessabilitySettingsID != 223 ? (
+                ) : product.accessabilitySettingsID == 222 ? (
                   <div className="price">Нет в наличии</div>
                 ) : inCart ? (
                   <div className="add catalog_counter">

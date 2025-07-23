@@ -12,7 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import { IoCopyOutline, IoPaperPlaneOutline } from "react-icons/io5";
-
+import { Helmet } from "react-helmet-async";
 import arrowIcon from "../../img/arrow-right.svg";
 import notFound from "../../img/404-page-not-found.svg";
 import wildberries from "./icons/wb.png";
@@ -112,7 +112,11 @@ function SinglePage() {
         //   .map((item) => item.article.slice(-2))
         //   .filter((item) => item !== "")
         products
-          ?.filter((i) => product?.textColor === i.textColor)
+          ?.filter(
+            (i) =>
+              product?.textColor === i.textColor &&
+              i.modelID === product?.modelID
+          )
           .map((item) => item.article.slice(-2))
           .filter((item) => item !== "")
       )
@@ -224,8 +228,31 @@ function SinglePage() {
       </div>
     );
 
+  const cleanDescription = product.description
+    .replace(/<[^>]+>/g, "")
+    .replace(/•/g, "-");
+  const shortDescription = cleanDescription.slice(0, 160) + "...";
+  const imageUrl = `https://shop-api.toyseller.site/api/image/${product?.id}/${product?.photo}`;
+  const pageUrl = `https://shop-api.toyseller.site/api/image/${product?.id}/${product?.photo}`;
+
   return (
     <div className="container singlepage">
+      <Helmet>
+        <title>{product.name}</title>
+
+        {/* Open Graph */}
+        <meta property="og:title" content={product.name} />
+        <meta property="og:description" content={cleanDescription} />
+        <meta property="og:image" content={imageUrl} />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:type" content="product" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={product.name} />
+        <meta name="twitter:description" content={shortDescription} />
+        <meta name="twitter:image" content={imageUrl} />
+      </Helmet>
       <div className="caption top">
         <div className="caption-box">
           <Link to={"/cat/" + product?.categoryID}>
@@ -262,9 +289,11 @@ function SinglePage() {
             className="copy_article"
             onClick={() => {
               const url = encodeURIComponent(window.location.href);
-              const text = encodeURIComponent("Привет, посмотри, что я нашел");
+              const text = encodeURIComponent(
+                product?.name || "Привет, посмотри, что я нашел"
+              );
               window.open(
-                `https://t.me/share/url?url=${url}&text=${text}`,
+                `https://t.me/share/url?text=${text}&url=${url}`,
                 "_blank"
               );
             }}
@@ -527,12 +556,12 @@ function SinglePage() {
 
                   <SpecRow
                     label="Предоплата"
-                    value={product?.prepayPercent || "-"}
+                    value={`${product?.prepayPercent} %` || "-"}
                   />
 
                   <SpecRow
                     label="Размер предоплаты"
-                    value={product?.prepayAmount + " ₽" || "-"}
+                    value={`${product?.prepayAmount} ₽` || "-"}
                   />
 
                   <SpecRow
@@ -584,18 +613,6 @@ function SinglePage() {
                       : product.discountedPrice
                   )}
                   ₽
-                  {product?.price != "" &&
-                    product?.discountedPrice != "" &&
-                    product.recomendedMinimalSize == 1 && (
-                      <>
-                        <span className="old-price">
-                          {formatNumber(product.price)} ₽
-                        </span>
-                        <span className="percent">
-                          {formatNumber(discount)} %
-                        </span>
-                      </>
-                    )}
                   {inCart &&
                     product?.price != "" &&
                     product?.discountedPrice != "" &&
@@ -822,10 +839,10 @@ function SinglePage() {
                 onClick={() => {
                   const url = encodeURIComponent(window.location.href);
                   const text = encodeURIComponent(
-                    "Привет, посмотри, что я нашел"
+                    product?.name || "Привет, посмотри, что я нашел"
                   );
                   window.open(
-                    `https://t.me/share/url?url=${url}&text=${text}`,
+                    `https://t.me/share/url?text=${text}&url=${url}`,
                     "_blank"
                   );
                 }}

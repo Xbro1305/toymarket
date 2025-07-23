@@ -226,7 +226,7 @@ function BySubcategories() {
           dataLength={filteredProducts.length}
           next={fetchMoreData}
           hasMore={hasMore}
-          loader={<p className="noMore">Загрузка...</p>}
+          // loader={<p className="noMore">Загрузка...</p>}
           endMessage={<p className="noMore">Других товаров нет!</p>}
         >
           <div className="catalogItem_cards">
@@ -315,7 +315,7 @@ function BySubcategories() {
                         ₽
                       </div>
                     )
-                  ) : product.accessabilitySettingsID != 223 ? (
+                  ) : product.accessabilitySettingsID == 222 ? (
                     <div className="price">Нет в наличии</div>
                   ) : inCart ? (
                     <div className="add catalog_counter">
