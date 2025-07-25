@@ -397,7 +397,7 @@ const NewCart = () => {
                         <div className="counter_box">
                           {product.inPackage > 1 ? (
                             <div className="cart_item_min_order">
-                              Мин. заказ от {product.inPackage} шт.
+                             Фасовка по {product.inPackage} шт.
                             </div>
                           ) : (
                             <div className="cart_item_min_order">&nbsp;</div>
