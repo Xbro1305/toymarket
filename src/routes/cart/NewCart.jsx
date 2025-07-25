@@ -267,7 +267,10 @@ const NewCart = () => {
               <span>Очистить корзину</span> <IoMdTrash />
             </button>
           </div>
-          <div className="card-block-list">
+          <div
+            className="card-block-list"
+            style={{ display: openTotalBlock ? "none" : "flex" }}
+          >
             {cart.map((product) => {
               const currentPrice =
                 product.accessabilitySettingsID != 223

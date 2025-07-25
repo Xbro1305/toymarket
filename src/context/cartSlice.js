@@ -98,8 +98,7 @@ const cartSlice = createSlice({
 
       const newQuantity = Number(item.quantity) + Number(item.inPackage || 1);
 
-
-      if (item.accessabilitySettingsID != 222) {
+      if (item.accessabilitySettingsID != 222 && newQuantity <= 100) {
         item.quantity = newQuantity;
         saveCartToStorage(state.items);
       } else {

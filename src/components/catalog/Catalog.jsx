@@ -391,7 +391,6 @@ function Catalog() {
       originalIndex: item.products[0]?.categoryID || 0,
       products: shuffleArray(
         item.products.reduce((unique, product) => {
-          // if (+product.categoryID === 3) {
           if (
             !unique.some(
               (u) => u.modelID == product.modelID && u.color == product.color
@@ -399,9 +398,6 @@ function Catalog() {
           ) {
             unique.push(product);
           }
-          // } else {
-          //   unique.push(product);
-          // }
           return unique;
         }, [])
       ),

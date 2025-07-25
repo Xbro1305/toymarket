@@ -121,27 +121,25 @@ function SinglePage() {
       )
     );
 
-    setTimeout(() => {
-      product &&
-        products &&
-        setColors(
-          new Set(
-            Object.values(
-              products
-                ?.filter((item) => item.modelID == product?.modelID)
-                ?.reduce((acc, item) => {
-                  if (!acc[item.color]) {
-                    acc[item.color] = {
-                      color: item.color,
-                      img: `https://shop-api.toyseller.site/api/image/${item.id}/${item.photo}`,
-                    };
-                  }
-                  return acc;
-                }, {})
-            )
+    product &&
+      products &&
+      setColors(
+        new Set(
+          Object.values(
+            products
+              ?.filter((item) => item.modelID == product?.modelID)
+              ?.reduce((acc, item) => {
+                if (!acc[item.color]) {
+                  acc[item.color] = {
+                    color: item.color,
+                    img: `https://shop-api.toyseller.site/api/image/${item.id}/${item.photo}`,
+                  };
+                }
+                return acc;
+              }, {})
           )
-        );
-    }, 100);
+        )
+      );
   }, [product]);
 
   useEffect(() => {
