@@ -251,16 +251,6 @@
 }
 
 @media screen and (max-width: 550px) {
-  .product-img-link {
-    aspect-ratio: 1 / 1;
-  }
-
-  .product-image {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    margin: 0;
-  }
-
   .mark_new_product {
     top: 100%;
     transform: translateY(-100%);
