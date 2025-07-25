@@ -194,7 +194,10 @@ function TypesProducts() {
   return (
     <div className="container  categoryProducts">
       <div className="categoryProducts_title">
-        <div onClick={() => navigate(-1)} className="left">
+        <div
+          onClick={() => navigate(window.history.length > 1 ? -1 : "/")}
+          className="left"
+        >
           <BsChevronLeft />
           <span>{categoryName}</span>
         </div>

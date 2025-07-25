@@ -151,7 +151,10 @@ function TypesProducts() {
   return (
     <div className="container  categoryProducts">
       <div className="categoryProducts_title">
-        <div onClick={() => navigate(-1)} className="left">
+        <div
+          onClick={() => navigate(window.history.length > 1 ? -1 : "/")}
+          className="left"
+        >
           <BsChevronLeft />
           <span>Поиск</span>
           <span className="countOfProducts">
@@ -184,7 +187,9 @@ function TypesProducts() {
         </div>
       </div>
 
-      {isLoading && <div style={{ color: "white" }}>Загрузка...</div>}
+      {isLoading && searchQuery && (
+        <div style={{ color: "white" }}>Загрузка...</div>
+      )}
 
       <div className="catalogItem_cards">
         {filteredProducts?.map((product, inx) => {

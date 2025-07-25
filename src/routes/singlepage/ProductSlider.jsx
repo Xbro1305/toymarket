@@ -39,7 +39,7 @@ const ProductSlider = ({ product }) => {
   return (
     <div className="slider">
       <button
-        onClick={() => nav(-1 || "/")}
+        onClick={() => nav(window.history.length > 1 ? -1 : "/")}
         className="close_slide flex items-center justify-center"
       >
         <FiX />
