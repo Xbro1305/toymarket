@@ -41,7 +41,7 @@ function SinglePage() {
   const [colors, setColors] = useState(new Set());
   const [open_marketPlaces, setOpen_marketPlaces] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedModelID, setSelectedModelID] = useState(null);
+  // const [selectedModelID, setSelectedModelID] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -85,12 +85,13 @@ function SinglePage() {
               )
             )
           );
-        }, 100);
+        }, 500);
 
         setIsSizeBtn(
-          processedProducts
-            .map((item) => item.article.slice(-2))
-            .filter((item) => item !== "")[0]
+          processedProducts.find((p) => p.id === +id)?.shoeSizeName ||
+            processedProducts
+              .map((item) => item.shoeSizeName)
+              .filter((item) => item !== "")[0]
         );
 
         setIsLoading(false);
@@ -102,8 +103,6 @@ function SinglePage() {
 
     fetchData();
   }, [id]);
-
-  // console.log("product", product);
 
   useEffect(() => {
     setSizes(
@@ -117,10 +116,32 @@ function SinglePage() {
               product?.textColor === i.textColor &&
               i.modelID === product?.modelID
           )
-          .map((item) => item.article.slice(-2))
+          .map((item) => item.shoeSizeName)
           .filter((item) => item !== "")
       )
     );
+
+    setTimeout(() => {
+      product &&
+        products &&
+        setColors(
+          new Set(
+            Object.values(
+              products
+                ?.filter((item) => item.modelID == product?.modelID)
+                ?.reduce((acc, item) => {
+                  if (!acc[item.color]) {
+                    acc[item.color] = {
+                      color: item.color,
+                      img: `https://shop-api.toyseller.site/api/image/${item.id}/${item.photo}`,
+                    };
+                  }
+                  return acc;
+                }, {})
+            )
+          )
+        );
+    }, 100);
   }, [product]);
 
   useEffect(() => {
@@ -209,7 +230,7 @@ function SinglePage() {
 
   let copyFunction = () => {
     toast.success("Скопировано");
-    navigator.clipboard.writeText(product?.publicBarcode);
+    navigator.clipboard.writeText(product?.article);
   };
 
   if (isLoading)
@@ -387,7 +408,7 @@ function SinglePage() {
               <></>
             ) : ( */}
             <>
-              {product?.textColor && (
+              {product.textColor && (
                 <div className="color-box">
                   <span className="colorText">Цвет: {product?.textColor}</span>
 

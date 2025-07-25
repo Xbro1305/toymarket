@@ -683,7 +683,7 @@
     margin-top: 0;
     position: relative;
     height: 100%;
-    overflow: auto !important;
+    overflow-y: auto !important;
 
     .card-block-element {
       padding: 0;

@@ -79,15 +79,11 @@ function CategoryProducts() {
         if (!seen.has(key)) {
           seen.add(key);
 
-          if (+product.categoryID === 3) {
-            if (
-              !products.some(
-                (u) => u.modelID == product.modelID && u.color == product.color
-              )
-            ) {
-              products.push(product);
-            }
-          } else {
+          if (
+            !products.some(
+              (u) => u.modelID == product.modelID && u.color == product.color
+            )
+          ) {
             products.push(product);
           }
 
