@@ -256,13 +256,3 @@
     transform: translateY(-100%);
   }
 }
-
-@media screen and (max-width: 500px) {
-  .catalog.container {
-    padding: 0px;
-  }
-
-  .container {
-    padding: 5px;
-  }
-}
