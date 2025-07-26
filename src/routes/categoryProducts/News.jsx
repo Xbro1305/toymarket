@@ -107,7 +107,8 @@ function CategoryProducts() {
       if (
         !unique.some(
           (u) => u.modelID == product.modelID && u.color == product.color
-        )
+        ) ||
+        product.isMultiProduct
       ) {
         unique.push(product);
       }
@@ -205,7 +206,10 @@ function CategoryProducts() {
   return (
     <div className="container categoryProducts">
       <div className="categoryProducts_title">
-        <div onClick={() =>  navigate(window.history.length > 1 ? -1 : "/")} className="left">
+        <div
+          onClick={() => navigate(window.history.length > 1 ? -1 : "/")}
+          className="left"
+        >
           <BsChevronLeft />
           <span>Новинки</span>
         </div>

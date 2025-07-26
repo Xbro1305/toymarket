@@ -72,7 +72,9 @@ function SinglePage() {
             new Set(
               Object.values(
                 allProducts
-                  .filter((item) => item.modelID == modelID)
+                  .filter(
+                    (item) => item.modelID == modelID && product?.isMultiProduct
+                  )
                   .reduce((acc, item) => {
                     if (!acc[item.color]) {
                       acc[item.color] = {
@@ -114,7 +116,8 @@ function SinglePage() {
           ?.filter(
             (i) =>
               product?.textColor === i.textColor &&
-              i.modelID === product?.modelID
+              i.modelID === product?.modelID &&
+              product?.isMultiProduct
           )
           .map((item) => item.shoeSizeName)
           .filter((item) => item !== "")
@@ -127,7 +130,10 @@ function SinglePage() {
         new Set(
           Object.values(
             products
-              ?.filter((item) => item.modelID == product?.modelID)
+              ?.filter(
+                (item) =>
+                  item.modelID == product?.modelID && product?.isMultiProduct
+              )
               ?.reduce((acc, item) => {
                 if (!acc[item.color]) {
                   acc[item.color] = {
@@ -449,7 +455,7 @@ function SinglePage() {
                         0: {
                           slidesPerView: 3,
                         },
-                        421: {
+                        520: {
                           slidesPerView: 4,
                         },
                       }}

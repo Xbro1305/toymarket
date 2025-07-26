@@ -52,7 +52,7 @@ function TypesProducts() {
       const processedProducts = await allProducts.reduce((unique, product) => {
         const key = `${product.color}-${product.size}`; // Deduplicate by color and size
         const exists = unique.some((p) => `${p.color}-${p.size}` === key);
-        if (!exists) {
+        if (!exists || product.isMultiProduct) {
           unique.push(product);
         }
         return unique;
@@ -188,7 +188,17 @@ function TypesProducts() {
       </div>
 
       {isLoading && searchQuery && (
-        <div style={{ color: "white" }}>Загрузка...</div>
+        <div
+          style={{
+            color: "white",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "calc(100vh - 100px)",
+          }}
+        >
+          <img src={loader} alt="" />
+        </div>
       )}
 
       <div className="catalogItem_cards">
