@@ -52,7 +52,7 @@ function TypesProducts() {
       const processedProducts = await allProducts.reduce((unique, product) => {
         const key = `${product.color}-${product.size}`; // Deduplicate by color and size
         const exists = unique.some((p) => `${p.color}-${p.size}` === key);
-        if (!exists || product.isMultiProduct) {
+        if (!exists || product.isMultiProduct == false) {
           unique.push(product);
         }
         return unique;

@@ -99,8 +99,7 @@ function CategoryProducts() {
 
     newProducts.forEach((i) => {
       const uniqueById = temp.find((p) => p.id == i.id);
-      temp.push(i);
-      if (!uniqueById) return i;
+      if (!uniqueById) temp.push(i);
     });
 
     temp.forEach((product) => {
@@ -108,7 +107,7 @@ function CategoryProducts() {
         !unique.some(
           (u) => u.modelID == product.modelID && u.color == product.color
         ) ||
-        product.isMultiProduct
+        product.isMultiProduct == false
       ) {
         unique.push(product);
       }

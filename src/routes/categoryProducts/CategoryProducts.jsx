@@ -83,7 +83,7 @@ function CategoryProducts() {
             !products.some(
               (u) => u.modelID == product.modelID && u.color == product.color
             ) ||
-            product.isMultiProduct
+            product.isMultiProduct == false
           ) {
             products.push(product);
           }

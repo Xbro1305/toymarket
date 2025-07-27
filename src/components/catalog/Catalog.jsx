@@ -395,7 +395,7 @@ function Catalog() {
             !unique.some(
               (u) => u.modelID == product.modelID && u.color == product.color
             ) ||
-            product?.isMultiProduct
+            product?.isMultiProduct == false
           ) {
             unique.push(product);
           }

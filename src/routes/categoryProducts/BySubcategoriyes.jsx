@@ -74,7 +74,7 @@ function BySubcategories() {
             return JSON.stringify(pRest) === JSON.stringify(productRest);
           });
 
-          if (product.isMultiProduct || !isDuplicate) {
+          if (product.isMultiProduct ==false|| !isDuplicate) {
             unique.push(product);
           }
 

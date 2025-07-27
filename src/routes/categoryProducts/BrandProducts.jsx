@@ -76,22 +76,19 @@ function BrandProducts() {
             return JSON.stringify(pRest) === JSON.stringify(productRest);
           });
 
-          if (product.isMultiProduct || !isDuplicate) {
+          if (product.isMultiProduct == false || !isDuplicate) {
             unique.push(product);
           }
 
           return unique;
         }, [])
         .reduce((unique, product) => {
-          if (+product.categoryID === 3) {
-            if (
-              !unique.some(
-                (u) => u.modelID == product.modelID && u.color == product.color
-              )
-            ) {
-              unique.push(product);
-            }
-          } else {
+          if (
+            !unique.some(
+              (u) => u.modelID == product.modelID && u.color == product.color
+            ) ||
+            product.isMultiProduct == false
+          ) {
             unique.push(product);
           }
           return unique;

@@ -75,7 +75,7 @@ function TypesProducts() {
             return JSON.stringify(pRest) === JSON.stringify(productRest);
           });
 
-          if (!isDuplicate || product.isMultiProduct) {
+          if (!isDuplicate || product.isMultiProduct == false) {
             unique.push(product);
           }
 

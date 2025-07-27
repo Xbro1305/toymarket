@@ -73,7 +73,9 @@ function SinglePage() {
               Object.values(
                 allProducts
                   .filter(
-                    (item) => item.modelID == modelID && product?.isMultiProduct
+                    (item) =>
+                      item.modelID == modelID &&
+                      product?.isMultiProduct != false
                   )
                   .reduce((acc, item) => {
                     if (!acc[item.color]) {
@@ -117,7 +119,7 @@ function SinglePage() {
             (i) =>
               product?.textColor === i.textColor &&
               i.modelID === product?.modelID &&
-              product?.isMultiProduct
+              product?.isMultiProduct != false
           )
           .map((item) => item.shoeSizeName)
           .filter((item) => item !== "")
@@ -132,7 +134,8 @@ function SinglePage() {
             products
               ?.filter(
                 (item) =>
-                  item.modelID == product?.modelID && product?.isMultiProduct
+                  item.modelID == product?.modelID &&
+                  product?.isMultiProduct != false
               )
               ?.reduce((acc, item) => {
                 if (!acc[item.color]) {
