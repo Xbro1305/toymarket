@@ -60,9 +60,9 @@ function SinglePage() {
         //     parseInt(product.inStock) !== 0
         // );
         setProduct(processedProducts.find((p) => p.id === +id));
-        setProducts(processedProducts);
         const modelID = await processedProducts.find((p) => p.id === +id)
           .modelID;
+        setProducts(processedProducts.filter((i) => i.modelID == modelID));
         // setTotalSlides(
         //   product?.otherPhotos?.length + 1 + product?.review ? 1 : 0
         // );
@@ -72,11 +72,8 @@ function SinglePage() {
             new Set(
               Object.values(
                 allProducts
-                  .filter(
-                    (item) =>
-                      item.modelID == modelID &&
-                      product?.isMultiProduct != false
-                  )
+                  .filter((item) => item.modelID == modelID)
+                  .filter((item) => item.isMultiProduct)
                   .reduce((acc, item) => {
                     if (!acc[item.color]) {
                       acc[item.color] = {
@@ -89,6 +86,8 @@ function SinglePage() {
               )
             )
           );
+
+          console.log(colors);
         }, 500);
 
         setIsSizeBtn(
@@ -118,8 +117,7 @@ function SinglePage() {
           ?.filter(
             (i) =>
               product?.textColor === i.textColor &&
-              i.modelID === product?.modelID &&
-              product?.isMultiProduct != false
+              i.modelID === product?.modelID
           )
           .map((item) => item.shoeSizeName)
           .filter((item) => item !== "")
@@ -132,11 +130,7 @@ function SinglePage() {
         new Set(
           Object.values(
             products
-              ?.filter(
-                (item) =>
-                  item.modelID == product?.modelID &&
-                  product?.isMultiProduct != false
-              )
+              ?.filter((item) => item.modelID == product?.modelID)
               ?.reduce((acc, item) => {
                 if (!acc[item.color]) {
                   acc[item.color] = {
@@ -156,7 +150,7 @@ function SinglePage() {
       product?.textColor != null
         ? products
             ?.filter((i) => i.textColor == product?.textColor)
-            .find((item) => item.article.slice(-2) == isSizeBtn)
+            .find((item) => item.shoeSizeName == isSizeBtn)
         : product;
 
     setProduct(findProduct || product);
@@ -256,31 +250,8 @@ function SinglePage() {
       </div>
     );
 
-  const cleanDescription = product.description
-    .replace(/<[^>]+>/g, "")
-    .replace(/•/g, "-");
-  const shortDescription = cleanDescription.slice(0, 160) + "...";
-  const imageUrl = `https://shop-api.toyseller.site/api/image/${product?.id}/${product?.photo}`;
-  const pageUrl = `https://shop-api.toyseller.site/api/image/${product?.id}/${product?.photo}`;
-
   return (
     <div className="container singlepage">
-      <Helmet>
-        <title>{product.name}</title>
-
-        {/* Open Graph */}
-        <meta property="og:title" content={product.name} />
-        <meta property="og:description" content={cleanDescription} />
-        <meta property="og:image" content={imageUrl} />
-        <meta property="og:url" content={pageUrl} />
-        <meta property="og:type" content="product" />
-
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={product.name} />
-        <meta name="twitter:description" content={shortDescription} />
-        <meta name="twitter:image" content={imageUrl} />
-      </Helmet>
       <div className="caption top">
         <div className="caption-box">
           <Link to={"/cat/" + product?.categoryID}>
@@ -415,7 +386,7 @@ function SinglePage() {
               <></>
             ) : ( */}
             <>
-              {product.textColor && (
+              {product.textColor && product?.isMultiProduct && (
                 <div className="color-box">
                   <span className="colorText">Цвет: {product?.textColor}</span>
 
@@ -428,9 +399,11 @@ function SinglePage() {
                         }`}
                         onClick={() => {
                           setIsSizeBtn(null);
-                          setProduct(
-                            products.find((item) => item.color === color.color)
+                          const pr = products.find(
+                            (item) => item.color === color.color
                           );
+                          setProduct(pr);
+                          setIsSizeBtn(pr.shoeSizeName);
                         }}
                       >
                         <img src={color.img} alt="" />
@@ -440,7 +413,7 @@ function SinglePage() {
                 </div>
               )}
 
-              {product.shoeSizeLength && (
+              {product.shoeSizeName && (
                 <div className="shoesSizes">
                   <div className="shoesSizeTitle">
                     <h3 className="shoesSizeTitle_caption">Выберите размер:</h3>

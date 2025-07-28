@@ -50,7 +50,6 @@ function CategoryProducts() {
     const load = async () => {
       try {
         const res = await fetchNewProducts({
-          limit: PAGE_LIMIT,
           offset,
         }).unwrap();
         const data = res?.data ?? [];
