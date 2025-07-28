@@ -773,7 +773,7 @@ function SinglePage() {
                       {open_marketPlaces && (
                         <div className="marketPlaces">
                           {product?.WBAccessible === 1 && product?.WBURL ? (
-                            <Link to={product?.WBURL}>
+                            <Link target="_blank" to={product?.WBURL}>
                               <img src={wildberries} alt="" />
                               Купить на Wildberries
                             </Link>
@@ -781,7 +781,7 @@ function SinglePage() {
                             ""
                           )}
                           {product?.OzonAccessible === 1 && product?.OzonURL ? (
-                            <Link to={product?.OzonURL}>
+                            <Link target="_blank" to={product?.OzonURL}>
                               <img src={ozon} alt="" />
                               Купить на OZON
                             </Link>
@@ -790,7 +790,7 @@ function SinglePage() {
                           )}
                           {product?.AvitoAccessible === 1 &&
                           product?.AvitoURL ? (
-                            <Link to={product?.AvitoURL}>
+                            <Link target="_blank" to={product?.AvitoURL}>
                               <img src={avito} alt="" /> Купить на Авито
                             </Link>
                           ) : (
@@ -798,7 +798,7 @@ function SinglePage() {
                           )}
                           {product?.YaMarketAccessible === 1 &&
                           product?.YaMarketURL ? (
-                            <Link to={product?.YaMarketURL}>
+                            <Link target="_blank" to={product?.YaMarketURL}>
                               <img src={yandex} alt="" />
                               Купить на Яндекс Маркет
                             </Link>

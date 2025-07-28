@@ -397,7 +397,7 @@ const NewCart = () => {
                         <div className="counter_box">
                           {product.inPackage > 1 ? (
                             <div className="cart_item_min_order">
-                             Фасовка по {product.inPackage} шт.
+                              Фасовка по {product.inPackage} шт.
                             </div>
                           ) : (
                             <div className="cart_item_min_order">&nbsp;</div>
@@ -469,7 +469,7 @@ const NewCart = () => {
             <div>
               <h3>Оформление заказа</h3>
               <span>
-                {getDeclination(cart.length, ["товар", "товара", "товаров"])}
+                {getDeclination(selectedItems.length, ["SKU", "SKU", "SKU"])}
                 {" " + formatNumber(totalPrice)} ₽
               </span>
             </div>
