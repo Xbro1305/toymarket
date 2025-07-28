@@ -193,7 +193,7 @@ function BrandProducts() {
     <div className="container  categoryProducts">
       <div className="categoryProducts_title">
         <div
-          onClick={() => navigate(window.history.length > 1 ? -1 : "/")}
+          onClick={() => navigate("/")}
           className="left"
         >
           <BsChevronLeft />
