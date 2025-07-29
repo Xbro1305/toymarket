@@ -386,7 +386,7 @@ function SinglePage() {
               <></>
             ) : ( */}
             <>
-              {product.textColor && product?.isMultiProduct && (
+              {product.textColor && product?.isMultiProduct != false && (
                 <div className="color-box">
                   <span className="colorText">Цвет: {product?.textColor}</span>
 
@@ -539,10 +539,15 @@ function SinglePage() {
                     <SpecRow label="Пол" value={product.kidGender} />
                   )}
                   {/* Bu doim chiqadi, shartli emas */}
-                  {/* <SpecRow label="Возраст" value="от 10 лет" /> */}
+                  {product.minKidAge && (
+                    <SpecRow
+                      label="Возраст"
+                      value={`от ${product.minKidAge} лет`}
+                    />
+                  )}{" "}
                   {product?.shoeSizeLength && (
                     <SpecRow
-                      label="Размер"
+                      label="Длина стопы"
                       value={`${product.shoeSizeLength} мм`}
                     />
                   )}

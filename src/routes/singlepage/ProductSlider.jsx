@@ -66,7 +66,6 @@ const ProductSlider = ({ product }) => {
             className="image"
           />
         </SwiperSlide>
-
         {product?.otherPhotos?.filter(Boolean).map((slide, i) => (
           <SwiperSlide key={i}>
             <img
@@ -76,8 +75,36 @@ const ProductSlider = ({ product }) => {
             />
           </SwiperSlide>
         ))}
-
         {product?.review && (
+          <SwiperSlide>
+            <div className="iframe-wrapper relative">
+              {!iframeOverlayHidden && (
+                <div
+                  className="iframe-overlay"
+                  onClick={() => setIframeOverlayHidden(true)}
+                />
+              )}
+              <div
+                onClick={() =>
+                  setTimeout(() => setIframeOverlayHidden(false), 100)
+                }
+              >
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src={`https://www.youtube.com/embed/${getYouTubeId(
+                    product.review
+                  )}`}
+                  title="YouTube video player"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="image"
+                />
+              </div>
+            </div>
+          </SwiperSlide>
+        )}{" "}
+        {product?.rutubeReview && (
           <SwiperSlide>
             <div className="iframe-wrapper relative">
               {!iframeOverlayHidden && (

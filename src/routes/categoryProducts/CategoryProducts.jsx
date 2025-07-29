@@ -63,7 +63,7 @@ function CategoryProducts() {
     const fetchProducts = async () => {
       const { data: products1 } = await triggerGetProducts({
         id: id,
-        limit,
+        limit:100,
         offset,
       });
 
