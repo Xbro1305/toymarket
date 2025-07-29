@@ -355,7 +355,7 @@ function SinglePage() {
                 <span>за 1 шт.</span>
               </div>
               {+product?.price &&
-                product.recomendedMinimalSizeEnabled &&
+                product.recomendedMinimalSizeEnabled != false &&
                 product.recomendedMinimalSize > 1 && (
                   <>
                     {!inCart && (
