@@ -273,7 +273,7 @@ function Catalog() {
 
         // Fetch new products
         const newProductsResponse = await newProductsData({
-          limit: 9,
+          limit: 20,
           inStock: 1,
         });
         const newProducts = newProductsResponse?.data?.data || [];
@@ -303,16 +303,39 @@ function Catalog() {
           })
         );
 
-        console.log("Category Products:", categoryProducts);
-        console.log("New Products:", newProducts);
+        let products = newProducts
+          ?.reduce((unique, product) => {
+            const isDuplicate = unique.some((p) => {
+              const { _id, id, ...pRest } = p;
+              const { _id: _, id: __, ...productRest } = product;
+              return JSON.stringify(pRest) === JSON.stringify(productRest);
+            });
+
+            if (product.isMultiProduct == false || !isDuplicate) {
+              unique.push(product);
+            }
+
+            return unique;
+          }, [])
+          ?.reduce((unique, product) => {
+            if (
+              !unique.some(
+                (u) => u.modelID == product.modelID && u.color == product.color
+              ) ||
+              product.isMultiProduct == false
+            ) {
+              unique.push(product);
+            }
+            return unique;
+          }, []);
 
         const finalProducts = [
           {
             categoryName: "Новинки",
-            products: newProducts?.filter((p) => +p?.inStock !== 0),
+            products: products?.filter((p) => +p?.inStock !== 0),
           },
           ...categoryProducts,
-        ];
+        ]; 
 
         // Ma'lumotlarni keshga saqlash
         sessionStorage.setItem(
@@ -381,16 +404,16 @@ function Catalog() {
   const catalogs = useMemo(() => {
     const shuffleArray = (array) => {
       return array
-        .map((item) => ({ item, sort: Math.random() }))
-        .sort((a, b) => a.sort - b.sort)
-        .map(({ item }) => item);
+        ?.map((item) => ({ item, sort: Math.random() }))
+        ?.sort((a, b) => a.sort - b.sort)
+        ?.map(({ item }) => item);
     };
 
     return products.map((item) => ({
       ...item,
-      originalIndex: item.products[0]?.categoryID || 0,
+      originalIndex: item?.products?.[0]?.categoryID || 0,
       products: shuffleArray(
-        item.products.reduce((unique, product) => {
+        item?.products?.reduce((unique, product) => {
           if (
             !unique.some(
               (u) => u.modelID == product.modelID && u.color == product.color
@@ -416,7 +439,7 @@ function Catalog() {
     <div className="catalog container">
       {catalogs?.map(
         (item, index) =>
-          item.products.length > 0 && (
+          item?.products?.length > 0 && (
             <div key={index} className="catalogItem">
               <p
                 onClick={() =>

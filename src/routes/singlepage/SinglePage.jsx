@@ -534,15 +534,25 @@ function SinglePage() {
                   )}
                   {product?.material && (
                     <SpecRow label="Материал" value={product.material} />
+                  )}{" "}
+                  {product?.textColor && (
+                    <SpecRow label="Цвет" value={product.textColor} />
                   )}
                   {product?.kidGender && (
                     <SpecRow label="Пол" value={product.kidGender} />
                   )}
-                  {/* Bu doim chiqadi, shartli emas */}
-                  {product.minKidAge && (
+                  {(product.minKidAge || product.maxKidAge) && (
                     <SpecRow
                       label="Возраст"
-                      value={`от ${product.minKidAge} лет`}
+                      value={
+                        product.minKidAge
+                          ? product.maxKidAge
+                            ? `от ${product.minKidAge} до ${product.maxKidAge} лет`
+                            : `от ${product.minKidAge} лет`
+                          : product.maxKidAge
+                          ? `до ${product.maxKidAge} лет`
+                          : ""
+                      }
                     />
                   )}{" "}
                   {product?.shoeSizeLength && (
@@ -757,19 +767,13 @@ function SinglePage() {
                   <>
                     <p className="or_text">или</p>
                     <div className="other_marketplace">
-                      <button
-                        onClick={() =>
-                          setOpen_marketPlaces((e) =>
-                            some_marketPlaces ? !e : false
-                          )
-                        }
-                      >
+                      <button onClick={() => setOpen_marketPlaces((e) => !e)}>
                         Заказать на другом маркетплейсе{" "}
                         <img
                           style={{
                             transform: open_marketPlaces
                               ? "rotate(90deg)"
-                              : "rotate(0deg",
+                              : "rotate(0deg)",
                           }}
                           src={arrowIcon}
                           alt=""
