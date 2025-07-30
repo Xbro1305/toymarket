@@ -25,19 +25,6 @@ import { HelmetProvider } from "react-helmet-async";
 function App() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    let user = {
-      id: 996493305,
-      first_name: "Bahromjon",
-      last_name: "Abdulhayev",
-      username: "bahromjon_abdulhayev",
-      photo_url:
-        "https://t.me/i/userpic/320/nVfgAIJCi2wAIgtXWO_XkPV6MnhijbgkA-0x26KCbww.jpg",
-      auth_date: 1746269747,
-      hash: "6375b26c48865b32e33fb7345fe4dac2f66cc5ad0492a2ed06cce9cfa551b650",
-    };
-    localStorage.setItem("user", JSON.stringify(user));
-  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
