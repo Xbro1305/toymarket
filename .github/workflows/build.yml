@@ -1,0 +1,25 @@
+name: build
+
+on:
+  push:
+    branches: [ master, miniapp ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npm run build
+      - name: pack
+        run: 7z a -mx5 -r -tzip build.zip ./build/*
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build.zip
+          prerelease: false
+          draft: false
+          tag_name: ${{ github.run_id }}.${{ github.run_attempt }}
