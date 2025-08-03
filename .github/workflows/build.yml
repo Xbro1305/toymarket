@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: 20
       - run: npm install
-      - run: npm run build
+      - run: CI=false npm run build
       - name: pack
         run: 7z a -mx5 -r -tzip build.zip ./build/*
       - name: Release
