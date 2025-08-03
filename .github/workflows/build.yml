@@ -23,3 +23,4 @@ jobs:
           prerelease: false
           draft: false
           tag_name: ${{ github.run_id }}.${{ github.run_attempt }}
+          token: ${{ secrets.GITHUB_TOKEN }}
