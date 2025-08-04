@@ -16,11 +16,7 @@ jobs:
       - run: CI=false npm run build
       - name: pack
         run: 7z a -mx5 -r -tzip build.zip ./build/*
-      - name: Release
-        uses: softprops/action-gh-release@v2
+      - uses: actions/upload-artifact@v4
         with:
-          files: build.zip
-          prerelease: false
-          draft: false
-          tag_name: ${{ github.run_id }}.${{ github.run_attempt }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          name: build
+          path: build.zip
