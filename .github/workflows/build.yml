@@ -18,5 +18,5 @@ jobs:
         run: 7z a -mx5 -r -tzip build.zip ./build/*
       - uses: actions/upload-artifact@v4
         with:
-          name: build
+          name: build.zip
           path: build.zip
