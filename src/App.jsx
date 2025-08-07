@@ -25,22 +25,22 @@ import { HelmetProvider } from "react-helmet-async";
 function App() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const tg = window.Telegram.WebApp;
-    tg.ready();
-    tg.expang();
+  // useEffect(() => {
+  //   const tg = window.Telegram.WebApp;
+  //   tg.ready();
+  //   tg.expang();
 
-    const user = tg.initDataUnsafe.user;
-    localStorage.setItem("user", user);
+  //   const user = tg.initDataUnsafe.user;
+  //   localStorage.setItem("user", user);
 
-    const fetchData = async () => {
-      const userData = await getUser();
-      if (userData) {
-        dispatch(setUserInfo(userData));
-      }
-    };
-    fetchData();
-  }, []);
+  //   const fetchData = async () => {
+  //     const userData = await getUser();
+  //     if (userData) {
+  //       dispatch(setUserInfo(userData));
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
 
   const location = useLocation();
 
