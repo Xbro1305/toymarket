@@ -97,7 +97,7 @@ function App() {
       className="app"
       style={{
         minHeight: height,
-        padding,
+        paddingTop: "50px",
         boxSizing: "border-box",
       }}
     >
