@@ -46,10 +46,11 @@ const AuthTelegram = () => {
               border: "none",
               fontSize: "16px",
               color: "white",
+              cursor: "pointer",
             }}
           >
-            <BiLogoTelegram />
-            Войти как {window?.Telegram?.initDataUnsafe?.user?.first_name}
+            <BiLogoTelegram style={{ fontSize: "20px" }} />
+            Войти как {tg.initDataUnsafe.user?.first_name}
           </button>
           <p className="politic">
             Авторизовываясь на маркетплейсе Тоймаркет через сервис Telegram, Вы
