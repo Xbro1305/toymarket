@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Home from "./routes/home/Home";
@@ -10,9 +10,7 @@ import Order from "./routes/orders/Order";
 import OrderInfo from "./routes/orderInfo/OrderInfo";
 import CategoryProducts from "./routes/categoryProducts/CategoryProducts";
 import AuthTelegram from "./auth/Auth";
-// import { useDispatch } from "react-redux";
-// import { getUser } from "./api";
-// import { setUserInfo } from "./context/cartSlice";
+
 import News from "./routes/categoryProducts/News";
 import Search from "./routes/categoryProducts/Search";
 import TypesProducts from "./routes/categoryProducts/TypesProducts";
@@ -23,27 +21,6 @@ import BrandProducts from "./routes/categoryProducts/BrandProducts";
 import { HelmetProvider } from "react-helmet-async";
 
 function App() {
-  // const dispatch = useDispatch();
-  const [height, setHeight] = useState(window.innerHeight);
-  const [padding, setPadding] = useState(0);
-
-  // useEffect(() => {
-  //   const tg = window.Telegram.WebApp;
-  //   tg.ready();
-  //   tg.expang();
-
-  //   const user = tg.initDataUnsafe.user;
-  //   localStorage.setItem("user", user);
-
-  //   const fetchData = async () => {
-  //     const userData = await getUser();
-  //     if (userData) {
-  //       dispatch(setUserInfo(userData));
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
-
   const location = useLocation();
 
   const isAuthPage = location.pathname === "/auth";
@@ -67,39 +44,12 @@ function App() {
     }
   }, [isAuthPage]);
 
-  // alert(tg.isFullscreen);
-
-  useEffect(() => {
-    const adjustHeight = () => {
-      setHeight(window.innerHeight);
-
-      setPadding(
-        getComputedStyle(document.documentElement).getPropertyValue("--sat") ||
-          "env(safe-area-inset-top)"
-      );
-    };
-
-    adjustHeight();
-
-    window.addEventListener("resize", adjustHeight);
-    return () => window.removeEventListener("resize", adjustHeight);
-  }, []);
-
-  useEffect(() => {
-    const tg = window.Telegram?.WebApp;
-    if (tg?.requestFullscreen) {
-      tg.requestFullscreen();
-    }
-  }, []);
+  alert(tg.isFullscreen);
 
   return (
     <div
       className="app"
-      style={{
-        minHeight: height,
-        paddingTop: "50px",
-        boxSizing: "border-box",
-      }}
+      style={{ paddingTop: tg.isFullscreen ? "70px !important" : "0" }}
     >
       <HelmetProvider>
         <Toaster />
