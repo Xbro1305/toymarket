@@ -38,7 +38,7 @@ const AuthTelegram = () => {
             }}
           >
             <BiLogoTelegram />
-            Войти как {window.Telegram.WebAppUser.first_name}
+            Войти как {window?.Telegram?.WebAppUser?.first_name}
           </button>
           <p className="politic">
             Авторизовываясь на маркетплейсе Тоймаркет через сервис Telegram, Вы
