@@ -65,6 +65,8 @@ function App() {
     }
   }, [isAuthPage]);
 
+  alert(tg.isFullscreen);
+
   return (
     <div
       className="app"
