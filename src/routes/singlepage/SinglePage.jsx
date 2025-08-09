@@ -247,7 +247,14 @@ function SinglePage() {
       <div className="not-found">
         <img src={notFound} alt="" />
         <p>Товар не найден</p>
-        <button onClick={() => nav("/")}>Вернуться на главную</button>
+        <button
+          onClick={() => {
+            nav("/");
+            document.querySelector(".app").style.background = "#1c1c1c";
+          }}
+        >
+          Вернуться на главную
+        </button>
       </div>
     );
 
@@ -599,6 +606,8 @@ function SinglePage() {
                       onClick={() => {
                         nav(`/search`);
                         dispatch(setSearchQuery(el));
+                        document.querySelector(".app").style.background =
+                          "#1c1c1c";
                       }}
                       className="request-word"
                     >
@@ -727,9 +736,12 @@ function SinglePage() {
                   )}
 
                   <button
-                    onClick={() =>
-                      inCart ? nav("/cart") : sentToCart(product)
-                    }
+                    onClick={() => {
+                      inCart ? nav("/cart") : sentToCart(product);
+                      inCart &&
+                        (document.querySelector(".app").style.background =
+                          "#1c1c1c");
+                    }}
                     className="add-button"
                   >
                     {inCart ? (
