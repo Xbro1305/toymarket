@@ -47,9 +47,11 @@ function App() {
   const isAuthPage = location.pathname === "/auth";
 
   useEffect(() => {
-    if (window.Telegram && window.Telegram.WebApp) {
-      window.Telegram.WebApp.ready();
-      window.Telegram.WebApp.expand();
+    const tg = window.Telegram.WebApp;
+    if (window.Telegram && tg) {
+      tg.ready();
+      tg.expand();
+      tg.requestFullScreen();
     }
   }, []);
 

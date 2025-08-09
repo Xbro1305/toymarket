@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "../img/logo.png";
 import { LoginButton } from "@telegram-auth/react";
 import "./auth.css";
+import { BiLogoTelegram } from "react-icons/bi";
 
 const AuthTelegram = () => {
   const navigate = useNavigate();
@@ -21,17 +22,24 @@ const AuthTelegram = () => {
         </div>
 
         <main className="telegram-wrapper">
-          <LoginButton
-            botUsername="test_toyseller_bot"
-            buttonSize="large"
-            cornerRadius={5}
-            showAvatar={false}
-            lang="ru"
-            onAuthCallback={(data) => {
-              localStorage.setItem("user", JSON.stringify(data));
+          <button
+            onClick={() => {
+              const tg = window.Telegram.WebApp;
+              localStorage.setItem("user", JSON.stringify(tg.initDataUnsafe));
               navigate("/");
             }}
-          />
+            style={{
+              background: "#54a9eb",
+              borderRadius: "5px",
+              padding: "9px 21px",
+              display: "flex",
+              alignItems: "center",
+              gap: "13px",
+            }}
+          >
+            <BiLogoTelegram />
+            Войти как {window.Telegram.WebAppUser.first_name}
+          </button>
           <p className="politic">
             Авторизовываясь на маркетплейсе Тоймаркет через сервис Telegram, Вы
             соглашаетесь с
