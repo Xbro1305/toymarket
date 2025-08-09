@@ -49,7 +49,7 @@ function App() {
   return (
     <div
       className="app"
-      style={{ paddingTop: tg.isFullscreen ? "70px !important" : "0" }}
+      style={{ paddingTop: tg.isFullscreen ? "70px" : "0" }}
     >
       <HelmetProvider>
         <Toaster />
