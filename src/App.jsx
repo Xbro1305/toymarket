@@ -56,6 +56,8 @@ function App() {
       if (platform === "android" || platform === "ios") {
         tg.requestFullscreen();
       }
+
+      console.log(platform);
     }
   }, []);
 
