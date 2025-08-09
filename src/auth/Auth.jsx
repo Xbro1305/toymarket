@@ -27,10 +27,13 @@ const AuthTelegram = () => {
         <main className="telegram-wrapper">
           <button
             onClick={() => {
-              localStorage.setItem(
-                "user",
-                JSON.stringify(tg.initDataUnsafe.user)
-              );
+              const user = {
+                hash: tg.initDataUnsafe.hash,
+                auth_date: tg.initDataUnsafe.auth_date,
+                ...tg.initDataUnsafe.user,
+              };
+
+              localStorage.setItem("user", JSON.stringify(user));
               navigate("/");
             }}
             style={{
@@ -46,7 +49,7 @@ const AuthTelegram = () => {
             }}
           >
             <BiLogoTelegram />
-            Войти как {window?.Telegram?.user?.first_name}
+            Войти как {window?.Telegram?.initDataUnsafe?.user?.first_name}
           </button>
           <p className="politic">
             Авторизовываясь на маркетплейсе Тоймаркет через сервис Telegram, Вы
