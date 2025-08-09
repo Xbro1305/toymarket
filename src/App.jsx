@@ -73,7 +73,7 @@ function App() {
       setHeight(window.innerHeight);
       document.body.style.paddingTop =
         getComputedStyle(document.documentElement).getPropertyValue("--sat") ||
-        "env(safe-area-inset-top) !important";
+        "env(safe-area-inset-top)";
     };
 
     adjustHeight();
