@@ -51,7 +51,11 @@ function App() {
     if (window.Telegram && tg) {
       tg.ready();
       tg.expand();
-      // tg.requestFullscreen();
+      const platform = tg?.platform || "";
+
+      if (platform === "android" || platform === "ios") {
+        tg.requestFullscreen();
+      }
     }
   }, []);
 
