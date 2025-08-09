@@ -44,6 +44,7 @@ function SinglePage() {
   // const [selectedModelID, setSelectedModelID] = useState(null);
 
   useEffect(() => {
+    document.querySelector(".app").style.background = "white";
     const fetchData = async () => {
       try {
         setIsLoading(true);

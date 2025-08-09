@@ -45,7 +45,10 @@ function App() {
   }, [isAuthPage]);
 
   return (
-    <div className="app" style={{ paddingTop: tg.isFullscreen ? "70px" : "0" }}>
+    <div
+      className="app"
+      style={{ paddingTop: tg.isFullscreen ? "100px" : "0" }}
+    >
       <HelmetProvider>
         <Toaster />
 
