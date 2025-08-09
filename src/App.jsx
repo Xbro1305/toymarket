@@ -44,13 +44,8 @@ function App() {
     }
   }, [isAuthPage]);
 
-  alert(tg.isFullscreen);
-
   return (
-    <div
-      className="app"
-      style={{ paddingTop: tg.isFullscreen ? "70px" : "0" }}
-    >
+    <div className="app" style={{ paddingTop: tg.isFullscreen ? "70px" : "0" }}>
       <HelmetProvider>
         <Toaster />
 
