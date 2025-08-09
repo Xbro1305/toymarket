@@ -66,14 +66,14 @@ function App() {
     }
   }, [isAuthPage]);
 
-  alert(tg.isFullscreen);
+  // alert(tg.isFullscreen);
 
   useEffect(() => {
     const adjustHeight = () => {
       setHeight(window.innerHeight);
       document.body.style.paddingTop =
         getComputedStyle(document.documentElement).getPropertyValue("--sat") ||
-        "env(safe-area-inset-top)";
+        "env(safe-area-inset-top) !important";
     };
 
     adjustHeight();

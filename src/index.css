@@ -43,10 +43,15 @@ body {
 
 html,
 body,
-#root,
-.app {
+#root {
   margin: 0 !important;
   padding: 0 !important;
+}
+
+html,
+body,
+#root,
+.app {
   height: 100vh;
   max-height: 100vh;
   overflow-x: hidden;
