@@ -92,7 +92,12 @@ function App() {
   return (
     <div
       className="app"
-      style={{ paddingTop: tg.isFullscreen ? "50px !important" : "0" }}
+      style={{
+        minHeight: height,
+        padding:
+          "env(safe-area-inset-top) 0 env(safe-area-inset-bottom) !important",
+        boxSizing: "border-box",
+      }}
     >
       <HelmetProvider>
         <Toaster />
