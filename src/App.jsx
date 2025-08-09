@@ -51,7 +51,7 @@ function App() {
     if (window.Telegram && tg) {
       tg.ready();
       tg.expand();
-      tg.requestFullScreen();
+      tg.requestFullscreen();
     }
   }, []);
 
