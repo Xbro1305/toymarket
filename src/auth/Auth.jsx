@@ -15,7 +15,7 @@ const AuthTelegram = () => {
   }, [navigate]);
   const tg = window.Telegram.WebApp;
 
-  console.log(tg.initDataUnsafe, tg.WebAppUser);
+  console.log(tg.initDataUnsafe, tg.user);
 
   return (
     <div className="container-order-data">
@@ -27,7 +27,10 @@ const AuthTelegram = () => {
         <main className="telegram-wrapper">
           <button
             onClick={() => {
-              localStorage.setItem("user", JSON.stringify(tg.initDataUnsafe));
+              localStorage.setItem(
+                "user",
+                JSON.stringify(tg.initDataUnsafe.user)
+              );
               navigate("/");
             }}
             style={{
@@ -37,10 +40,13 @@ const AuthTelegram = () => {
               display: "flex",
               alignItems: "center",
               gap: "13px",
+              border: "none",
+              fontSize: "16px",
+              color: "white",
             }}
           >
             <BiLogoTelegram />
-            Войти как {window?.Telegram?.WebAppUser?.first_name}
+            Войти как {window?.Telegram?.user?.first_name}
           </button>
           <p className="politic">
             Авторизовываясь на маркетплейсе Тоймаркет через сервис Telegram, Вы
