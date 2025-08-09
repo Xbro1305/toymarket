@@ -45,19 +45,17 @@ function App() {
   const location = useLocation();
 
   const isAuthPage = location.pathname === "/auth";
+  const tg = window.Telegram.WebApp;
+  const platform = tg?.platform || "";
 
   useEffect(() => {
-    const tg = window.Telegram.WebApp;
     if (window.Telegram && tg) {
       tg.ready();
       tg.expand();
-      const platform = tg?.platform || "";
 
       if (platform === "android" || platform === "ios") {
         tg.requestFullscreen();
       }
-
-      console.log(platform);
     }
   }, []);
 
@@ -68,7 +66,10 @@ function App() {
   }, [isAuthPage]);
 
   return (
-    <div className="app">
+    <div
+      className="app"
+      style={{ paddingTop: tg.isFullscreen ? "150px" : "0" }}
+    >
       <HelmetProvider>
         <Toaster />
 
