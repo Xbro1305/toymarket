@@ -25,6 +25,7 @@ import { HelmetProvider } from "react-helmet-async";
 function App() {
   // const dispatch = useDispatch();
   const [height, setHeight] = useState(window.innerHeight);
+  const [padding, setPadding] = useState(0);
 
   // useEffect(() => {
   //   const tg = window.Telegram.WebApp;
@@ -71,9 +72,11 @@ function App() {
   useEffect(() => {
     const adjustHeight = () => {
       setHeight(window.innerHeight);
-      document.body.style.paddingTop =
+
+      setPadding(
         getComputedStyle(document.documentElement).getPropertyValue("--sat") ||
-        "env(safe-area-inset-top)";
+          "env(safe-area-inset-top)"
+      );
     };
 
     adjustHeight();
@@ -94,8 +97,7 @@ function App() {
       className="app"
       style={{
         minHeight: height,
-        padding:
-          "env(safe-area-inset-top) 0 env(safe-area-inset-bottom) !important",
+        padding,
         boxSizing: "border-box",
       }}
     >
