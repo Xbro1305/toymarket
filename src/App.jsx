@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { use, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Home from "./routes/home/Home";
@@ -10,9 +10,9 @@ import Order from "./routes/orders/Order";
 import OrderInfo from "./routes/orderInfo/OrderInfo";
 import CategoryProducts from "./routes/categoryProducts/CategoryProducts";
 import AuthTelegram from "./auth/Auth";
-import { useDispatch } from "react-redux";
-import { getUser } from "./api";
-import { setUserInfo } from "./context/cartSlice";
+// import { useDispatch } from "react-redux";
+// import { getUser } from "./api";
+// import { setUserInfo } from "./context/cartSlice";
 import News from "./routes/categoryProducts/News";
 import Search from "./routes/categoryProducts/Search";
 import TypesProducts from "./routes/categoryProducts/TypesProducts";
@@ -23,7 +23,8 @@ import BrandProducts from "./routes/categoryProducts/BrandProducts";
 import { HelmetProvider } from "react-helmet-async";
 
 function App() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+  const [height, setHeight] = useState(window.innerHeight);
 
   // useEffect(() => {
   //   const tg = window.Telegram.WebApp;
@@ -66,6 +67,27 @@ function App() {
   }, [isAuthPage]);
 
   alert(tg.isFullscreen);
+
+  useEffect(() => {
+    const adjustHeight = () => {
+      setHeight(window.innerHeight);
+      document.body.style.paddingTop =
+        getComputedStyle(document.documentElement).getPropertyValue("--sat") ||
+        "env(safe-area-inset-top)";
+    };
+
+    adjustHeight();
+
+    window.addEventListener("resize", adjustHeight);
+    return () => window.removeEventListener("resize", adjustHeight);
+  }, []);
+
+  useEffect(() => {
+    const tg = window.Telegram?.WebApp;
+    if (tg?.requestFullscreen) {
+      tg.requestFullscreen();
+    }
+  }, []);
 
   return (
     <div
