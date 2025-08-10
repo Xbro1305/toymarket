@@ -251,6 +251,7 @@ function SinglePage() {
           onClick={() => {
             nav("/");
             document.querySelector(".app").style.background = "#1c1c1c";
+            window.location.reload();
           }}
         >
           Вернуться на главную
@@ -608,6 +609,7 @@ function SinglePage() {
                         dispatch(setSearchQuery(el));
                         document.querySelector(".app").style.background =
                           "#1c1c1c";
+                        window.location.reload();
                       }}
                       className="request-word"
                     >
@@ -741,6 +743,7 @@ function SinglePage() {
                       inCart &&
                         (document.querySelector(".app").style.background =
                           "#1c1c1c");
+                      window.location.reload();
                     }}
                     className="add-button"
                   >

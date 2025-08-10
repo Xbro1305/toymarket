@@ -15,10 +15,15 @@ const AuthTelegram = () => {
   }, [navigate]);
   const tg = window.Telegram.WebApp;
 
+  const tgData = tg.initDataUnsafe;
+
   const user = {
-    hash: tg.initDataUnsafe.hash,
-    auth_date: tg.initDataUnsafe.auth_date,
-    ...tg.initDataUnsafe.user,
+    hash: tgData.hash,
+    auth_date: tgData.auth_date,
+    first_name: tgData.user.first_name,
+    id: tgData.user.id,
+    username: tgData.user.username,
+    photo_url: tgData.user.photo_url,
   };
 
   return (
