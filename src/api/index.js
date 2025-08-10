@@ -49,7 +49,7 @@ const getUser = async () => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      authorization: "WebApp",
+      authorization: "MiniApp",
     },
     body: JSON.stringify({
       tgUserData: user,
@@ -66,7 +66,7 @@ const newOrder = async (data) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      authorization: "WebApp",
+      authorization: "MiniApp",
     },
     body: JSON.stringify({
       tgUserData: user,
@@ -87,7 +87,7 @@ const payTBank = async (orderID) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        authorization: "WebApp",
+        authorization: "MiniApp",
       },
       body: JSON.stringify({
         tgUserData: user,
@@ -107,7 +107,7 @@ const getSingleProduct = async (id) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        authorization: "WebApp",
+        authorization: "MiniApp",
       },
     }
   );
@@ -121,7 +121,7 @@ const getCategories = async () => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      authorization: "WebApp",
+      authorization: "MiniApp",
     },
   });
   const res = await req.json();
