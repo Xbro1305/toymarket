@@ -19,6 +19,7 @@ const AuthTelegram = () => {
 
   const user = {
     hash: tgData.hash,
+    signature: tgData.signature,
     auth_date: tgData.auth_date,
     first_name: tgData.user.first_name,
     id: tgData.user.id,
