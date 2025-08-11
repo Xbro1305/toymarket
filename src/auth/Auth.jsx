@@ -18,6 +18,7 @@ const AuthTelegram = () => {
   const tgData = tg.initDataUnsafe;
 
   const user = tgData;
+  console.log(user);
 
   return (
     <div className="container-order-data">
@@ -46,7 +47,7 @@ const AuthTelegram = () => {
             }}
           >
             <BiLogoTelegram style={{ fontSize: "20px" }} />
-            Войти как {user?.first_name}
+            Войти как {user?.user.first_name}
           </button>
           <p className="politic">
             Авторизовываясь на маркетплейсе Тоймаркет через сервис Telegram, Вы
