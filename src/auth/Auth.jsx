@@ -17,15 +17,7 @@ const AuthTelegram = () => {
 
   const tgData = tg.initDataUnsafe;
 
-  const user = {
-    hash: tgData.hash,
-    signature: tgData.signature,
-    auth_date: tgData.auth_date,
-    first_name: tgData.user.first_name,
-    id: tgData.user.id,
-    username: tgData.user.username,
-    photo_url: tgData.user.photo_url,
-  };
+  const user = tgData;
 
   return (
     <div className="container-order-data">
