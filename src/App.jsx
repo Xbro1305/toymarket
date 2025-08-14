@@ -47,7 +47,7 @@ function App() {
   return (
     <div
       className="app"
-      style={{ paddingTop: "var(--tg-safe-area-inset-top)" }}
+      style={{ paddingTop: "calc(var(--tg-safe-area-inset-top) + 20px)" }}
     >
       <HelmetProvider>
         <Toaster />
