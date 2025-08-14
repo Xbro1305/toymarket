@@ -15,10 +15,9 @@ const AuthTelegram = () => {
   }, [navigate]);
   const tg = window.Telegram.WebApp;
 
-  const tgData = tg.initDataUnsafe;
+  const tgData = tg.initData;
 
-  const user = tgData;
-  console.log(user);
+  const user = tg.initDataUnsafe;
 
   return (
     <div className="container-order-data">
@@ -30,7 +29,7 @@ const AuthTelegram = () => {
         <main className="telegram-wrapper">
           <button
             onClick={() => {
-              localStorage.setItem("user", JSON.stringify(user));
+              localStorage.setItem("user", JSON.stringify(tgData));
               navigate("/");
             }}
             style={{
