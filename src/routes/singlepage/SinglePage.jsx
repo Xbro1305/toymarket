@@ -44,7 +44,6 @@ function SinglePage() {
   // const [selectedModelID, setSelectedModelID] = useState(null);
 
   useEffect(() => {
-    document.querySelector(".app").style.background = "white";
     const fetchData = async () => {
       try {
         setIsLoading(true);
@@ -251,7 +250,6 @@ function SinglePage() {
           onClick={() => {
             nav("/");
             document.querySelector(".app").style.background = "#1c1c1c";
-            window.location.reload();
           }}
         >
           Вернуться на главную
@@ -607,9 +605,6 @@ function SinglePage() {
                       onClick={() => {
                         nav(`/search`);
                         dispatch(setSearchQuery(el));
-                        document.querySelector(".app").style.background =
-                          "#1c1c1c";
-                        window.location.reload();
                       }}
                       className="request-word"
                     >
@@ -740,10 +735,6 @@ function SinglePage() {
                   <button
                     onClick={() => {
                       inCart ? nav("/cart") : sentToCart(product);
-                      inCart &&
-                        (document.querySelector(".app").style.background =
-                          "#1c1c1c");
-                      window.location.reload();
                     }}
                     className="add-button"
                   >

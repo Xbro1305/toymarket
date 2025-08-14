@@ -47,7 +47,7 @@ function App() {
   return (
     <div
       className="app"
-      style={{ paddingTop: tg.isFullscreen ? "100px" : "0" }}
+      style={{ paddingTop: "var(--tg-safe-area-inset-top)" }}
     >
       <HelmetProvider>
         <Toaster />
