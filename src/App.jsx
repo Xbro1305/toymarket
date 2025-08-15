@@ -24,27 +24,9 @@ import { HelmetProvider } from "react-helmet-async";
 
 function App() {
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   const tg = window.Telegram.WebApp;
-  //   tg.ready();
-  //   tg.expang();
-
-  //   const user = tg.initDataUnsafe.user;
-  //   localStorage.setItem("user", user);
-
-  //   const fetchData = async () => {
-  //     const userData = await getUser();
-  //     if (userData) {
-  //       dispatch(setUserInfo(userData));
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
-
   const location = useLocation();
-
   const isAuthPage = location.pathname === "/auth";
+  const token = localStorage.getItem("user");
 
   useEffect(() => {
     if (window.Telegram && window.Telegram.WebApp) {
@@ -56,6 +38,16 @@ function App() {
   useEffect(() => {
     if (!localStorage.getItem("user") && !isAuthPage) {
       window.location.href = "/auth";
+    }
+
+    if (token) {
+      const fetchData = async () => {
+        const userData = await getUser();
+        if (userData) {
+          dispatch(setUserInfo(userData));
+        }
+      };
+      fetchData();
     }
   }, [isAuthPage]);
 
