@@ -238,7 +238,7 @@ const NewCart = () => {
             <FaChevronLeft
               onClick={() => {
                 setOpenTotalBlock(false);
-                nav(-1);
+                nav("/");
               }}
             />
             <div>
