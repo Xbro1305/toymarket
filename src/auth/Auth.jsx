@@ -1,11 +1,14 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../img/logo.png";
-import { LoginButton } from "@telegram-auth/react";
 import "./auth.css";
 import { BiLogoTelegram } from "react-icons/bi";
 
 const AuthTelegram = () => {
+  const tg = window.Telegram.WebApp;
+  const tgData = tg.initData;
+  const user = tg.initDataUnsafe;
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,11 +16,6 @@ const AuthTelegram = () => {
       navigate("/");
     }
   }, [navigate]);
-  const tg = window.Telegram.WebApp;
-
-  const tgData = tg.initData;
-
-  const user = tg.initDataUnsafe;
 
   return (
     <div className="container-order-data">

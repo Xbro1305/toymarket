@@ -19,6 +19,8 @@ import { useLocation } from "react-router-dom";
 import { NotFound } from "./routes/NotFound/NotFound";
 import BrandProducts from "./routes/categoryProducts/BrandProducts";
 import { HelmetProvider } from "react-helmet-async";
+import { getUser } from "./api";
+import { useDispatch } from "react-redux";
 
 function App() {
   const location = useLocation();
@@ -26,6 +28,8 @@ function App() {
   const isAuthPage = location.pathname === "/auth";
   const tg = window.Telegram.WebApp;
   const platform = tg?.platform || "";
+  const token = localStorage.getItem("user");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (window.Telegram && tg) {
@@ -39,10 +43,18 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!localStorage.getItem("user") && !isAuthPage) {
-      window.location.href = "/auth";
+    if (!token && !isAuthPage) window.location.href = "/auth";
+
+    if (token) {
+      const fetchData = async () => {
+        const userData = await getUser();
+        if (userData) {
+          dispatch(setUserInfo(userData));
+        }
+      };
+      fetchData();
     }
-  }, [isAuthPage]);
+  }, [isAuthPage, token]);
 
   return (
     <div
