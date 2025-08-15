@@ -36,6 +36,9 @@ const SortModal = ({
           <div className="modal-header">
             <h3>Сортировка</h3>
             <button
+              style={{
+                marginTop: "calc(var(--tg-safe-area-inset-top) + 40px)",
+              }}
               className="close-button"
               onClick={() => setIsSortOpen(false)}
             >
