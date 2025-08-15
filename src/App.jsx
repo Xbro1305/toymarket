@@ -21,6 +21,7 @@ import BrandProducts from "./routes/categoryProducts/BrandProducts";
 import { HelmetProvider } from "react-helmet-async";
 import { getUser } from "./api";
 import { useDispatch } from "react-redux";
+import { setUserInfo } from "./context/cartSlice";
 
 function App() {
   const location = useLocation();
