@@ -47,7 +47,7 @@ function App() {
     if (!token && !isAuthPage) window.location.href = "/auth";
 
     if (token) {
-      if (typeof token != "string") localStorage.removeItem("user");
+      localStorage.removeItem("user");
 
       const fetchData = async () => {
         const userData = await getUser();

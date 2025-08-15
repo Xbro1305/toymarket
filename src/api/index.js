@@ -1,16 +1,30 @@
 const getProducts = async () => {
-  const req = await fetch("https://shop-api.toyseller.site/api/products");
-  const res = await req.json();
+  try {
+    const req = await fetch("https://shop-api.toyseller.site/api/products");
+    const res = await req.json();
 
-  return res.data;
+    return res.data;
+  } catch (err) {
+    if (err.status == 401) {
+      localStorage.removeItem("user");
+      window.location.href = "/auth";
+    }
+  }
 };
 const getProductsByType = async (id) => {
-  const req = await fetch(
-    "https://shop-api.toyseller.site/api/products?type=" + id
-  );
-  const res = await req.json();
+  try {
+    const req = await fetch(
+      "https://shop-api.toyseller.site/api/products?type=" + id
+    );
+    const res = await req.json();
 
-  return res.data;
+    return res.data;
+  } catch (err) {
+    if (err.status == 401) {
+      localStorage.removeItem("user");
+      window.location.href = "/auth";
+    }
+  }
 };
 const getProductsByTypeWithLimit = async (id, limit) => {
   const req = await fetch(
@@ -44,46 +58,9 @@ const getProductsBySearch = async (value) => {
 };
 
 const getUser = async () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  const req = await fetch("https://shop-api.toyseller.site/api/user/get/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: "MiniApp",
-    },
-    body: JSON.stringify({
-      tgUserData: user,
-    }),
-  });
-  const res = await req.json();
-
-  return res.data;
-};
-
-const newOrder = async (data) => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  const req = await fetch("https://shop-api.toyseller.site/api/order/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: "MiniApp",
-    },
-    body: JSON.stringify({
-      tgUserData: user,
-      ...data,
-    }),
-  });
-  const res = await req.json();
-
-  return res;
-};
-
-const payTBank = async (orderID) => {
-  const user = JSON.parse(localStorage.getItem("user"));
-
-  const req = await fetch(
-    `https://shop-api.toyseller.site/api/payment/tbank/init/`,
-    {
+  try {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const req = await fetch("https://shop-api.toyseller.site/api/user/get/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -91,13 +68,71 @@ const payTBank = async (orderID) => {
       },
       body: JSON.stringify({
         tgUserData: user,
-        orderID: orderID,
       }),
-    }
-  );
-  const res = await req.json();
+    });
+    const res = await req.json();
 
-  return res;
+    return res.data;
+  } catch (err) {
+    if (err.status == 401) {
+      localStorage.removeItem("user");
+      window.location.href = "/auth";
+    }
+  }
+};
+
+const newOrder = async (data) => {
+  try {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const req = await fetch("https://shop-api.toyseller.site/api/order/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "MiniApp",
+      },
+      body: JSON.stringify({
+        tgUserData: user,
+        ...data,
+      }),
+    });
+    const res = await req.json();
+
+    return res;
+  } catch (err) {
+    if (err.status == 401) {
+      localStorage.removeItem("user");
+      window.location.href = "/auth";
+    }
+  }
+};
+
+const payTBank = async (orderID) => {
+  try {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    const req = await fetch(
+      `https://shop-api.toyseller.site/api/payment/tbank/init/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: "MiniApp",
+        },
+        body: JSON.stringify({
+          tgUserData: user,
+          orderID: orderID,
+        }),
+      }
+    );
+    const res = await req.json();
+
+    return res;
+  } catch (err) {
+    if (err.status == 401) {
+      localStorage.removeItem("user");
+      window.location.href = "/auth";
+    }
+  }
 };
 
 const getSingleProduct = async (id) => {
