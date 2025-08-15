@@ -735,6 +735,9 @@ function SinglePage() {
                   <button
                     onClick={() => {
                       inCart ? nav("/cart") : sentToCart(product);
+                      window.Telegram.WebApp.HapticFeedback.impactOccurred(
+                        "light"
+                      );
                     }}
                     className="add-button"
                   >

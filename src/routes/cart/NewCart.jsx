@@ -701,6 +701,7 @@ const NewCart = () => {
               onClick={() => {
                 setOpenTotalBlock(true);
                 window.scrollTo(0, 0);
+                window.Telegram.WebApp.HapticFeedback.impactOccurred("light");
               }}
             >
               <span>К оформлению</span>
