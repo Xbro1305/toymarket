@@ -644,6 +644,19 @@
   }
 }
 
+@media (max-width: 1200px) {
+  .cart_right-prices {
+    .cart_item_discount {
+      margin-top: 0 !important;
+    }
+
+    .cart-item-price {
+      margin-top: 0 !important;
+      text-align: left;
+    }
+  }
+}
+
 @media screen and (max-width: 1070px) and (min-width: 769px) {
   .card-block {
     .card-block-list {
