@@ -524,7 +524,12 @@ const NewCart = () => {
                   />
                   <h3>Доступные ПВЗ:</h3>
                 </div>
-                <div className="dropdown2">
+                <div
+                  className="dropdown2"
+                  style={{
+                    paddingTop: "calc(var(--tg-safe-area-inset-top) + 40px)",
+                  }}
+                >
                   <span>Выберите пункт выдачи заказа:</span>
                   {pickupPoints.map((item, index) => {
                     if (item.pickupPointStatus) {
