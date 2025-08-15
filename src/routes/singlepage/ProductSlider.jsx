@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FiX } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -14,6 +14,9 @@ import {
   Pagination,
   Mousewheel,
 } from "swiper/modules";
+
+// ===== CSS фикс для iOS Safari =====
+import "./ProductSlider.css";
 
 function getYouTubeId(url) {
   const regExp =
@@ -32,9 +35,16 @@ const ProductSlider = ({ product }) => {
   const handleMainSwiper = (swiper) => {
     mainSwiperRef.current = swiper;
     setTimeout(() => {
-      swiper.slideToLoop(0, 0);
+      swiper.slideTo(0, 0);
     }, 0);
   };
+
+  // Хак: форс-обновление слайдера после рендера для iOS
+  useEffect(() => {
+    if (mainSwiperRef.current) {
+      mainSwiperRef.current.update();
+    }
+  }, [product]);
 
   return (
     <div className="slider">
@@ -44,11 +54,11 @@ const ProductSlider = ({ product }) => {
       >
         <FiX />
       </button>
-
+     
       <Swiper
         onSwiper={handleMainSwiper}
-        centeredSlides
         spaceBetween={0}
+        centeredSlides={false}
         navigation={false}
         thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Navigation, Thumbs, Pagination]}
@@ -58,7 +68,9 @@ const ProductSlider = ({ product }) => {
           renderCustom: (_, current, total) => `${current} / ${total}`,
         }}
         slideToClickedSlide
+        watchSlidesProgress
       >
+        {/* Главное фото */}
         <SwiperSlide>
           <img
             src={`https://shop-api.toyseller.site/api/image/${product?.id}/${product?.photo}`}
@@ -66,6 +78,8 @@ const ProductSlider = ({ product }) => {
             className="image"
           />
         </SwiperSlide>
+
+        {/* Остальные фото */}
         {product?.otherPhotos?.filter(Boolean).map((slide, i) => (
           <SwiperSlide key={i}>
             <img
@@ -75,6 +89,8 @@ const ProductSlider = ({ product }) => {
             />
           </SwiperSlide>
         ))}
+
+        {/* YouTube видео */}
         {product?.review && (
           <SwiperSlide>
             <div className="iframe-wrapper relative">
@@ -103,7 +119,9 @@ const ProductSlider = ({ product }) => {
               </div>
             </div>
           </SwiperSlide>
-        )}{" "}
+        )}
+
+        {/* RuTube видео */}
         {product?.rutubeReview && (
           <SwiperSlide>
             <div className="iframe-wrapper relative">
@@ -121,10 +139,8 @@ const ProductSlider = ({ product }) => {
                 <iframe
                   width="100%"
                   height="100%"
-                  src={`https://www.youtube.com/embed/${getYouTubeId(
-                    product.review
-                  )}`}
-                  title="YouTube video player"
+                  src={product.rutubeReview}
+                  title="RuTube video player"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                   className="image"
@@ -135,6 +151,7 @@ const ProductSlider = ({ product }) => {
         )}
       </Swiper>
 
+      {/* Слайдер превью */}
       <Swiper
         onSwiper={setThumbsSwiper}
         spaceBetween={10}
@@ -147,7 +164,7 @@ const ProductSlider = ({ product }) => {
         modules={[FreeMode, Navigation, Thumbs, Mousewheel]}
         className="mySwiper2 pt-2"
       >
-        <SwiperSlide style={{ marginRight: "10px !important" }}>
+        <SwiperSlide>
           <img
             src={`https://shop-api.toyseller.site/api/image/${product?.id}/${product?.photo}`}
             alt={`thumb-${product?.id}`}

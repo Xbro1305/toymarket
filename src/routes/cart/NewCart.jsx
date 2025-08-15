@@ -43,9 +43,6 @@ const NewCart = () => {
     email: "",
   });
 
-  let userInfo = useSelector((state) => state.cart.userInfo);
-  console.log(userInfo);
-
   const [paymentDelivered, setPaymentDelivered] = useState(true);
   const [modal1, setModal1] = useState(false);
   const [selectedPickupId, setSelectedPickupId] = useState(null);
@@ -241,7 +238,7 @@ const NewCart = () => {
             <FaChevronLeft
               onClick={() => {
                 setOpenTotalBlock(false);
-                nav(-1);
+                nav(-1 || "/");
               }}
             />
             <div>
