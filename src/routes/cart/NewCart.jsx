@@ -363,7 +363,7 @@ const NewCart = () => {
                               style={{ background: "#1fb73a" }}
                             >
                               <span>
-                                {formatNumber(product?.prepayPercent)} %
+                                {formatNumber(product?.prepayPercent || 100)} %
                               </span>
                             </span>
                           ) : product.discountedPrice &&
