@@ -660,7 +660,7 @@
 
 @media screen and (max-width: 876px) {
   .box {
-    height: 100vh !important;
+    height: calc(100vh - var(--tg-safe-area-inset-top) - 40px) !important;
   }
   .card-block {
     .card-block-list {
