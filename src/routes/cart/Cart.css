@@ -778,19 +778,10 @@
               }
 
               .cart_right-prices {
-                .cart_item_discount {
-                  margin-top: 0px;
-                  position: absolute;
-                  top: 20px;
-                  left: 0;
-                  gap: 13px;
-                }
-                .cart-item-price {
-                  margin-top: 0;
-                  position: absolute;
-                  top: 48px;
-                  left: 0;
-                }
+                display: flex;
+                flex-direction: column-reverse;
+                gap: 10px;
+                align-items: flex-start;
               }
 
               .cart_item_min_order {

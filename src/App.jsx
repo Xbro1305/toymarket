@@ -46,9 +46,9 @@ function App() {
   useEffect(() => {
     if (!token && !isAuthPage) window.location.href = "/auth";
 
-    // if (typeof token != "string") localStorage.removeItem("user");
-
     if (token) {
+      if (typeof token != "string") localStorage.removeItem("user");
+
       const fetchData = async () => {
         const userData = await getUser();
         if (userData) {
