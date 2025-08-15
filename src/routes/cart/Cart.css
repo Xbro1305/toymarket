@@ -1004,6 +1004,8 @@
 @media screen and (max-width: 500px) {
   .card-block {
     .rightBlock {
+      height: calc(100vh - var(--tg-safe-area-inset-top) - 60px);
+
       .deliveryInfo {
         padding: 23px;
       }
