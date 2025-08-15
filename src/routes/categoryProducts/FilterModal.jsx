@@ -9,7 +9,8 @@ const FilterModal = ({
   applyFilters,
   statusAccordionOpen,
   setStatusAccordionOpen,
-  statusPriceOpen, setStatusPriceOpen
+  statusPriceOpen,
+  setStatusPriceOpen,
 }) => {
   if (!isFilterOpen) return null;
 
@@ -24,6 +25,9 @@ const FilterModal = ({
           <div className="modal-header">
             <h3>Фильтр</h3>
             <button
+              style={{
+                marginTop: "calc(var(--tg-safe-area-inset-top) + 40px)",
+              }}
               className="close-button"
               onClick={() => setIsFilterOpen(false)}
             >
@@ -142,7 +146,8 @@ const FilterModal = ({
                 </div>
                 <div className="form-group">
                   <input
-                    type="number" className="formInput-fil"
+                    type="number"
+                    className="formInput-fil"
                     placeholder="До"
                     value={pendingFilters.priceTo || ""}
                     onChange={(e) =>
@@ -156,8 +161,6 @@ const FilterModal = ({
               </div>
             )}
           </div>
-
-
 
           <div className="accordion">
             <div className="accordion-header">

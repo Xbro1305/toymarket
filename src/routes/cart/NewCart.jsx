@@ -363,7 +363,7 @@ const NewCart = () => {
                               style={{ background: "#1fb73a" }}
                             >
                               <span>
-                                {formatNumber(product?.prepayPercent)} %
+                                {formatNumber(product?.prepayPercent || 100)} %
                               </span>
                             </span>
                           ) : product.discountedPrice &&
@@ -527,7 +527,7 @@ const NewCart = () => {
                 <div
                   className="dropdown2"
                   style={{
-                    paddingTop: "calc(var(--tg-safe-area-inset-top) + 40px)",
+                    marginTop: "calc(var(--tg-safe-area-inset-top) + 40px)",
                   }}
                 >
                   <span>Выберите пункт выдачи заказа:</span>

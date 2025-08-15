@@ -627,11 +627,11 @@
 
                 .cart_right-prices {
                   .cart_item_discount {
-                    margin-top: 10px;
+                    margin-top: 0 !important;
                   }
 
                   .cart-item-price {
-                    margin-top: 5px;
+                    margin-top: 0 !important;
                     text-align: left;
                   }
                 }
