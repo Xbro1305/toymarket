@@ -453,7 +453,6 @@ function SinglePage() {
                             onClick={() => setIsSizeBtn(size)}
                           >
                             <span className="size-letter">{size}</span>
-                            <div className="size-description"></div>
                           </div>
                         </SwiperSlide>
                       ))}

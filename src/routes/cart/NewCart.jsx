@@ -75,14 +75,16 @@ const NewCart = () => {
   };
 
   const handleDecrement = (product) => {
-    dispatch(
-      decrementQuantity({
-        productId: product.id,
-        inBox: product.inBox,
-        inPackage: product.inPackage,
-        inTheBox: product.inTheBox,
-      })
-    );
+    product.quantity <= 1
+      ? setSelectedItems(selectedItems.filter((item) => item.id !== product.id))
+      : dispatch(
+          decrementQuantity({
+            productId: product.id,
+            inBox: product.inBox,
+            inPackage: product.inPackage,
+            inTheBox: product.inTheBox,
+          })
+        );
   };
 
   const getCurrentPrice = (product) => {
