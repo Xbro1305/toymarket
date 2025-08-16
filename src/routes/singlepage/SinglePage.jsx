@@ -289,7 +289,7 @@ function SinglePage() {
             onClick={() => {
               const url = encodeURIComponent(window.location.href);
               const text = encodeURIComponent(
-                product?.name || "Привет, посмотри, что я нашел"
+                product?.name || "Привет, посмотри, что продают"
               );
               window.open(
                 `https://t.me/share/url?text=${text}&url=${url}`,
@@ -849,7 +849,7 @@ function SinglePage() {
                 onClick={() => {
                   const url = encodeURIComponent(window.location.href);
                   const text = encodeURIComponent(
-                    product?.name || "Привет, посмотри, что я нашел"
+                    product?.name || "Привет, посмотри, что продают"
                   );
                   window.open(
                     `https://t.me/share/url?text=${text}&url=${url}`,
