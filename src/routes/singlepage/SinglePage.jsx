@@ -59,9 +59,12 @@ function SinglePage() {
         //     product.inStock &&
         //     parseInt(product.inStock) !== 0
         // );
-        setProduct(processedProducts.find((p) => p.id === +id));
-        const modelID = await processedProducts.find((p) => p.id === +id)
-          .modelID;
+        const pr = processedProducts.find((p) => p.id === +id);
+        setProduct(pr);
+        const modelID = await pr.modelID;
+
+        document.title = pr?.name | "TOYMARKET - маркетплейс детских товаров.";
+
         setProducts(processedProducts.filter((i) => i.modelID == modelID));
         // setTotalSlides(
         //   product?.otherPhotos?.length + 1 + product?.review ? 1 : 0
