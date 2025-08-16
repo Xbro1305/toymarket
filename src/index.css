@@ -27,8 +27,8 @@ button {
   display: none;
 }
 
-._rht_toaster {
-  padding-top: calc(var(--tg-safe-area-inset-top) + 40px);
+#_rht_toaster {
+  padding-top: calc(var(--tg-safe-area-inset-top) + 40px) !important;
 }
 
 .active {
