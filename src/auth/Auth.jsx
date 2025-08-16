@@ -44,7 +44,7 @@ const AuthTelegram = () => {
             }}
           >
             <BiLogoTelegram style={{ fontSize: "20px" }} />
-            Войти как {user?.user.first_name}
+            Войти как {user?.user?.first_name}
           </button>
           <p className="politic">
             Авторизовываясь на маркетплейсе Тоймаркет через сервис Telegram, Вы

@@ -525,7 +525,7 @@ const NewCart = () => {
                   <h3>Доступные ПВЗ:</h3>
                 </div>
                 <div
-                  className="dropdown2"
+                  className="pvz "
                   style={{
                     marginTop: "calc(var(--tg-safe-area-inset-top) + 40px)",
                   }}

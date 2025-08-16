@@ -365,9 +365,13 @@
       }
 
       .cartmodal1 {
+        display: flex;
+        flex-direction: column;
+        padding-top: calc(var(--tg-safe-area-inset-top) + 40px) !important;
         .modal1_header {
           display: none;
         }
+
         .address_item {
           margin-top: 10px;
           transition: background 0.2s, color 0.2s;
@@ -376,6 +380,22 @@
             font-size: 14px;
             color: #7d7d7d;
           }
+        }
+
+        .pvz {
+          display: flex;
+          flex-direction: column;
+          height: fit-content;
+          width: auto;
+          z-index: 15;
+          background: #363636;
+          color: #fff;
+          padding: 30px 20px;
+          display: flex;
+          gap: 10px;
+          border-radius: 8px;
+          right: 12px;
+          min-width: 300px;
         }
       }
 
@@ -856,12 +876,6 @@
 
           .modal1_header {
             display: flex;
-          }
-
-          .dropdown2 {
-            left: 50%;
-            top: 15%;
-            width: 96%;
           }
         }
       }
