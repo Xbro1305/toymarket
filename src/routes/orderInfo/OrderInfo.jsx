@@ -202,7 +202,7 @@ function OrderInfo() {
             <IoCopyOutline /> {singleOrder.orderId}
           </p>
           <div className="qr_box">
-            <img src="" alt="" />
+            <img src={qrUrl} alt="" />
           </div>
           <p>Сообщите этот код сотруднику пункта выдачи заказа.</p>
         </div>

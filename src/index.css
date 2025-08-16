@@ -27,6 +27,10 @@ button {
   display: none;
 }
 
+._rht_toaster {
+  padding-top: calc(var(--tg-safe-area-inset-top) + 40px);
+}
+
 .active {
   background-color: #363636;
   color: #ffffff;
