@@ -586,7 +586,7 @@
   max-height: none;
 
   @media (max-width: 768px) {
-    height: auto !important;
+    height: 100vh !important;
   }
 }
 
