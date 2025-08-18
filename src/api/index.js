@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 const getProducts = async () => {
   try {
     const req = await fetch("https://shop-api.toyseller.site/api/products");
