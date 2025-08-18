@@ -194,7 +194,7 @@ const NewCart = () => {
 
     try {
       const orderData = await newOrder(order);
-      if (orderData && deliveryData !== "pickup") {
+      if (orderData && (paymentDelivered || deliveryData !== "pickup")) {
         const bankResponse = await payTBank(orderData.orderID);
         window.location.href = bankResponse?.url;
       } else {
