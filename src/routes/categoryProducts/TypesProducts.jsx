@@ -14,6 +14,7 @@ import SortModal from "./SortModal";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { setSearchQuery } from "../../context/searchSlice";
 import noImg from "../../img/no_img.png";
+import { useGoBackOrHome } from "../../utils/goBackOrHome";
 
 function TypesProducts() {
   const dispatch = useDispatch();

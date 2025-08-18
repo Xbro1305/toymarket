@@ -15,6 +15,7 @@ import { getDeclination } from "../../utils/getDeclination";
 import { setSearchQuery } from "../../context/searchSlice";
 import loader from "../../components/catalog/loader1.svg";
 import noImg from "../../img/no_img.png";
+import { useGoBackOrHome } from "../../utils/goBackOrHome";
 
 function TypesProducts() {
   const dispatch = useDispatch();
