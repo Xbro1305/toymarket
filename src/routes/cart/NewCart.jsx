@@ -184,7 +184,7 @@ const NewCart = () => {
         : data.address,
       delivery: state ? "Самовывоз" : "Курьером",
       pickupPoint: selectedPickupId,
-      payBy: state ? "Наличными" : "Картой",
+      payBy: !paymentDelivered ? "Наличными" : "Картой",
       products: basket?.map((product) => ({
         id: product.id,
         name: product.article,
@@ -196,7 +196,7 @@ const NewCart = () => {
 
     try {
       const orderData = await newOrder(order);
-      if (orderData && deliveryData !== "pickup") {
+      if (orderData && (deliveryData !== "pickup" || paymentDelivered)) {
         const bankResponse = await payTBank(orderData.orderID);
         window.location.href = bankResponse?.url;
       } else {
