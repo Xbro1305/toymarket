@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 const getProducts = async () => {
   const req = await fetch("https://shop-api.toyseller.site/api/products");
   const res = await req.json();
@@ -44,20 +46,29 @@ const getProductsBySearch = async (value) => {
 };
 
 const getUser = async () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  const req = await fetch("https://shop-api.toyseller.site/api/user/get/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: "WebApp",
-    },
-    body: JSON.stringify({
-      tgUserData: user,
-    }),
-  });
-  const res = await req.json();
+  try {
+    const user = JSON.parse(localStorage.getItem("user"));
 
-  return res.data;
+    const req = await fetch("https://shop-api.toyseller.site/api/user/get/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "WebApp",
+      },
+      body: JSON.stringify({
+        tgUserData: user,
+      }),
+    });
+
+    const res = await req.json();
+
+    return res.data;
+  } catch (err) {
+    toast.error("Не удалось войти в систему, попробуйте снова.");
+    localStorage.removeItem("user");
+    window.location.href = "/auth";
+    return null;
+  }
 };
 
 const newOrder = async (data) => {
