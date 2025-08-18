@@ -231,6 +231,7 @@ import {
   useLazyGetNewProductsLazyQuery,
   useLazyGetProductsByTypeWithLimitQuery,
 } from "../../context/service/productsApi";
+import noImg from "../../img/no_img.png";
 import { LuChevronRight } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
 import formatNumber from "../../utils/numberFormat";
@@ -335,7 +336,7 @@ function Catalog() {
             products: products?.filter((p) => +p?.inStock !== 0),
           },
           ...categoryProducts,
-        ]; 
+        ];
 
         // Ma'lumotlarni keshga saqlash
         sessionStorage.setItem(
@@ -492,6 +493,9 @@ function Catalog() {
                               alt={product.article}
                               // className="picture"
                               className={`product-image`}
+                              onError={(e) => {
+                                e.currentTarget.src = noImg;
+                              }}
                             />
                             {product.isNew === 1 ? (
                               <div className="mark_new_product">
@@ -561,7 +565,9 @@ function Catalog() {
                               </div>
                             )
                           ) : product.accessabilitySettingsID != 223 ? (
-                            <div className="price notInStock">Нет в наличии</div>
+                            <div className="price notInStock">
+                              Нет в наличии
+                            </div>
                           ) : inCart ? (
                             <div className="add catalog_counter">
                               <FiMinus

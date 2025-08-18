@@ -13,6 +13,7 @@ import "./CategoryProducts.css";
 import SortModal from "./SortModal";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { setSearchQuery } from "../../context/searchSlice";
+import noImg from "../../img/no_img.png";
 import { useGoBackOrHome } from "../../utils/goBackOrHome";
 
 function TypesProducts() {
@@ -253,6 +254,9 @@ function TypesProducts() {
                       src={`https://shop-api.toyseller.site/api/image/${product.id}/${product.image}`}
                       alt={product.article}
                       // className="picture"
+                      onError={(e) => {
+                        e.currentTarget.src = noImg;
+                      }}
                       className={`product-image`}
                     />
                     {product.isNew === 1 ? (

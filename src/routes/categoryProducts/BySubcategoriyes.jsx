@@ -12,6 +12,7 @@ import { BsChevronLeft } from "react-icons/bs";
 import "./CategoryProducts.css";
 import SortModal from "./SortModal";
 import InfiniteScroll from "react-infinite-scroll-component";
+import noImg from "../../img/no_img.png";
 import { useGoBackOrHome } from "../../utils/goBackOrHome";
 
 function BySubcategories() {
@@ -252,6 +253,9 @@ function BySubcategories() {
                       alt={product.article}
                       // className="picture"
                       className={`product-image`}
+                      onError={(e) => {
+                        e.currentTarget.src = noImg;
+                      }}
                     />
                     {product.isNew === 1 ? (
                       <div className="mark_new_product">

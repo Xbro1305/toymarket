@@ -14,6 +14,7 @@ import SortModal from "./SortModal";
 import { getDeclination } from "../../utils/getDeclination";
 import { setSearchQuery } from "../../context/searchSlice";
 import loader from "../../components/catalog/loader1.svg";
+import noImg from "../../img/no_img.png";
 import { useGoBackOrHome } from "../../utils/goBackOrHome";
 
 function TypesProducts() {
@@ -223,6 +224,9 @@ function TypesProducts() {
                   alt={product.article}
                   // className="picture"
                   className={`product-image`}
+                  onError={(e) => {
+                    e.currentTarget.src = noImg;
+                  }}
                 />
                 {product.isNew === 1 ? (
                   <div className="mark_new_product">

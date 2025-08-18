@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import noImg from "../../img/no_img.png";
 import {
   clearCart,
   removeFromCart,
