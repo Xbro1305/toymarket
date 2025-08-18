@@ -182,7 +182,7 @@ const NewCart = () => {
         : data.address,
       delivery: state ? "Самовывоз" : "Курьером",
       pickupPoint: selectedPickupId,
-      payBy: state ? "Наличными" : "Картой",
+      payBy: !paymentDelivered ? "Наличными" : "Картой",
       products: basket?.map((product) => ({
         id: product.id,
         name: product.article,
