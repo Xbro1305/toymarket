@@ -13,6 +13,7 @@ import "./CategoryProducts.css";
 import SortModal from "./SortModal";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { setSearchQuery } from "../../context/searchSlice";
+import noImg from "../../img/no_img.png";
 
 function TypesProducts() {
   const dispatch = useDispatch();
@@ -253,6 +254,9 @@ function TypesProducts() {
                       alt={product.article}
                       // className="picture"
                       className={`product-image`}
+                      onError={(e) => {
+                        e.currentTarget.src = noImg;
+                      }}
                     />
                     {product.isNew === 1 ? (
                       <div className="mark_new_product">

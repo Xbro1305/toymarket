@@ -14,6 +14,7 @@ import { FaChevronLeft } from "react-icons/fa6";
 import { useLazyGetProductsByIdQuery } from "../../context/service/productsApi";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../context/cartSlice";
+import noImg from "../../img/no_img.png";
 import { useGoBackOrHome } from "../../utils/goBackOrHome";
 
 function OrderInfo() {
@@ -224,6 +225,9 @@ function OrderInfo() {
                   <img
                     src={`https://shop-api.toyseller.site/api/image/${product.productID}/${product.image}`}
                     alt="picture"
+                    onError={(e) => {
+                      e.currentTarget.src = noImg;
+                    }}
                   />
                 </div>
                 <div className="cart-item-data">

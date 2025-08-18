@@ -12,6 +12,7 @@ import { BsChevronLeft } from "react-icons/bs";
 import SortModal from "./SortModal";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useGoBackOrHome } from "../../utils/goBackOrHome";
+import noImg from "../../img/no_img.png";
 
 const PAGE_LIMIT = 20;
 
@@ -262,6 +263,9 @@ function CategoryProducts() {
                       imgLoaded ? "loaded" : "loading"
                     }`}
                     onLoad={() => onImageLoad(product.id)}
+                    onError={(e) => {
+                      e.currentTarget.src = noImg;
+                    }}
                   />
 
                   <div className="mark_new_product">

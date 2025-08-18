@@ -16,7 +16,7 @@ import { Checkbox, message } from "antd";
 import { IoCopyOutline } from "react-icons/io5";
 import { Switch } from "antd";
 import toast from "react-hot-toast";
-
+import noImg from "../../img/no_img.png";
 import { newOrder, payTBank } from "../../api/index";
 import { setCart, setUserInfo } from "../../context/cartSlice";
 import { FaChevronLeft } from "react-icons/fa6";
@@ -307,6 +307,9 @@ const NewCart = () => {
                     <img
                       src={`https://shop-api.toyseller.site/api/image/${product.id}/${product.image}`}
                       alt="product"
+                      onError={(e) => {
+                        e.currentTarget.src = noImg;
+                      }}
                     />
                   </div>
                   <div className="cart-item-data">

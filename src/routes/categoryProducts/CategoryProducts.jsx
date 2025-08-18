@@ -13,6 +13,8 @@ import { BsChevronLeft } from "react-icons/bs";
 import SortModal from "./SortModal";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useGoBackOrHome } from "../../utils/goBackOrHome";
+import noImg from "../../img/no_img.png";
+
 
 function CategoryProducts() {
   const dispatch = useDispatch();
@@ -257,6 +259,9 @@ function CategoryProducts() {
                   <img
                     src={`https://shop-api.toyseller.site/api/image/${product.id}/${product.image}`}
                     alt={product.article}
+                    onError={(e) => {
+                      e.currentTarget.src = noImg;
+                    }}
                     // className="picture"
                     className={`product-image`}
                   />

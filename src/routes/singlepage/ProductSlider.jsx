@@ -15,6 +15,7 @@ import {
   Mousewheel,
 } from "swiper/modules";
 import { useGoBackOrHome } from "../../utils/goBackOrHome";
+import noImg from "../../img/no_img.png";
 
 function getYouTubeId(url) {
   const regExp =
@@ -67,6 +68,9 @@ const ProductSlider = ({ product }) => {
             src={`https://shop-api.toyseller.site/api/image/${product?.id}/${product?.photo}`}
             alt={`image-${product?.id}`}
             className="image"
+            onError={(e) => {
+              e.currentTarget.src = noImg;
+            }}
           />
         </SwiperSlide>
         {product?.otherPhotos?.filter(Boolean).map((slide, i) => (
@@ -75,6 +79,9 @@ const ProductSlider = ({ product }) => {
               src={`https://shop-api.toyseller.site/api/product_other_image/${product?.id}/${slide}`}
               alt={`image-${product?.id}-${i}`}
               className="image"
+              onError={(e) => {
+                e.currentTarget.src = noImg;
+              }}
             />
           </SwiperSlide>
         ))}
@@ -155,6 +162,9 @@ const ProductSlider = ({ product }) => {
             src={`https://shop-api.toyseller.site/api/image/${product?.id}/${product?.photo}`}
             alt={`thumb-${product?.id}`}
             className="image"
+            onError={(e) => {
+              e.currentTarget.src = noImg;
+            }}
           />
         </SwiperSlide>
 
@@ -164,6 +174,9 @@ const ProductSlider = ({ product }) => {
               src={`https://shop-api.toyseller.site/api/product_other_image/${product?.id}/${slide}`}
               alt={`thumb-${product?.id}-${i}`}
               className="image"
+              onError={(e) => {
+                e.currentTarget.src = noImg;
+              }}
             />
           </SwiperSlide>
         ))}

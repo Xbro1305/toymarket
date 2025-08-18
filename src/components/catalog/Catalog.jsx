@@ -241,6 +241,7 @@ import { decrementQuantity, incrementQuantity } from "../../context/cartSlice";
 import loader from "./loader1.svg";
 import { FreeMode } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import noImg from "../../img/no_img.png";
 
 function Catalog() {
   const nav = useNavigate();
@@ -335,7 +336,7 @@ function Catalog() {
             products: products?.filter((p) => +p?.inStock !== 0),
           },
           ...categoryProducts,
-        ]; 
+        ];
 
         // Ma'lumotlarni keshga saqlash
         sessionStorage.setItem(
@@ -490,6 +491,9 @@ function Catalog() {
                             <img
                               src={`https://shop-api.toyseller.site/api/image/${product.id}/${product.image}`}
                               alt={product.article}
+                              onError={(e) => {
+                                e.currentTarget.src = noImg;
+                              }}
                               // className="picture"
                               className={`product-image`}
                             />
