@@ -74,10 +74,10 @@ const getUser = async () => {
 
     return res.data;
   } catch (err) {
-    if (err.status == 401) {
-      localStorage.removeItem("user");
-      window.location.href = "/auth";
-    }
+    toast.error("Не удалось войти в систему, попробуйте снова.");
+    localStorage.removeItem("user");
+    window.location.href = "/auth";
+    return null;
   }
 };
 
