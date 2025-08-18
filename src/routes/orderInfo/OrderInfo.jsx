@@ -14,9 +14,11 @@ import { FaChevronLeft } from "react-icons/fa6";
 import { useLazyGetProductsByIdQuery } from "../../context/service/productsApi";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../context/cartSlice";
+import { useGoBackOrHome } from "../../utils/goBackOrHome";
 
 function OrderInfo() {
   const nav = useNavigate();
+  const back = useGoBackOrHome();
   const dispatch = useDispatch();
   let { id } = useParams();
   let userInfo = useSelector((state) => state.cart.userInfo);
@@ -140,7 +142,7 @@ function OrderInfo() {
           <div className="card-block-element-title">
             <FaChevronLeft
               onClick={() => {
-                nav("/");
+                back();
                 window.Telegram.WebApp.HapticFeedback.impactOccurred("light"); // вибрация
               }}
             />

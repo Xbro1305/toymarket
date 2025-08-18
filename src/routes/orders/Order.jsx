@@ -5,12 +5,14 @@ import { useNavigate } from "react-router-dom";
 import numberFormat from "../../utils/numberFormat";
 import { useSelector } from "react-redux";
 import { FaChevronLeft } from "react-icons/fa6";
+import { useGoBackOrHome } from "../../utils/goBackOrHome";
 
 function Order() {
   const nav = useNavigate();
   let userInfo = useSelector((state) => state.cart.userInfo);
   let ordersStory = userInfo?.orders;
-  console.log(userInfo);
+
+  const back = useGoBackOrHome();
 
   const customDate = (orderDate) => {
     let date = new Date(orderDate * 1000).toLocaleDateString("ru-RU", {
@@ -32,7 +34,7 @@ function Order() {
       <div className="card-block-element-title">
         <FaChevronLeft
           onClick={() => {
-            nav("/");
+            back();
             window?.Telegram?.WebApp?.HapticFeedback?.impactOccurred("light"); // вибрация
           }}
         />

@@ -15,8 +15,8 @@ import {
   Mousewheel,
 } from "swiper/modules";
 
-// ===== CSS фикс для iOS Safari =====
 import "./ProductSlider.css";
+import { useGoBackOrHome } from "../../utils/goBackOrHome";
 
 function getYouTubeId(url) {
   const regExp =
@@ -26,7 +26,7 @@ function getYouTubeId(url) {
 }
 
 const ProductSlider = ({ product }) => {
-  const nav = useNavigate();
+  const goBackOrHome = useGoBackOrHome();
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [iframeOverlayHidden, setIframeOverlayHidden] = useState(false);
 
@@ -39,7 +39,6 @@ const ProductSlider = ({ product }) => {
     }, 0);
   };
 
-  // Хак: форс-обновление слайдера после рендера для iOS
   useEffect(() => {
     if (mainSwiperRef.current) {
       mainSwiperRef.current.update();
@@ -49,12 +48,12 @@ const ProductSlider = ({ product }) => {
   return (
     <div className="slider">
       <button
-        onClick={() => nav("/")}
+        onClick={goBackOrHome}
         className="close_slide flex items-center justify-center"
       >
         <FiX />
       </button>
-     
+
       <Swiper
         onSwiper={handleMainSwiper}
         spaceBetween={0}

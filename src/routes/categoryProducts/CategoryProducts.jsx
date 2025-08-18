@@ -12,6 +12,7 @@ import FilterModal from "./FilterModal";
 import { BsChevronLeft } from "react-icons/bs";
 import SortModal from "./SortModal";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useGoBackOrHome } from "../../utils/goBackOrHome";
 
 function CategoryProducts() {
   const dispatch = useDispatch();
@@ -63,7 +64,7 @@ function CategoryProducts() {
     const fetchProducts = async () => {
       const { data: products1 } = await triggerGetProducts({
         id: id,
-        limit:100,
+        limit: 100,
         offset,
       });
 
@@ -199,12 +200,12 @@ function CategoryProducts() {
       )
     );
 
-  console.log(filteredProducts);
+  const back = useGoBackOrHome();
 
   return (
     <div className="container categoryProducts">
       <div className="categoryProducts_title">
-        <div onClick={() => navigate("/")} className="left">
+        <div onClick={back} className="left">
           <BsChevronLeft />
           <span>{filteredProducts[0]?.categoryName}</span>
         </div>

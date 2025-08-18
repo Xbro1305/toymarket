@@ -11,6 +11,7 @@ import FilterModal from "./FilterModal";
 import { BsChevronLeft } from "react-icons/bs";
 import SortModal from "./SortModal";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useGoBackOrHome } from "../../utils/goBackOrHome";
 
 const PAGE_LIMIT = 20;
 
@@ -199,12 +200,13 @@ function CategoryProducts() {
       ...state,
       [id]: true,
     }));
+  const back = useGoBackOrHome();
 
   /* ============================ Разметка ============================ */
   return (
     <div className="container categoryProducts">
       <div className="categoryProducts_title">
-        <div onClick={() => navigate("/")} className="left">
+        <div onClick={back} className="left">
           <BsChevronLeft />
           <span>Новинки</span>
         </div>

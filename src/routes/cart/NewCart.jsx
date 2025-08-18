@@ -21,6 +21,7 @@ import { newOrder, payTBank } from "../../api/index";
 import { setCart, setUserInfo } from "../../context/cartSlice";
 import { FaChevronLeft } from "react-icons/fa6";
 import { useGetPickupPointsQuery } from "../../context/service/productsApi";
+import { useGoBackOrHome } from "../../utils/goBackOrHome";
 
 const NewCart = () => {
   const nav = useNavigate();
@@ -229,6 +230,8 @@ const NewCart = () => {
     }
   };
 
+  const back = useGoBackOrHome();
+
   return (
     <div className="container box">
       <div
@@ -240,7 +243,7 @@ const NewCart = () => {
             <FaChevronLeft
               onClick={() => {
                 setOpenTotalBlock(false);
-                nav("/");
+                back();
               }}
             />
             <div>

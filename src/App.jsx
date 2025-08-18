@@ -27,7 +27,7 @@ function App() {
   const location = useLocation();
 
   const isAuthPage = location.pathname === "/auth";
-  const tg = window.Telegram.WebApp;
+  const tg = window?.Telegram?.WebApp;
   const platform = tg?.platform || "";
   const token = localStorage.getItem("user");
   const dispatch = useDispatch();

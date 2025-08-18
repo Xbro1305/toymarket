@@ -14,6 +14,7 @@ import SortModal from "./SortModal";
 import { getDeclination } from "../../utils/getDeclination";
 import { setSearchQuery } from "../../context/searchSlice";
 import loader from "../../components/catalog/loader1.svg";
+import { useGoBackOrHome } from "../../utils/goBackOrHome";
 
 function TypesProducts() {
   const dispatch = useDispatch();
@@ -148,10 +149,12 @@ function TypesProducts() {
     );
   };
 
+  const back = useGoBackOrHome();
+
   return (
     <div className="container  categoryProducts">
       <div className="categoryProducts_title">
-        <div onClick={() => navigate("/")} className="left">
+        <div onClick={back} className="left">
           <BsChevronLeft />
           <span>Поиск</span>
           <span className="countOfProducts">
