@@ -234,7 +234,7 @@
   }
 }
 
-@media (max-width: 410px) {
+@media screen and (max-width: 410px) {
   .container-order {
     height: auto;
     padding: 13px 16px;
