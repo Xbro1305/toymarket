@@ -14,6 +14,7 @@ import { FaChevronLeft } from "react-icons/fa6";
 import { useLazyGetProductsByIdQuery } from "../../context/service/productsApi";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../context/cartSlice";
+import { useGoBackOrHome } from "../../utils/goBackOrHome";
 
 function OrderInfo() {
   const nav = useNavigate();
@@ -133,6 +134,9 @@ function OrderInfo() {
       console.error("Xatolik yuz berdi:", error);
     }
   };
+
+  const back = useGoBackOrHome();
+
   return (
     <div className="container cardInfo">
       <div className="left-card-block">
@@ -140,7 +144,7 @@ function OrderInfo() {
           <div className="card-block-element-title">
             <FaChevronLeft
               onClick={() => {
-                nav("/");
+                back();
                 window.Telegram.WebApp.HapticFeedback.impactOccurred("light"); // вибрация
               }}
             />

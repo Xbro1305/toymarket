@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import numberFormat from "../../utils/numberFormat";
 import { useSelector } from "react-redux";
 import { FaChevronLeft } from "react-icons/fa6";
+import { useGoBackOrHome } from "../../utils/goBackOrHome";
 
 function Order() {
   const nav = useNavigate();
@@ -27,12 +28,14 @@ function Order() {
     return `${date} ${hour}`;
   };
 
+  const back = useGoBackOrHome();
+
   return (
     <div className="container orders">
       <div className="card-block-element-title">
         <FaChevronLeft
           onClick={() => {
-            nav("/");
+            back();
             window?.Telegram?.WebApp?.HapticFeedback?.impactOccurred("light"); // вибрация
           }}
         />

@@ -14,6 +14,7 @@ import {
   Pagination,
   Mousewheel,
 } from "swiper/modules";
+import { useGoBackOrHome } from "../../utils/goBackOrHome";
 
 function getYouTubeId(url) {
   const regExp =
@@ -36,10 +37,12 @@ const ProductSlider = ({ product }) => {
     }, 0);
   };
 
+  const back = useGoBackOrHome();
+
   return (
     <div className="slider">
       <button
-        onClick={() => nav("/")}
+        onClick={back}
         className="close_slide flex items-center justify-center"
       >
         <FiX />

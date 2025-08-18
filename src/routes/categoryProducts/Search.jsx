@@ -148,10 +148,12 @@ function TypesProducts() {
     );
   };
 
+  const back = useGoBackOrHome();
+
   return (
     <div className="container  categoryProducts">
       <div className="categoryProducts_title">
-        <div onClick={() => navigate("/")} className="left">
+        <div onClick={back} className="left">
           <BsChevronLeft />
           <span>Поиск</span>
           <span className="countOfProducts">
