@@ -233,3 +233,40 @@
     }
   }
 }
+
+@media (max-width: 390px) {
+  .container-order {
+    height: auto;
+    padding: 13px 16px;
+
+    .cart-item-label {
+      .title_block {
+        .title_block_left {
+          gap: 5px;
+
+          h3 {
+            font-size: 16px;
+            font-weight: 600;
+          }
+
+          .dateValue {
+            font-size: 16px;
+          }
+        }
+
+        p {
+          width: 160px;
+          font-size: 16px;
+          font-weight: 600;
+          margin-left: 0px;
+        }
+      }
+    }
+
+    .btn_more {
+      position: absolute;
+      bottom: 20px;
+      right: 10px;
+    }
+  }
+}
