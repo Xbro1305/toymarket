@@ -922,7 +922,7 @@
   }
 
   .singlepage .mySwiper .swiper-slide {
-    padding: 10px;
+    padding: 0px;
     transform: translateX(-7px) !important;
     img {
       height: 100%;
