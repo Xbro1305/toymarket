@@ -70,6 +70,7 @@ const ProductSlider = ({ product }) => {
             className="image"
             onError={(e) => {
               e.currentTarget.src = noImg;
+              e.currentTarget.style.objectFit = "cover";
             }}
           />
         </SwiperSlide>
@@ -81,6 +82,7 @@ const ProductSlider = ({ product }) => {
               className="image"
               onError={(e) => {
                 e.currentTarget.src = noImg;
+                e.currentTarget.style.objectFit = "cover";
               }}
             />
           </SwiperSlide>
@@ -164,6 +166,7 @@ const ProductSlider = ({ product }) => {
             className="image"
             onError={(e) => {
               e.currentTarget.src = noImg;
+              e.currentTarget.style.objectFit = "cover";
             }}
           />
         </SwiperSlide>
@@ -176,6 +179,7 @@ const ProductSlider = ({ product }) => {
               className="image"
               onError={(e) => {
                 e.currentTarget.src = noImg;
+                e.currentTarget.style.objectFit = "cover";
               }}
             />
           </SwiperSlide>
