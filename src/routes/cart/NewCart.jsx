@@ -305,7 +305,7 @@ const NewCart = () => {
                     }
                   >
                     <img
-                      src={`https://shop-api.toyseller.site/api/image/${product.id}/${product.image}`}
+                      src={`https://api.toymarket.site/api/image/${product.id}/${product.image}`}
                       alt="product"
                       onError={(e) => {
                         e.currentTarget.src = noImg;

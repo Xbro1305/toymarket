@@ -1,14 +1,14 @@
 import toast from "react-hot-toast";
 
 const getProducts = async () => {
-  const req = await fetch("https://shop-api.toyseller.site/api/products");
+  const req = await fetch("https://api.toymarket.site/api/products");
   const res = await req.json();
 
   return res.data;
 };
 const getProductsByType = async (id) => {
   const req = await fetch(
-    "https://shop-api.toyseller.site/api/products?type=" + id
+    "https://api.toymarket.site/api/products?type=" + id
   );
   const res = await req.json();
 
@@ -16,7 +16,7 @@ const getProductsByType = async (id) => {
 };
 const getProductsByTypeWithLimit = async (id, limit) => {
   const req = await fetch(
-    "https://shop-api.toyseller.site/api/products?category=" +
+    "https://api.toymarket.site/api/products?category=" +
       id +
       (limit ? "&limit=" + limit : "")
   );
@@ -27,7 +27,7 @@ const getProductsByTypeWithLimit = async (id, limit) => {
 
 const getNewProducts = async (limit) => {
   const req = await fetch(
-    "https://shop-api.toyseller.site/api/products?category=-1" +
+    "https://api.toymarket.site/api/products?category=-1" +
       "&limit=" +
       limit
   );
@@ -38,7 +38,7 @@ const getNewProducts = async (limit) => {
 
 const getProductsBySearch = async (value) => {
   const req = await fetch(
-    "https://shop-api.toyseller.site/api/products?query=name=" + value
+    "https://api.toymarket.site/api/products?query=name=" + value
   );
   const res = await req.json();
 
@@ -49,7 +49,7 @@ const getUser = async () => {
   try {
     const user = JSON.parse(localStorage.getItem("user"));
 
-    const req = await fetch("https://shop-api.toyseller.site/api/user/get/", {
+    const req = await fetch("https://api.toymarket.site/api/user/get/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -73,7 +73,7 @@ const getUser = async () => {
 
 const newOrder = async (data) => {
   const user = JSON.parse(localStorage.getItem("user"));
-  const req = await fetch("https://shop-api.toyseller.site/api/order/", {
+  const req = await fetch("https://api.toymarket.site/api/order/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -93,7 +93,7 @@ const payTBank = async (orderID) => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   const req = await fetch(
-    `https://shop-api.toyseller.site/api/payment/tbank/init/`,
+    `https://api.toymarket.site/api/payment/tbank/init/`,
     {
       method: "POST",
       headers: {
@@ -113,7 +113,7 @@ const payTBank = async (orderID) => {
 
 const getSingleProduct = async (id) => {
   const req = await fetch(
-    `https://shop-api.toyseller.site/api/product?id=${id}`,
+    `https://api.toymarket.site/api/product?id=${id}`,
     {
       method: "GET",
       headers: {
@@ -128,7 +128,7 @@ const getSingleProduct = async (id) => {
 };
 
 const getCategories = async () => {
-  const req = await fetch(`https://shop-api.toyseller.site/api/categories`, {
+  const req = await fetch(`https://api.toymarket.site/api/categories`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

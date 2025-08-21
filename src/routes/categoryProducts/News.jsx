@@ -257,7 +257,7 @@ function CategoryProducts() {
                     <div className="mark_discount">%</div>
                   ) : null}
                   <img
-                    src={`https://shop-api.toyseller.site/api/image/${product.id}/${product.image}`}
+                    src={`https://api.toymarket.site/api/image/${product.id}/${product.image}`}
                     alt={product.article}
                     className={`product-image ${
                       imgLoaded ? "loaded" : "loading"
@@ -585,7 +585,7 @@ export default CategoryProducts;
 //                     <div className="mark_discount">%</div>
 //                   ) : null}
 //                   <img
-//                     src={`https://shop-api.toyseller.site/api/image/${product.id}/${product.image}`}
+//                     src={`https://api.toymarket.site/api/image/${product.id}/${product.image}`}
 //                     alt={product.article}
 //                     className={`product-image ${
 //                       isLoading ? "loading" : "loaded"
