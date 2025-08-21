@@ -37,7 +37,7 @@ function OrderInfo() {
     const fetchQrCode = async () => {
       try {
         const response = await fetch(
-          `https://shop-api.toyseller.site/api/img/qrcode/${singleOrder.orderId}`
+          `https://api.toymarket.site/api/img/qrcode/${singleOrder.orderId}`
         );
         setQrUrl(response.url);
       } catch (error) {
@@ -221,7 +221,7 @@ function OrderInfo() {
                   className="cart-item-picture"
                 >
                   <img
-                    src={`https://shop-api.toyseller.site/api/image/${product.productID}/${product.image}`}
+                    src={`https://api.toymarket.site/api/image/${product.productID}/${product.image}`}
                     alt="picture"
                     onError={(e) => {
                       e.currentTarget.src = noImg;

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://shop-api.toyseller.site/api/",
+  baseUrl: "https://api.toymarket.site/api/",
   prepareHeaders: (headers) => {
     const token = localStorage.getItem("token");
     if (token) {

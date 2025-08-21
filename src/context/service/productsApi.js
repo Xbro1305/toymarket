@@ -4,25 +4,25 @@ export const productsApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getProductsByType: builder.query({
       query: ({ id, limit, offset }) =>
-        "https://shop-api.toyseller.site/api/products?type=" +
+        "https://api.toymarket.site/api/products?type=" +
         id +
         (limit ? "&limit=" + limit : "") +
         (offset ? "&offset=" + offset : ""),
     }),
     getProductsBySubcategoryId: builder.query({
       query: ({ id, limit, offset }) =>
-        "https://shop-api.toyseller.site/api/products?sub_category=" +
+        "https://api.toymarket.site/api/products?sub_category=" +
         id +
         (limit ? "&limit=" + limit : "") +
         (offset ? "&offset=" + offset : ""),
     }),
     getProductsForSinglePage: builder.query({
-      query: (id) => "https://shop-api.toyseller.site/api/products?type=" + id,
+      query: (id) => "https://api.toymarket.site/api/products?type=" + id,
     }),
 
     getProductsByTypeWithLimit: builder.query({
       query: ({ id, limit, offset }) =>
-        "https://shop-api.toyseller.site/api/products?category=" +
+        "https://api.toymarket.site/api/products?category=" +
         id +
         (limit ? "&limit=" + limit : "") +
         (offset ? "&offset=" + offset : ""),
@@ -30,12 +30,12 @@ export const productsApi = api.injectEndpoints({
 
     getProductsByCategoryNameWithLimit: builder.query({
       query: ({ id, limit, offset }) =>
-        "https://shop-api.toyseller.site/api/products?category=" + id,
+        "https://api.toymarket.site/api/products?category=" + id,
     }),
 
     getNewProducts: builder.query({
       query: (limit, offset, inStock) =>
-        "https://shop-api.toyseller.site/api/products?category=-1" +
+        "https://api.toymarket.site/api/products?category=-1" +
         (limit ? `&limit=${limit}` : "") +
         (offset ? `&offset=${offset}` : "") +
         (inStock ? `&in_stock=${inStock}` : ""),
@@ -43,7 +43,7 @@ export const productsApi = api.injectEndpoints({
 
     getNewProductsLazy: builder.query({
       query: ({ limit, offset, inStock }) =>
-        "https://shop-api.toyseller.site/api/products?category=-1" +
+        "https://api.toymarket.site/api/products?category=-1" +
         (limit ? `&limit=${limit}` : "") +
         (offset ? `&offset=${offset}` : "") +
         (inStock ? `&in_stock=${inStock}` : ""),
@@ -51,24 +51,24 @@ export const productsApi = api.injectEndpoints({
 
     getProductsBySearch: builder.query({
       query: (value) =>
-        "https://shop-api.toyseller.site/api/products?query=name=" + value,
+        "https://api.toymarket.site/api/products?query=name=" + value,
     }),
 
     getCategories: builder.query({
-      query: () => "https://shop-api.toyseller.site/api/categories?exists=1",
+      query: () => "https://api.toymarket.site/api/categories?exists=1",
     }),
     getProductsById: builder.query({
       query: (value) =>
-        "https://shop-api.toyseller.site/api/products?query=id=" + value,
+        "https://api.toymarket.site/api/products?query=id=" + value,
     }),
 
     // pickup points /api/pickup-points
     getPickupPoints: builder.query({
-      query: () => "https://shop-api.toyseller.site/api/pickup-points",
+      query: () => "https://api.toymarket.site/api/pickup-points",
     }),
     getProductsByBrand: builder.query({
       query: ({ id, limit, offset }) =>
-        "https://shop-api.toyseller.site/api/products?query=tradeMarkID=" +
+        "https://api.toymarket.site/api/products?query=tradeMarkID=" +
         id +
         (limit ? "&limit=" + limit : "") +
         (offset ? "&offset=" + offset : ""),

@@ -81,7 +81,7 @@ function SinglePage() {
                     if (!acc[item.color]) {
                       acc[item.color] = {
                         color: item.color,
-                        img: `https://shop-api.toyseller.site/api/image/${item.id}/${item.photo}`,
+                        img: `https://api.toymarket.site/api/image/${item.id}/${item.photo}`,
                       };
                     }
                     return acc;
@@ -138,7 +138,7 @@ function SinglePage() {
                 if (!acc[item.color]) {
                   acc[item.color] = {
                     color: item.color,
-                    img: `https://shop-api.toyseller.site/api/image/${item.id}/${item.photo}`,
+                    img: `https://api.toymarket.site/api/image/${item.id}/${item.photo}`,
                   };
                 }
                 return acc;
@@ -702,7 +702,7 @@ function SinglePage() {
             {product?.packageSize > 1 && (
               <p className="min_order">Фасовка по {product?.packageSize} шт</p>
             )}
-            {/* 
+            {/*
             {product?.accessabilitySettingsID == 224 ? (
               <p className="min_order">Всегда в наличии </p>
             ) : product?.accessabilitySettingsID == 223 ? (

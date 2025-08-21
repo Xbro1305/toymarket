@@ -73,7 +73,7 @@ const ProductSlider = ({ product }) => {
         {/* Главное фото */}
         <SwiperSlide>
           <img
-            src={`https://shop-api.toyseller.site/api/image/${product?.id}/${product?.photo}`}
+            src={`https://api.toymarket.site/api/image/${product?.id}/${product?.photo}`}
             alt={`image-${product?.id}`}
             className="image"
             onError={(e) => {
@@ -87,7 +87,7 @@ const ProductSlider = ({ product }) => {
         {product?.otherPhotos?.filter(Boolean).map((slide, i) => (
           <SwiperSlide key={i}>
             <img
-              src={`https://shop-api.toyseller.site/api/product_other_image/${product?.id}/${slide}`}
+              src={`https://api.toymarket.site/api/product_other_image/${product?.id}/${slide}`}
               alt={`image-${product?.id}-${i}`}
               className="image"
               onError={(e) => {
@@ -174,7 +174,7 @@ const ProductSlider = ({ product }) => {
       >
         <SwiperSlide>
           <img
-            src={`https://shop-api.toyseller.site/api/image/${product?.id}/${product?.photo}`}
+            src={`https://api.toymarket.site/api/image/${product?.id}/${product?.photo}`}
             alt={`thumb-${product?.id}`}
             className="image"
             onError={(e) => {
@@ -187,7 +187,7 @@ const ProductSlider = ({ product }) => {
         {product?.otherPhotos?.filter(Boolean).map((slide, i) => (
           <SwiperSlide key={i}>
             <img
-              src={`https://shop-api.toyseller.site/api/product_other_image/${product?.id}/${slide}`}
+              src={`https://api.toymarket.site/api/product_other_image/${product?.id}/${slide}`}
               alt={`thumb-${product?.id}-${i}`}
               className="image"
               onError={(e) => {

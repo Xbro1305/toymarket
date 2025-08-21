@@ -249,7 +249,7 @@ function BySubcategories() {
                       <div className="mark_discount">%</div>
                     ) : null}
                     <img
-                      src={`https://shop-api.toyseller.site/api/image/${product.id}/${product.image}`}
+                      src={`https://api.toymarket.site/api/image/${product.id}/${product.image}`}
                       alt={product.article}
                       // className="picture"
                       className={`product-image`}
