@@ -22,7 +22,7 @@ const AuthTelegram = () => {
 
         <main className="telegram-wrapper">
           <LoginButton
-            botUsername="test_toyseller_bot"
+            botUsername="toy_market_bot"
             buttonSize="large"
             cornerRadius={5}
             showAvatar={false}
