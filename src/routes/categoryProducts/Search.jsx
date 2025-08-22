@@ -54,7 +54,7 @@ function TypesProducts() {
       }, []);
 
       setProducts(processedProducts);
-      setFilteredProducts(processedProducts); // Set initially filtered products
+      setFilteredProducts(processedProducts);
     };
 
     fetchData();
@@ -64,7 +64,6 @@ function TypesProducts() {
     filteredProducts.length && setIsLoading(false);
   }, [filteredProducts]);
 
-  // Apply additional filters (status, price, article) and search
   useEffect(() => {
     let result = [...products];
 

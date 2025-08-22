@@ -9,7 +9,8 @@ const FilterModal = ({
   applyFilters,
   statusAccordionOpen,
   setStatusAccordionOpen,
-  statusPriceOpen, setStatusPriceOpen
+  statusPriceOpen,
+  setStatusPriceOpen,
 }) => {
   if (!isFilterOpen) return null;
 
@@ -142,7 +143,8 @@ const FilterModal = ({
                 </div>
                 <div className="form-group">
                   <input
-                    type="number" className="formInput-fil"
+                    type="number"
+                    className="formInput-fil"
                     placeholder="До"
                     value={pendingFilters.priceTo || ""}
                     onChange={(e) =>
@@ -156,8 +158,6 @@ const FilterModal = ({
               </div>
             )}
           </div>
-
-
 
           <div className="accordion">
             <div className="accordion-header">

@@ -11,7 +11,6 @@ import FilterModal from "./FilterModal";
 import { BsChevronLeft } from "react-icons/bs";
 import "./CategoryProducts.css";
 import SortModal from "./SortModal";
-import InfiniteScroll from "react-infinite-scroll-component";
 import noImg from "../../img/no_img.png";
 import { useGoBackOrHome } from "../../utils/goBackOrHome";
 import loader from "../../components/catalog/loader1.svg";
@@ -20,8 +19,11 @@ function TypesProducts() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const nav = useNavigate();
+
   const [getProductsByType, { isLoading }] = useLazyGetProductsByTypeQuery();
+
   const searchQuery = useSelector((state) => state.search.searchQuery);
+
   const [products, setProducts] = useState([]);
   const [categoryName, setCategoryName] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -41,11 +43,13 @@ function TypesProducts() {
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(0);
   const [totalData, setTotalData] = useState([]);
+  const [buttonLoading, setButtonLoading] = useState(false);
   const limit = 100;
 
   const fetchMoreData = () => {
-    if (filteredProducts.length < 200) {
-      setOffset(offset + 20);
+    if (hasMore) {
+      setButtonLoading(true);
+      setOffset(offset + 100);
     } else {
       setHasMore(false);
     }
@@ -59,6 +63,7 @@ function TypesProducts() {
 
   useEffect(() => {
     const fetchData = async () => {
+      setButtonLoading(true);
       const { data: products1 } = await getProductsByType({
         id: id,
         limit,
@@ -99,6 +104,11 @@ function TypesProducts() {
       setFilteredProducts(updatedTotalData);
 
       setCategoryName(updatedTotalData?.[0]?.productTypeName);
+      setButtonLoading(false);
+
+      if (products1.data.length < 100) {
+        setHasMore(false);
+      }
     };
 
     fetchData();
@@ -229,13 +239,7 @@ function TypesProducts() {
           <p className="noMore">Товаров нет!</p>
         </div>
       ) : (
-        <InfiniteScroll
-          dataLength={filteredProducts.length}
-          next={fetchMoreData}
-          hasMore={hasMore}
-          // loader={<p className="noMore">Загрузка...</p>}
-          endMessage={<p className="noMore">Других товаров нет!</p>}
-        >
+        <>
           <div className="catalogItem_cards">
             {filteredProducts?.map((product, inx) => {
               const inCart = cartData.find((item) => item.id === product.id);
@@ -257,10 +261,10 @@ function TypesProducts() {
                       src={`https://api.toymarket.site/api/image/${product.id}/${product.image}`}
                       alt={product.article}
                       // className="picture"
-                      className={`product-image`}
                       onError={(e) => {
                         e.currentTarget.src = noImg;
                       }}
+                      className={`product-image`}
                     />
                     {product.isNew === 1 ? (
                       <div className="mark_new_product">
@@ -350,7 +354,20 @@ function TypesProducts() {
               );
             })}
           </div>
-        </InfiniteScroll>
+          {buttonLoading && hasMore && (
+            <div className="loader" style={{ marginTop: 20 }}>
+              <img width={100} src={loader} alt="" />
+            </div>
+          )}
+          {!hasMore && filteredProducts.length > 0 && (
+            <p className="noMore">Других товаров нет!</p>
+          )}
+          {hasMore && !buttonLoading && (
+            <button className="load_more" onClick={fetchMoreData}>
+              Показать еще
+            </button>
+          )}
+        </>
       )}
 
       <FilterModal

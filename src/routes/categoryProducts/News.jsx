@@ -11,26 +11,22 @@ import FilterModal from "./FilterModal";
 import { BsChevronLeft } from "react-icons/bs";
 import SortModal from "./SortModal";
 import InfiniteScroll from "react-infinite-scroll-component";
+import noImg from "../../img/no_img.png";
 import { useGoBackOrHome } from "../../utils/goBackOrHome";
 import loader from "../../components/catalog/loader1.svg";
-import noImg from "../../img/no_img.png";
 
 const PAGE_LIMIT = 20;
 const MAX_PRODUCTS = 200;
 
 function CategoryProducts() {
-  // const { categoryID } = useParams(); // оставил, если в будущем понадобится
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const searchQuery = useSelector((state) => state.search.searchQuery);
   const cartData = useSelector((state) => state.cart.items);
-
   const [offset, setOffset] = useState(0);
-  const [newProducts, setNewProducts] = useState([]); // полный список, полученный с бэка
-  const [processedProducts, setProcessedProducts] = useState([]); // нормализованный список
-  const [filteredProducts, setFilteredProducts] = useState([]); // после фильтров/поиска
-
+  const [newProducts, setNewProducts] = useState([]);
+  const [processedProducts, setProcessedProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [statusAccordionOpen, setStatusAccordionOpen] = useState(false);
@@ -44,25 +40,32 @@ function CategoryProducts() {
   const [sortOrder, setSortOrder] = useState("");
   const [hasMore, setHasMore] = useState(true);
   const [imageLoaded, setImageLoaded] = useState({});
-
   const [fetchNewProducts, { isLoading }] = useLazyGetNewProductsLazyQuery();
+  const [buttonLoading, setButtonLoading] = useState(false);
+
+  const fetchMoreData = () => {
+    if (hasMore) {
+      setButtonLoading(true);
+      setOffset(offset + 100);
+    } else {
+      setHasMore(false);
+    }
+  };
 
   useEffect(() => {
     const load = async () => {
       try {
+        setButtonLoading(true);
         const res = await fetchNewProducts({
           offset,
         }).unwrap();
         const data = res?.data ?? [];
 
-        // Добавляем новые товары, избегая перезаписи прошлого состояния
         setNewProducts((prev) => [...prev, ...data]);
 
-        // Добавляем условие остановки подгрузки
-        if (
-          data.length < PAGE_LIMIT ||
-          newProducts.length + data.length >= MAX_PRODUCTS
-        ) {
+        setButtonLoading(false);
+
+        if (data.length < 100) {
           setHasMore(false);
         }
       } catch (e) {
@@ -73,10 +76,6 @@ function CategoryProducts() {
 
     load();
   }, [offset, fetchNewProducts]);
-
-  const fetchMoreData = () => {
-    if (hasMore) setOffset((prev) => prev + PAGE_LIMIT);
-  };
 
   /* ===================== Нормализация и устранение дубликатов ===================== */
   useEffect(() => {
@@ -208,11 +207,10 @@ function CategoryProducts() {
       </div>
     );
 
-  /* ============================ Разметка ============================ */
   return (
     <div className="container categoryProducts">
       <div className="categoryProducts_title">
-        <div onClick={back()} className="left">
+        <div onClick={back} className="left">
           <BsChevronLeft />
           <span>Новинки</span>
         </div>
@@ -236,13 +234,7 @@ function CategoryProducts() {
         </div>
       </div>
 
-      <InfiniteScroll
-        dataLength={filteredProducts.length}
-        next={fetchMoreData}
-        hasMore={hasMore}
-        // loader={<p className="noMore">Загрузка...</p>}
-        endMessage={<p className="noMore">Других товаров нет!</p>}
-      >
+      <>
         <div className="catalogItem_cards">
           {filteredProducts.map((product) => {
             const inCart = cartData.find((item) => item.id === product.id);
@@ -356,7 +348,20 @@ function CategoryProducts() {
             );
           })}
         </div>
-      </InfiniteScroll>
+        {buttonLoading && hasMore && (
+          <div className="loader" style={{ marginTop: 20 }}>
+            <img width={100} src={loader} alt="" />
+          </div>
+        )}
+        {!hasMore && filteredProducts.length > 0 && (
+          <p className="noMore">Других товаров нет!</p>
+        )}
+        {hasMore && !buttonLoading && (
+          <button className="load_more" onClick={fetchMoreData}>
+            Показать еще
+          </button>
+        )}
+      </>
 
       {/* ------------------------------ Модальные ------------------------------ */}
       <FilterModal
