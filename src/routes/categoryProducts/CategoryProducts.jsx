@@ -13,6 +13,7 @@ import { BsChevronLeft } from "react-icons/bs";
 import SortModal from "./SortModal";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useGoBackOrHome } from "../../utils/goBackOrHome";
+import loader from "../../components/catalog/loader1.svg";
 import noImg from "../../img/no_img.png";
 
 function CategoryProducts() {
@@ -200,6 +201,12 @@ function CategoryProducts() {
     );
 
   const back = useGoBackOrHome();
+  if (isLoading)
+    return (
+      <div className="loader">
+        <img width={100} src={loader} alt="" />
+      </div>
+    );
 
   return (
     <div className="container categoryProducts">

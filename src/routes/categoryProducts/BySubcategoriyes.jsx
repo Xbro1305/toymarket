@@ -14,13 +14,14 @@ import SortModal from "./SortModal";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useGoBackOrHome } from "../../utils/goBackOrHome";
 import noImg from "../../img/no_img.png";
+import loader from "../../components/catalog/loader1.svg";
 
 function BySubcategories() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const nav = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
-  const [getProductsBySubCategoryId] = useLazyGetProductsBySubcategoryIdQuery();
+  const [getProductsBySubCategoryId, { isLoading }] =
+    useLazyGetProductsBySubcategoryIdQuery();
 
   const searchQuery = useSelector((state) => state.search.searchQuery);
 
@@ -190,6 +191,13 @@ function BySubcategories() {
     );
 
   const back = useGoBackOrHome();
+  
+  if (isLoading)
+    return (
+      <div className="loader">
+        <img width={100} src={loader} alt="" />
+      </div>
+    );
 
   return (
     <div className="container  categoryProducts">
