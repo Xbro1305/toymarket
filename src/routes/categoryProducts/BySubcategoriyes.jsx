@@ -44,16 +44,17 @@ function BySubcategories() {
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(0);
   const [totalData, setTotalData] = useState([]);
+  const [buttonLoading, setButtonLoading] = useState(false);
   const limit = 100;
 
   const fetchMoreData = () => {
-    if (filteredProducts.length < 200) {
-      setOffset(offset + 20);
+    if (hasMore) {
+      setButtonLoading(true);
+      setOffset(offset + 100);
     } else {
       setHasMore(false);
     }
   };
-
   // 1. offset ni boshlang‘ich holatga o‘rnatish (id o‘zgarganda)
   useEffect(() => {
     setOffset(0); // offset 0 bo‘lsa 20 qilamiz
@@ -62,6 +63,7 @@ function BySubcategories() {
 
   useEffect(() => {
     const fetchData = async () => {
+      setButtonLoading(true);
       const { data: products1 } = await getProductsBySubCategoryId({
         id: id,
         limit,
@@ -101,6 +103,12 @@ function BySubcategories() {
       setProducts(updatedTotalData);
       setFilteredProducts(updatedTotalData);
       setCategoryName(updatedTotalData?.[0]?.subCategoryName);
+
+      setButtonLoading(false);
+
+      if (products1.data.length < 100) {
+        setHasMore(false);
+      }
     };
 
     fetchData();
@@ -230,13 +238,8 @@ function BySubcategories() {
           <p className="noMore">Товаров нет!</p>
         </div>
       ) : (
-        <InfiniteScroll
-          dataLength={filteredProducts.length}
-          next={fetchMoreData}
-          hasMore={hasMore}
-          // loader={<p className="noMore">Загрузка...</p>}
-          endMessage={<p className="noMore">Других товаров нет!</p>}
-        >
+        <>
+          {" "}
           <div className="catalogItem_cards">
             {filteredProducts?.map((product, inx) => {
               const inCart = cartData.find((item) => item.id === product.id);
@@ -351,7 +354,20 @@ function BySubcategories() {
               );
             })}
           </div>
-        </InfiniteScroll>
+          {buttonLoading && hasMore && (
+            <div className="loader" style={{ marginTop: 20 }}>
+              <img width={100} src={loader} alt="" />
+            </div>
+          )}
+          {!hasMore && filteredProducts.length > 0 && (
+            <p className="noMore">Других товаров нет!</p>
+          )}
+          {hasMore && !buttonLoading && (
+            <button className="load_more" onClick={fetchMoreData}>
+              Показать еще
+            </button>
+          )}
+        </>
       )}
 
       <FilterModal

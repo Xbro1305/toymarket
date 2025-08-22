@@ -25,7 +25,6 @@ function CategoryProducts() {
     useLazyGetProductsByCategoryNameWithLimitQuery();
 
   const searchQuery = useSelector((state) => state.search.searchQuery);
-
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -40,15 +39,15 @@ function CategoryProducts() {
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [sortOrder, setSortOrder] = useState("");
   const cartData = useSelector((state) => state.cart.items);
-  const navigate = useNavigate();
-
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(0);
   const [totalData, setTotalData] = useState([]);
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   const fetchMoreData = () => {
     if (hasMore) {
-      setOffset(offset + 20);
+      setButtonLoading(true);
+      setOffset(offset + 100);
     } else {
       setHasMore(false);
     }
@@ -107,11 +106,9 @@ function CategoryProducts() {
       setTotalData(updatedTotalData);
       setProducts(updatedTotalData);
       setFilteredProducts(updatedTotalData);
+      setButtonLoading(false);
 
-      if (
-        products1.length < 20 ||
-        updatedTotalData.length + products1.length >= 200
-      ) {
+      if (products1.data.length < 100) {
         setHasMore(false);
       }
     };
@@ -238,103 +235,77 @@ function CategoryProducts() {
           </div>
         </div>
       </div>
-      <InfiniteScroll
-        dataLength={filteredProducts.length}
-        next={fetchMoreData}
-        hasMore={hasMore}
-        // loader={<p className="noMore">Загрузка...</p>}
-        endMessage={<p className="noMore">Других товаров нет!</p>}
-      >
-        <div className="catalogItem_cards">
-          {filteredProducts?.map((product, inx) => {
-            const inCart = cartData.find((item) => item.id === product.id);
-            const displayQuantity = getDisplayQuantity(inCart, product);
+      <div className="catalogItem_cards">
+        {filteredProducts?.map((product, inx) => {
+          const inCart = cartData.find((item) => item.id === product.id);
+          const displayQuantity = getDisplayQuantity(inCart, product);
 
-            return (product?.price != 0 || product?.discountedPrice != 0) &&
-              [222, 223, 224].includes(product.accessabilitySettingsID) ? (
-              <div key={product.id} className="catalogItem_card">
-                <Link
-                  className="product-img-link"
-                  to={`/item/${product.productTypeID}/${product.id}`}
-                >
-                  {+product?.discountedPrice !== +product?.price &&
-                  +product?.price &&
-                  +product?.discountedPrice ? (
-                    <div className="mark_discount">%</div>
-                  ) : null}
-                  <img
-                    src={`https://api.toymarket.site/api/image/${product.id}/${product.image}`}
-                    alt={product.article}
-                    // className="picture"
-                    className={`product-image`}
-                    onError={(e) => {
-                      e.currentTarget.src = noImg;
-                    }}
-                  />
-                  {product.isNew === 1 ? (
-                    <div className="mark_new_product">
-                      <span>Новинка</span>
-                    </div>
-                  ) : null}
-                </Link>
-                <p className="name">{product.name}</p>
-                {product?.accessabilitySettingsID == 222 ? (
-                  product?.inStock > 0 ? (
-                    <p className="weight">Осталось: {product.inStock} шт</p>
-                  ) : (
-                    ""
-                  )
-                ) : product?.accessabilitySettingsID == 223 ? (
-                  product?.storeDeliveryInDays != "" &&
-                  product?.prepayPercent != "" ? (
-                    <>
-                      <p className="weight">
-                        Под заказ: {product?.storeDeliveryInDays} дн.
-                      </p>
-
-                      <p className="weight">
-                        Предоплата: {product?.prepayPercent} %
-                      </p>
-                    </>
-                  ) : (
-                    <p className="weight">Осталось: {product.inStock} шт</p>
-                  )
-                ) : product?.accessabilitySettingsID == 224 ? (
-                  <p className="weight">Всегда в наличии</p>
+          return (product?.price != 0 || product?.discountedPrice != 0) &&
+            [222, 223, 224].includes(product.accessabilitySettingsID) ? (
+            <div key={product.id} className="catalogItem_card">
+              <Link
+                className="product-img-link"
+                to={`/item/${product.productTypeID}/${product.id}`}
+              >
+                {+product?.discountedPrice !== +product?.price &&
+                +product?.price &&
+                +product?.discountedPrice ? (
+                  <div className="mark_discount">%</div>
+                ) : null}
+                <img
+                  src={`https://api.toymarket.site/api/image/${product.id}/${product.image}`}
+                  alt={product.article}
+                  // className="picture"
+                  className={`product-image`}
+                  onError={(e) => {
+                    e.currentTarget.src = noImg;
+                  }}
+                />
+                {product.isNew === 1 ? (
+                  <div className="mark_new_product">
+                    <span>Новинка</span>
+                  </div>
+                ) : null}
+              </Link>
+              <p className="name">{product.name}</p>
+              {product?.accessabilitySettingsID == 222 ? (
+                product?.inStock > 0 ? (
+                  <p className="weight">Осталось: {product.inStock} шт</p>
                 ) : (
                   ""
-                )}
-
-                {product?.discountedPrice != 0 &&
-                  product?.price != 0 &&
-                  product?.recomendedMinimalSizeEnabled === 1 &&
-                  product?.recomendedMinimalSize > 1 && (
+                )
+              ) : product?.accessabilitySettingsID == 223 ? (
+                product?.storeDeliveryInDays != "" &&
+                product?.prepayPercent != "" ? (
+                  <>
                     <p className="weight">
-                      от {product?.recomendedMinimalSize} шт по{" "}
-                      {product?.discountedPrice} ₽{" "}
+                      Под заказ: {product?.storeDeliveryInDays} дн.
                     </p>
-                  )}
-                {product?.inStock > 0 ? (
-                  inCart ? (
-                    <div className="add catalog_counter">
-                      <FiMinus onClick={() => handleDecrement(product)} />
-                      <p className="amount">{displayQuantity}</p>
-                      <FiPlus onClick={() => handleIncrement(product)} />
-                    </div>
-                  ) : (
-                    <div
-                      className="price"
-                      onClick={() =>
-                        nav(`/item/${product.productTypeID}/${product.id}`)
-                      }
-                    >
-                      {formatNumber(+product.price || +product.discountedPrice)}{" "}
-                      ₽
-                    </div>
-                  )
-                ) : product.accessabilitySettingsID == 222 ? (
-                  <div className="price notInStock">Нет в наличии</div>
-                ) : inCart ? (
+
+                    <p className="weight">
+                      Предоплата: {product?.prepayPercent} %
+                    </p>
+                  </>
+                ) : (
+                  <p className="weight">Осталось: {product.inStock} шт</p>
+                )
+              ) : product?.accessabilitySettingsID == 224 ? (
+                <p className="weight">Всегда в наличии</p>
+              ) : (
+                ""
+              )}
+
+              {product?.discountedPrice != 0 &&
+                product?.price != 0 &&
+                product?.recomendedMinimalSizeEnabled === 1 &&
+                product?.recomendedMinimalSize > 1 && (
+                  <p className="weight">
+                    от {product?.recomendedMinimalSize} шт по{" "}
+                    {product?.discountedPrice} ₽{" "}
+                  </p>
+                )}
+              {product?.inStock > 0 ? (
+                inCart ? (
                   <div className="add catalog_counter">
                     <FiMinus onClick={() => handleDecrement(product)} />
                     <p className="amount">{displayQuantity}</p>
@@ -349,14 +320,44 @@ function CategoryProducts() {
                   >
                     {formatNumber(+product.price || +product.discountedPrice)} ₽
                   </div>
-                )}
-              </div>
-            ) : (
-              ""
-            );
-          })}
+                )
+              ) : product.accessabilitySettingsID == 222 ? (
+                <div className="price notInStock">Нет в наличии</div>
+              ) : inCart ? (
+                <div className="add catalog_counter">
+                  <FiMinus onClick={() => handleDecrement(product)} />
+                  <p className="amount">{displayQuantity}</p>
+                  <FiPlus onClick={() => handleIncrement(product)} />
+                </div>
+              ) : (
+                <div
+                  className="price"
+                  onClick={() =>
+                    nav(`/item/${product.productTypeID}/${product.id}`)
+                  }
+                >
+                  {formatNumber(+product.price || +product.discountedPrice)} ₽
+                </div>
+              )}
+            </div>
+          ) : (
+            ""
+          );
+        })}
+      </div>
+      {buttonLoading && hasMore && (
+        <div className="loader" style={{ marginTop: 20 }}>
+          <img width={100} src={loader} alt="" />
         </div>
-      </InfiniteScroll>
+      )}
+      {!hasMore && filteredProducts.length > 0 && (
+        <p className="noMore">Других товаров нет!</p>
+      )}
+      {hasMore && !buttonLoading && (
+        <button className="load_more" onClick={fetchMoreData}>
+          Показать еще
+        </button>
+      )}
       <FilterModal
         isFilterOpen={isFilterOpen}
         setIsFilterOpen={setIsFilterOpen}
@@ -367,7 +368,6 @@ function CategoryProducts() {
         statusPriceOpen={statusPriceOpen}
         setStatusPriceOpen={setStatusPriceOpen}
       />
-
       <SortModal
         isSortOpen={isSortOpen}
         setIsSortOpen={setIsSortOpen}

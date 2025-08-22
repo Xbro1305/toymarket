@@ -41,10 +41,21 @@ function CategoryProducts() {
   const [hasMore, setHasMore] = useState(true);
   const [imageLoaded, setImageLoaded] = useState({});
   const [fetchNewProducts, { isLoading }] = useLazyGetNewProductsLazyQuery();
+  const [buttonLoading, setButtonLoading] = useState(false);
+
+  const fetchMoreData = () => {
+    if (hasMore) {
+      setButtonLoading(true);
+      setOffset(offset + 100);
+    } else {
+      setHasMore(false);
+    }
+  };
 
   useEffect(() => {
     const load = async () => {
       try {
+        setButtonLoading(true);
         const res = await fetchNewProducts({
           offset,
         }).unwrap();
@@ -52,11 +63,9 @@ function CategoryProducts() {
 
         setNewProducts((prev) => [...prev, ...data]);
 
-        // Добавляем условие остановки подгрузки
-        if (
-          data.length < PAGE_LIMIT ||
-          newProducts.length + data.length >= MAX_PRODUCTS
-        ) {
+        setButtonLoading(false);
+
+        if (data.length < 100) {
           setHasMore(false);
         }
       } catch (e) {
@@ -67,10 +76,6 @@ function CategoryProducts() {
 
     load();
   }, [offset, fetchNewProducts]);
-
-  const fetchMoreData = () => {
-    if (hasMore) setOffset((prev) => prev + PAGE_LIMIT);
-  };
 
   /* ===================== Нормализация и устранение дубликатов ===================== */
   useEffect(() => {
@@ -229,13 +234,7 @@ function CategoryProducts() {
         </div>
       </div>
 
-      <InfiniteScroll
-        dataLength={filteredProducts.length}
-        next={fetchMoreData}
-        hasMore={hasMore}
-        // loader={<p className="noMore">Загрузка...</p>}
-        endMessage={<p className="noMore">Других товаров нет!</p>}
-      >
+      <>
         <div className="catalogItem_cards">
           {filteredProducts.map((product) => {
             const inCart = cartData.find((item) => item.id === product.id);
@@ -349,7 +348,20 @@ function CategoryProducts() {
             );
           })}
         </div>
-      </InfiniteScroll>
+        {buttonLoading && hasMore && (
+          <div className="loader" style={{ marginTop: 20 }}>
+            <img width={100} src={loader} alt="" />
+          </div>
+        )}
+        {!hasMore && filteredProducts.length > 0 && (
+          <p className="noMore">Других товаров нет!</p>
+        )}
+        {hasMore && !buttonLoading && (
+          <button className="load_more" onClick={fetchMoreData}>
+            Показать еще
+          </button>
+        )}
+      </>
 
       {/* ------------------------------ Модальные ------------------------------ */}
       <FilterModal
