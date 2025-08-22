@@ -26,7 +26,6 @@ function TypesProducts() {
   const { data: productsData } = useGetProductsBySearchQuery(searchQuery);
 
   const [products, setProducts] = useState([]);
-  const [categoryName, setCategoryName] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [statusAccordionOpen, setStatusAccordionOpen] = useState(false);
@@ -40,7 +39,6 @@ function TypesProducts() {
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [sortOrder, setSortOrder] = useState("");
   const cartData = useSelector((state) => state.cart.items);
-  const navigate = useNavigate();
 
   const handleSearchChange = (e) => dispatch(setSearchQuery(e.target.value));
   console.log(isLoading);
@@ -49,7 +47,6 @@ function TypesProducts() {
     const fetchData = async () => {
       setIsLoading(true);
       let allProducts = (await productsData?.data) || [];
-      let categoryNameTemp = allProducts?.[0]?.productTypeName;
 
       const processedProducts = await allProducts.reduce((unique, product) => {
         const key = `${product.color}-${product.size}`; // Deduplicate by color and size
@@ -61,8 +58,7 @@ function TypesProducts() {
       }, []);
 
       setProducts(processedProducts);
-      setCategoryName(categoryNameTemp);
-      setFilteredProducts(processedProducts); // Set initially filtered products
+      setFilteredProducts(processedProducts);
     };
 
     fetchData();
@@ -72,7 +68,6 @@ function TypesProducts() {
     filteredProducts.length && setIsLoading(false);
   }, [filteredProducts]);
 
-  // Apply additional filters (status, price, article) and search
   useEffect(() => {
     let result = [...products];
 

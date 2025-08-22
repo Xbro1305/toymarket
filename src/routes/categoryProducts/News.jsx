@@ -19,7 +19,6 @@ const PAGE_LIMIT = 20;
 const MAX_PRODUCTS = 200;
 
 function CategoryProducts() {
-  // const { categoryID } = useParams(); // оставил, если в будущем понадобится
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -27,10 +26,9 @@ function CategoryProducts() {
   const cartData = useSelector((state) => state.cart.items);
 
   const [offset, setOffset] = useState(0);
-  const [newProducts, setNewProducts] = useState([]); // полный список, полученный с бэка
-  const [processedProducts, setProcessedProducts] = useState([]); // нормализованный список
-  const [filteredProducts, setFilteredProducts] = useState([]); // после фильтров/поиска
-
+  const [newProducts, setNewProducts] = useState([]);
+  const [processedProducts, setProcessedProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [statusAccordionOpen, setStatusAccordionOpen] = useState(false);
@@ -43,9 +41,8 @@ function CategoryProducts() {
   });
   const [sortOrder, setSortOrder] = useState("");
   const [hasMore, setHasMore] = useState(true);
-  const [imageLoaded, setImageLoaded] = useState({}); // { [productId]: true }
+  const [imageLoaded, setImageLoaded] = useState({});
 
-  /* =========================== Запрос данных =========================== */
   const [fetchNewProducts] = useLazyGetNewProductsLazyQuery();
 
   useEffect(() => {
@@ -56,7 +53,6 @@ function CategoryProducts() {
         }).unwrap();
         const data = res?.data ?? [];
 
-        // Добавляем новые товары, избегая перезаписи прошлого состояния
         setNewProducts((prev) => [...prev, ...data]);
 
         // Добавляем условие остановки подгрузки

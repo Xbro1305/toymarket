@@ -40,7 +40,6 @@ function TypesProducts() {
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [sortOrder, setSortOrder] = useState("");
   const cartData = useSelector((state) => state.cart.items);
-  const navigate = useNavigate();
 
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(0);

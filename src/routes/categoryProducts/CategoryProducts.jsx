@@ -44,7 +44,6 @@ function CategoryProducts() {
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(0);
   const [totalData, setTotalData] = useState([]);
-  const limit = 20;
 
   const fetchMoreData = () => {
     if (hasMore) {

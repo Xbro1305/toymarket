@@ -19,7 +19,6 @@ function BySubcategories() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const nav = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
   const [getProductsBySubCategoryId] = useLazyGetProductsBySubcategoryIdQuery();
 
   const searchQuery = useSelector((state) => state.search.searchQuery);
@@ -39,12 +38,11 @@ function BySubcategories() {
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [sortOrder, setSortOrder] = useState("");
   const cartData = useSelector((state) => state.cart.items);
-  const navigate = useNavigate();
 
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(0);
   const [totalData, setTotalData] = useState([]);
-  const limit = 20;
+  const limit = 100;
 
   const fetchMoreData = () => {
     if (filteredProducts.length < 200) {

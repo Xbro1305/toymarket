@@ -12,7 +12,6 @@ import { BsChevronLeft } from "react-icons/bs";
 import "./CategoryProducts.css";
 import SortModal from "./SortModal";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { setSearchQuery } from "../../context/searchSlice";
 import noImg from "../../img/no_img.png";
 import { useGoBackOrHome } from "../../utils/goBackOrHome";
 
@@ -20,11 +19,8 @@ function BrandProducts() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const nav = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
   const [getProductsByBrand] = useLazyGetProductsByBrandQuery();
-
   const searchQuery = useSelector((state) => state.search.searchQuery);
-
   const [products, setProducts] = useState([]);
   const [categoryName, setCategoryName] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -40,12 +36,10 @@ function BrandProducts() {
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [sortOrder, setSortOrder] = useState("");
   const cartData = useSelector((state) => state.cart.items);
-  const navigate = useNavigate();
 
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(0);
-  const [totalData, setTotalData] = useState([]);
-  const limit = 20;
+  const limit = 100;
 
   const fetchMoreData = () => {
     if (filteredProducts.length < 200) {
@@ -58,7 +52,6 @@ function BrandProducts() {
   // 1. offset ni boshlang‘ich holatga o‘rnatish (id o‘zgarganda)
   useEffect(() => {
     setOffset(0); // offset 0 bo‘lsa 20 qilamiz
-    setTotalData([]); // yangi kategoriya tanlanganda eski ma'lumotlarni tozalaymiz
   }, [id]);
 
   useEffect(() => {
@@ -96,7 +89,6 @@ function BrandProducts() {
           return unique;
         }, []);
 
-      setTotalData(products);
       setProducts(products);
       setFilteredProducts(products);
 
