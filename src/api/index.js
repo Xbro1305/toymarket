@@ -7,9 +7,7 @@ const getProducts = async () => {
   return res.data;
 };
 const getProductsByType = async (id) => {
-  const req = await fetch(
-    "https://api.toymarket.site/api/products?type=" + id
-  );
+  const req = await fetch("https://api.toymarket.site/api/products?type=" + id);
   const res = await req.json();
 
   return res.data;
@@ -27,9 +25,7 @@ const getProductsByTypeWithLimit = async (id, limit) => {
 
 const getNewProducts = async (limit) => {
   const req = await fetch(
-    "https://api.toymarket.site/api/products?category=-1" +
-      "&limit=" +
-      limit
+    "https://api.toymarket.site/api/products?category=-1" + "&limit=" + limit
   );
   const res = await req.json();
 
@@ -112,16 +108,13 @@ const payTBank = async (orderID) => {
 };
 
 const getSingleProduct = async (id) => {
-  const req = await fetch(
-    `https://api.toymarket.site/api/product?id=${id}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: "WebApp",
-      },
-    }
-  );
+  const req = await fetch(`https://api.toymarket.site/api/product?id=${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: "WebApp",
+    },
+  });
   const res = await req.json();
 
   return res.data?.length > 0 ? res.data[0] : res.data;

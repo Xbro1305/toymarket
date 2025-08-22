@@ -43,9 +43,8 @@ function CategoryProducts() {
   });
   const [sortOrder, setSortOrder] = useState("");
   const [hasMore, setHasMore] = useState(true);
-  const [imageLoaded, setImageLoaded] = useState({}); // { [productId]: true }
+  const [imageLoaded, setImageLoaded] = useState({});
 
-  /* =========================== Запрос данных =========================== */
   const [fetchNewProducts] = useLazyGetNewProductsLazyQuery();
 
   useEffect(() => {

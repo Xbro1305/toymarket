@@ -15,7 +15,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useGoBackOrHome } from "../../utils/goBackOrHome";
 import noImg from "../../img/no_img.png";
 
-
 function CategoryProducts() {
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -45,7 +44,6 @@ function CategoryProducts() {
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(0);
   const [totalData, setTotalData] = useState([]);
-  const limit = 20;
 
   const fetchMoreData = () => {
     if (hasMore) {
@@ -55,7 +53,6 @@ function CategoryProducts() {
     }
   };
 
-  // 1. offset ni boshlang‘ich holatga o‘rnatish (id o‘zgarganda)
   useEffect(() => {
     setOffset(0); // offset 0 bo‘lsa 20 qilamiz
     setTotalData([]); // yangi kategoriya tanlanganda eski ma'lumotlarni tozalaymiz

@@ -44,7 +44,7 @@ function BySubcategories() {
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(0);
   const [totalData, setTotalData] = useState([]);
-  const limit = 20;
+  const limit = 100;
 
   const fetchMoreData = () => {
     if (filteredProducts.length < 200) {
