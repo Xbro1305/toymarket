@@ -30,7 +30,11 @@ export const productsApi = api.injectEndpoints({
 
     getProductsByCategoryNameWithLimit: builder.query({
       query: ({ id, limit, offset }) =>
-        "https://api.toymarket.site/api/products?category=" + id,
+        "https://api.toymarket.site/api/products?category=" +
+        id +
+        "&limit=" +
+        limit +
+        (offset ? "&offset=" + offset : ""),
     }),
 
     getNewProducts: builder.query({
