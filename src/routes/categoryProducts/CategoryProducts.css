@@ -324,6 +324,12 @@
   /* grid-column: 1/9; */
 }
 
+@media (max-width: 768px) {
+  .load_more {
+    width: 100%;
+  }
+}
+
 .form-group-radio input[type="radio"]:checked + label::before {
   border-color: #007bff;
   /* Ko‘k rang (rasmdagi kabi) */
