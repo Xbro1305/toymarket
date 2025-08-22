@@ -12,16 +12,16 @@ import { BsChevronLeft } from "react-icons/bs";
 import "./CategoryProducts.css";
 import SortModal from "./SortModal";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { setSearchQuery } from "../../context/searchSlice";
 import noImg from "../../img/no_img.png";
 import { useGoBackOrHome } from "../../utils/goBackOrHome";
+import loader from "../../components/catalog/loader1.svg";
 
 function TypesProducts() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const nav = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
-  const [getProductsByType] = useLazyGetProductsByTypeQuery();
+
+  const [getProductsByType, { isLoading }] = useLazyGetProductsByTypeQuery();
 
   const searchQuery = useSelector((state) => state.search.searchQuery);
 
@@ -191,6 +191,13 @@ function TypesProducts() {
     );
 
   const back = useGoBackOrHome();
+
+  if (isLoading)
+    return (
+      <div className="loader">
+        <img width={100} src={loader} alt="" />
+      </div>
+    );
 
   return (
     <div className="container  categoryProducts">

@@ -14,12 +14,13 @@ import SortModal from "./SortModal";
 import InfiniteScroll from "react-infinite-scroll-component";
 import noImg from "../../img/no_img.png";
 import { useGoBackOrHome } from "../../utils/goBackOrHome";
+import loader from "../../components/catalog/loader1.svg";
 
 function BrandProducts() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const nav = useNavigate();
-  const [getProductsByBrand] = useLazyGetProductsByBrandQuery();
+  const [getProductsByBrand, isLoading] = useLazyGetProductsByBrandQuery();
   const searchQuery = useSelector((state) => state.search.searchQuery);
   const [products, setProducts] = useState([]);
   const [categoryName, setCategoryName] = useState("");
@@ -184,6 +185,12 @@ function BrandProducts() {
     );
 
   const back = useGoBackOrHome();
+  if (isLoading)
+    return (
+      <div className="loader">
+        <img width={100} src={loader} alt="" />
+      </div>
+    );
 
   return (
     <div className="container  categoryProducts">

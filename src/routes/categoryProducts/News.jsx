@@ -13,18 +13,16 @@ import SortModal from "./SortModal";
 import InfiniteScroll from "react-infinite-scroll-component";
 import noImg from "../../img/no_img.png";
 import { useGoBackOrHome } from "../../utils/goBackOrHome";
+import loader from "../../components/catalog/loader1.svg";
 
 const PAGE_LIMIT = 20;
-
 const MAX_PRODUCTS = 200;
 
 function CategoryProducts() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const searchQuery = useSelector((state) => state.search.searchQuery);
   const cartData = useSelector((state) => state.cart.items);
-
   const [offset, setOffset] = useState(0);
   const [newProducts, setNewProducts] = useState([]);
   const [processedProducts, setProcessedProducts] = useState([]);
@@ -42,8 +40,7 @@ function CategoryProducts() {
   const [sortOrder, setSortOrder] = useState("");
   const [hasMore, setHasMore] = useState(true);
   const [imageLoaded, setImageLoaded] = useState({});
-
-  const [fetchNewProducts] = useLazyGetNewProductsLazyQuery();
+  const [fetchNewProducts, { isLoading }] = useLazyGetNewProductsLazyQuery();
 
   useEffect(() => {
     const load = async () => {
@@ -198,8 +195,13 @@ function CategoryProducts() {
       [id]: true,
     }));
   const back = useGoBackOrHome();
+  if (isLoading)
+    return (
+      <div className="loader">
+        <img width={100} src={loader} alt="" />
+      </div>
+    );
 
-  /* ============================ Разметка ============================ */
   return (
     <div className="container categoryProducts">
       <div className="categoryProducts_title">
