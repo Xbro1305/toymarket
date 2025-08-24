@@ -315,24 +315,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  gap: 5px;
+  color: black;
   border-radius: 8px;
-  background: rgb(113, 171, 9);
+  background: white;
   margin-top: 20px;
   height: 35px;
   width: 180px;
-  /* grid-column: 1/9; */
-}
 
-@media (max-width: 768px) {
-  .load_more {
-    width: 100%;
+  svg {
+    font-size: 18px;
   }
 }
 
 .form-group-radio input[type="radio"]:checked + label::before {
   border-color: #007bff;
-  /* Ko‘k rang (rasmdagi kabi) */
 }
 
 .form-group-radio label::after {
@@ -340,7 +337,6 @@
   width: 15px;
   height: 15px;
   background-color: #007bff;
-  /* Ko‘k rang */
   border-radius: 50%;
   position: absolute;
   left: 4.5px;

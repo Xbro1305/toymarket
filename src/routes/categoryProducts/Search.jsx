@@ -21,10 +21,8 @@ function TypesProducts() {
   const dispatch = useDispatch();
   const nav = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-
   const searchQuery = useSelector((state) => state.search.searchQuery);
   const { data: productsData } = useGetProductsBySearchQuery(searchQuery);
-
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -39,9 +37,7 @@ function TypesProducts() {
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [sortOrder, setSortOrder] = useState("");
   const cartData = useSelector((state) => state.cart.items);
-
   const handleSearchChange = (e) => dispatch(setSearchQuery(e.target.value));
-  console.log(isLoading);
 
   useEffect(() => {
     const fetchData = async () => {

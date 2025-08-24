@@ -10,10 +10,10 @@ import { useNavigate, Link, useParams } from "react-router-dom";
 import FilterModal from "./FilterModal";
 import { BsChevronLeft } from "react-icons/bs";
 import SortModal from "./SortModal";
-import InfiniteScroll from "react-infinite-scroll-component";
 import noImg from "../../img/no_img.png";
 import { useGoBackOrHome } from "../../utils/goBackOrHome";
 import loader from "../../components/catalog/loader1.svg";
+import { BiPlus } from "react-icons/bi";
 
 const PAGE_LIMIT = 20;
 const MAX_PRODUCTS = 200;
@@ -358,7 +358,7 @@ function CategoryProducts() {
         )}
         {hasMore && !buttonLoading && (
           <button className="load_more" onClick={fetchMoreData}>
-            Показать еще
+            <BiPlus /> Показать еще
           </button>
         )}
       </>
