@@ -14,6 +14,7 @@ import SortModal from "./SortModal";
 import noImg from "../../img/no_img.png";
 import { useGoBackOrHome } from "../../utils/goBackOrHome";
 import loader from "../../components/catalog/loader1.svg";
+import { BiPlus } from "react-icons/bi";
 
 function TypesProducts() {
   const dispatch = useDispatch();
@@ -364,7 +365,7 @@ function TypesProducts() {
           )}
           {hasMore && !buttonLoading && (
             <button className="load_more" onClick={fetchMoreData}>
-              Показать еще
+              <BiPlus /> Показать еще
             </button>
           )}
         </>

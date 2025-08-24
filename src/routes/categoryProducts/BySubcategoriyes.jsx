@@ -15,6 +15,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import noImg from "../../img/no_img.png";
 import { useGoBackOrHome } from "../../utils/goBackOrHome";
 import loader from "../../components/catalog/loader1.svg";
+import { BiPlus } from "react-icons/bi";
 
 function BySubcategories() {
   const dispatch = useDispatch();
@@ -364,6 +365,7 @@ function BySubcategories() {
           )}
           {hasMore && !buttonLoading && (
             <button className="load_more" onClick={fetchMoreData}>
+              <BiPlus />
               Показать еще
             </button>
           )}
