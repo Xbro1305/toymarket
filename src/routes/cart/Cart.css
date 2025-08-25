@@ -514,6 +514,7 @@
         background: rgb(38, 38, 38);
         width: 410px;
         padding: 26px;
+        height: auto !important;
 
         h4 {
           color: rgb(255, 255, 255);
