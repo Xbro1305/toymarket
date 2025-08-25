@@ -44,6 +44,9 @@ const ProductSlider = ({ product }) => {
     if (mainSwiperRef.current) {
       mainSwiperRef.current.update();
     }
+
+    setTimeout(() => mainSwiperRef.current.update(), 500);
+    setTimeout(() => mainSwiperRef.current.update(), 1000);
   }, [product]);
 
   return (

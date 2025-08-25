@@ -89,8 +89,6 @@ function SinglePage() {
               )
             )
           );
-
-          console.log(colors);
         }, 500);
 
         setIsSizeBtn(

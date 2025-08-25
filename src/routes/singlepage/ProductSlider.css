@@ -40,3 +40,8 @@
     min-width: 100%;
   }
 }
+
+.swiper {
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-overflow-scrolling: touch;
+}
