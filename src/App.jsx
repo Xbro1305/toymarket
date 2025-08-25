@@ -59,6 +59,10 @@ function App() {
     }
   }, [isAuthPage, token]);
 
+  window.addEventListener("load", () => {
+    document.body.style.visibility = "visible";
+  });
+
   return (
     <div
       className="app"
