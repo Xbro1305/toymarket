@@ -28,6 +28,19 @@ const getProductsByType = async (id) => {
     }
   }
 };
+const getProductsById = async (id) => {
+  try {
+    const req = await fetch("https://api.toymarket.site/api/products?id=" + id);
+    const res = await req.json();
+
+    return res.data;
+  } catch (err) {
+    if (err.status == 401) {
+      localStorage.removeItem("user");
+      window.location.href = "/auth";
+    }
+  }
+};
 const getProductsByTypeWithLimit = async (id, limit) => {
   const req = await fetch(
     "https://api.toymarket.site/api/products?category=" +
@@ -41,9 +54,7 @@ const getProductsByTypeWithLimit = async (id, limit) => {
 
 const getNewProducts = async (limit) => {
   const req = await fetch(
-    "https://api.toymarket.site/api/products?category=-1" +
-      "&limit=" +
-      limit
+    "https://api.toymarket.site/api/products?category=-1" + "&limit=" + limit
   );
   const res = await req.json();
 
@@ -138,16 +149,13 @@ const payTBank = async (orderID) => {
 };
 
 const getSingleProduct = async (id) => {
-  const req = await fetch(
-    `https://api.toymarket.site/api/product?id=${id}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: "MiniApp",
-      },
-    }
-  );
+  const req = await fetch(`https://api.toymarket.site/api/product?id=${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: "MiniApp",
+    },
+  });
   const res = await req.json();
 
   return res.data?.length > 0 ? res.data[0] : res.data;
@@ -174,6 +182,7 @@ export {
   getSingleProduct,
   getCategories,
   getProductsByType,
+  getProductsById,
   getProductsByTypeWithLimit,
   getNewProducts,
   getProductsBySearch,

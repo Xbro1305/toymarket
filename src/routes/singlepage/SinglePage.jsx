@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "./SinglePage.css";
-import { getProductsByType } from "../../api/index";
+import { getProductsById } from "../../api/index";
 import { FaChevronRight } from "react-icons/fa";
 import { SpecRow } from "./SpecRow";
 import {
@@ -47,7 +47,7 @@ function SinglePage() {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const productsData = await getProductsByType(productTypeID);
+        const productsData = await getProductsById(id);
 
         let allProducts = (await productsData) || [];
 
