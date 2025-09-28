@@ -29,6 +29,8 @@ function Order() {
     return `${date} ${hour}`;
   };
 
+  console.log(ordersStory);
+
   return (
     <div className="container orders">
       <div className="card-block-element-title">
@@ -72,10 +74,7 @@ function Order() {
                   {order?.statusName}
                 </p>
               </div>
-              <div className="order_address">
-                Самовывоз по адресу: 295034, Республика Крым, г. Симферополь,
-                ул. Ленина, д 120
-              </div>
+              <div className="order_address">{order?.address}</div>
               <span className="dateLabel">
                 Кол-во товаров: {order?.products?.length}{" "}
               </span>
