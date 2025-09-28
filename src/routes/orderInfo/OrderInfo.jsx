@@ -183,7 +183,9 @@ function OrderInfo() {
           </div>
           <div className="qty_price">
             <span>Экономия</span>
-            <span>{totalSavings} ₽</span>
+            <span>
+              {formatNumber(Number(totalPrice) - Number(singleOrder?.total))} ₽
+            </span>
           </div>
           <div className="paid">
             <h1>Оплачено:</h1>
@@ -274,11 +276,13 @@ function OrderInfo() {
           </div>
           <div className="qty_price">
             <span>Товары, {totalCount} шт.</span>
-            <span> ₽</span>
+            <span>{totalPrice} ₽</span>
           </div>
           <div className="qty_price">
             <span>Экономия</span>
-            <span> ₽</span>
+            <span>
+              {formatNumber(Number(totalPrice) - Number(singleOrder?.total))} ₽
+            </span>
           </div>
           <div className="paid">
             <h1>Оплачено:</h1>
