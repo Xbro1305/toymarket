@@ -6,13 +6,19 @@ const FilterModal = ({
   setIsFilterOpen,
   pendingFilters,
   setPendingFilters,
-  applyFilters,
   statusAccordionOpen,
   setStatusAccordionOpen,
   statusPriceOpen,
   setStatusPriceOpen,
 }) => {
+  const [filters, setFilters] = React.useState(pendingFilters);
+
   if (!isFilterOpen) return null;
+
+  const filter = () => {
+    setPendingFilters(filters);
+    setIsFilterOpen(false);
+  };
 
   return (
     <div className="modal-container">
@@ -72,20 +78,18 @@ const FilterModal = ({
                     type="radio"
                     value="all"
                     id="all"
-                    checked={pendingFilters.status === "all"}
-                    onChange={() =>
-                      setPendingFilters({ ...pendingFilters, status: "all" })
-                    }
+                    checked={filters.status === "all"}
+                    onChange={() => setFilters({ ...filters, status: "all" })}
                   />
                   <label htmlFor="all">Все товары</label>
                   <input
                     type="radio"
                     value="inStock"
                     id="inStock"
-                    checked={pendingFilters.status === "inStock"}
+                    checked={filters.status === "inStock"}
                     onChange={() =>
-                      setPendingFilters({
-                        ...pendingFilters,
+                      setFilters({
+                        ...filters,
                         status: "inStock",
                       })
                     }
@@ -95,10 +99,10 @@ const FilterModal = ({
                     type="radio"
                     value="outOfStock"
                     id="outOfStock"
-                    checked={pendingFilters.status === "outOfStock"}
+                    checked={filters.status === "outOfStock"}
                     onChange={() =>
-                      setPendingFilters({
-                        ...pendingFilters,
+                      setFilters({
+                        ...filters,
                         status: "outOfStock",
                       })
                     }
@@ -135,10 +139,10 @@ const FilterModal = ({
                     type="number"
                     className="formInput-fil"
                     placeholder="От"
-                    value={pendingFilters.priceFrom || ""}
+                    value={filters.priceFrom || ""}
                     onChange={(e) =>
-                      setPendingFilters({
-                        ...pendingFilters,
+                      setFilters({
+                        ...filters,
                         priceFrom: e.target.value,
                       })
                     }
@@ -149,10 +153,10 @@ const FilterModal = ({
                     type="number"
                     className="formInput-fil"
                     placeholder="До"
-                    value={pendingFilters.priceTo || ""}
+                    value={filters.priceTo || ""}
                     onChange={(e) =>
-                      setPendingFilters({
-                        ...pendingFilters,
+                      setFilters({
+                        ...filters,
                         priceTo: e.target.value,
                       })
                     }
@@ -174,10 +178,10 @@ const FilterModal = ({
                     type="text"
                     className="formInput-search"
                     placeholder="Поиск по значениям"
-                    value={pendingFilters.article || ""}
+                    value={filters.article || ""}
                     onChange={(e) =>
-                      setPendingFilters({
-                        ...pendingFilters,
+                      setFilters({
+                        ...filters,
                         article: e.target.value,
                       })
                     }
@@ -187,7 +191,7 @@ const FilterModal = ({
             </div>
           </div>
 
-          <button type="button" className="formButton" onClick={applyFilters}>
+          <button type="button" className="formButton" onClick={filter}>
             Применить
           </button>
         </form>

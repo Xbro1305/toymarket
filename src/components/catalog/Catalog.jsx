@@ -231,7 +231,6 @@ import {
   useLazyGetNewProductsLazyQuery,
   useLazyGetProductsByTypeWithLimitQuery,
 } from "../../context/service/productsApi";
-import noImg from "../../img/no_img.png";
 import { LuChevronRight } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
 import formatNumber from "../../utils/numberFormat";
@@ -242,6 +241,7 @@ import { decrementQuantity, incrementQuantity } from "../../context/cartSlice";
 import loader from "./loader1.svg";
 import { FreeMode } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import noImg from "../../img/no_img.png";
 
 function Catalog() {
   const nav = useNavigate();
@@ -486,16 +486,24 @@ function Catalog() {
                             {+product?.discountedPrice !== +product?.price &&
                             +product?.price &&
                             +product?.discountedPrice ? (
-                              <div className="mark_discount">%</div>
+                              <div className="mark_discount">
+                                -
+                                {Math.round(
+                                  ((+product.price - +product.discountedPrice) /
+                                    +product.price) *
+                                    100
+                                )}
+                                %
+                              </div>
                             ) : null}
                             <img
                               src={`https://api.toymarket.site/api/image/${product.id}/${product.image}`}
                               alt={product.article}
-                              // className="picture"
-                              className={`product-image`}
                               onError={(e) => {
                                 e.currentTarget.src = noImg;
                               }}
+                              // className="picture"
+                              className={`product-image`}
                             />
                             {product.isNew === 1 ? (
                               <div className="mark_new_product">
@@ -559,7 +567,7 @@ function Catalog() {
                                 }
                               >
                                 {formatNumber(
-                                  +product.price || +product.discountedPrice
+                                  +product.discountedPrice || +product.price
                                 )}{" "}
                                 ₽
                               </div>
@@ -588,7 +596,7 @@ function Catalog() {
                               }
                             >
                               {formatNumber(
-                                +product.price || +product.discountedPrice
+                                +product.discountedPrice || +product.price
                               )}{" "}
                               ₽
                             </div>

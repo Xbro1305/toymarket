@@ -41,7 +41,6 @@ function SinglePage() {
   const [colors, setColors] = useState(new Set());
   const [open_marketPlaces, setOpen_marketPlaces] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  // const [selectedModelID, setSelectedModelID] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -342,7 +341,7 @@ function SinglePage() {
                           {formatNumber(+product.price)} ₽
                         </span>
                         <span className="percent">
-                          {formatNumber(discount)} %
+                          -{formatNumber(discount)} %
                         </span>
                       </>
                     )}{" "}
@@ -355,7 +354,7 @@ function SinglePage() {
                           {formatNumber(+product.price)} ₽
                         </span>
                         <span className="percent">
-                          {formatNumber(discount)} %
+                          -{formatNumber(discount)} %
                         </span>
                       </>
                     )}
@@ -490,7 +489,7 @@ function SinglePage() {
                 onClick={() => setDescription("description")}
               >
                 Описание
-              </button>
+              </button>{" "}
               {/* {product?.preorder === "true" && ( */}
               {product.accessabilitySettingsID == 223 && (
                 <button
@@ -649,7 +648,7 @@ function SinglePage() {
                           ₽
                         </span>
                         <span className="percent">
-                          {formatNumber(discount)} %
+                          -{formatNumber(discount)} %
                         </span>
                       </>
                     )}
@@ -662,7 +661,7 @@ function SinglePage() {
                           {formatNumber(+product.price)} ₽
                         </span>
                         <span className="percent">
-                          {formatNumber(discount)} %
+                          -{formatNumber(discount)} %
                         </span>
                       </>
                     )}

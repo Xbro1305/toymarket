@@ -73,7 +73,6 @@ const ProductSlider = ({ product }) => {
         slideToClickedSlide
         watchSlidesProgress
       >
-        {/* Главное фото */}
         <SwiperSlide>
           <img
             src={`https://api.toymarket.site/api/image/${product?.id}/${product?.photo}`}
@@ -85,8 +84,6 @@ const ProductSlider = ({ product }) => {
             }}
           />
         </SwiperSlide>
-
-        {/* Остальные фото */}
         {product?.otherPhotos?.filter(Boolean).map((slide, i) => (
           <SwiperSlide key={i}>
             <img
@@ -100,8 +97,6 @@ const ProductSlider = ({ product }) => {
             />
           </SwiperSlide>
         ))}
-
-        {/* YouTube видео */}
         {product?.review && (
           <SwiperSlide>
             <div className="iframe-wrapper relative">
@@ -130,9 +125,7 @@ const ProductSlider = ({ product }) => {
               </div>
             </div>
           </SwiperSlide>
-        )}
-
-        {/* RuTube видео */}
+        )}{" "}
         {product?.rutubeReview && (
           <SwiperSlide>
             <div className="iframe-wrapper relative">
@@ -162,7 +155,6 @@ const ProductSlider = ({ product }) => {
         )}
       </Swiper>
 
-      {/* Слайдер превью */}
       <Swiper
         onSwiper={setThumbsSwiper}
         spaceBetween={10}

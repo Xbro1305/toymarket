@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { useLazyGetNewProductsLazyQuery } from "../../context/service/productsApi";
+import { useLazyGetNewProductsLazyQuery } from "../../../context/service/productsApi";
 import filterIcon from "../../img/filter.svg";
 import sortIcon from "../../img/sort.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { decrementQuantity, incrementQuantity } from "../../context/cartSlice";
+import {
+  decrementQuantity,
+  incrementQuantity,
+} from "../../../context/cartSlice";
 import { FiPlus, FiMinus } from "react-icons/fi";
-import formatNumber from "../../utils/numberFormat";
+import formatNumber from "../../../utils/numberFormat";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import FilterModal from "./FilterModal";
 import { BsChevronLeft } from "react-icons/bs";
 import SortModal from "./SortModal";
 import noImg from "../../img/no_img.png";
-import { useGoBackOrHome } from "../../utils/goBackOrHome";
+import { useGoBackOrHome } from "../../../utils/goBackOrHome";
 import loader from "../../components/catalog/loader1.svg";
 import { BiPlus } from "react-icons/bi";
-
-const PAGE_LIMIT = 20;
-const MAX_PRODUCTS = 200;
 
 function CategoryProducts() {
   const dispatch = useDispatch();
@@ -251,7 +251,15 @@ function CategoryProducts() {
                   {+product?.discountedPrice !== +product?.price &&
                   +product?.price &&
                   +product?.discountedPrice ? (
-                    <div className="mark_discount">%</div>
+                    <div className="mark_discount">
+                      -
+                      {Math.round(
+                        ((+product.price - +product.discountedPrice) /
+                          +product.price) *
+                          100
+                      )}
+                      %
+                    </div>
                   ) : null}
                   <img
                     src={`https://api.toymarket.site/api/image/${product.id}/${product.image}`}
@@ -320,7 +328,7 @@ function CategoryProducts() {
                         navigate(`/item/${product.productTypeID}/${product.id}`)
                       }
                     >
-                      {formatNumber(+product.price || +product.discountedPrice)}{" "}
+                      {formatNumber(+product.discountedPrice || +product.price)}{" "}
                       ₽
                     </div>
                   )
@@ -339,7 +347,7 @@ function CategoryProducts() {
                       navigate(`/item/${product.productTypeID}/${product.id}`)
                     }
                   >
-                    {formatNumber(+product.price || +product.discountedPrice)} ₽
+                    {formatNumber(+product.discountedPrice || +product.price)} ₽
                   </div>
                 )}
               </div>

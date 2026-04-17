@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import noImg from "../../img/no_img.png";
 import {
   clearCart,
   removeFromCart,
@@ -17,7 +16,7 @@ import { Checkbox, message } from "antd";
 import { IoCopyOutline } from "react-icons/io5";
 import { Switch } from "antd";
 import toast from "react-hot-toast";
-
+import noImg from "../../img/no_img.png";
 import { newOrder, payTBank } from "../../api/index";
 import { setCart, setUserInfo } from "../../context/cartSlice";
 import { FaChevronLeft } from "react-icons/fa6";
@@ -184,7 +183,7 @@ const NewCart = () => {
         ? selectedPickupName ||
           "Республика Крым, г. Симферополь, ул. Ленина, д 120"
         : data.address,
-      delivery: state ? "Самовывоз" : "Курьером",
+      delivery: state ? "Самовывоз" : "Доставка",
       pickupPoint: selectedPickupId,
       payBy: !paymentDelivered ? "Наличными" : "Картой",
       products: basket?.map((product) => ({
@@ -198,7 +197,7 @@ const NewCart = () => {
 
     try {
       const orderData = await newOrder(order);
-      if (orderData && (deliveryData !== "pickup" || paymentDelivered)) {
+      if (orderData && (paymentDelivered || deliveryData !== "pickup")) {
         const bankResponse = await payTBank(orderData.orderID);
         window.location.href = bankResponse?.url;
       } else {
@@ -225,9 +224,11 @@ const NewCart = () => {
             email: "",
           })
         );
+        window.navigation.reload();
       }, 3000);
     } catch (error) {
       toast.error("Ошибка при оформлении заказа");
+      console.error("Order creation error:", error);
     }
   };
 
@@ -310,6 +311,9 @@ const NewCart = () => {
                     <img
                       src={`https://api.toymarket.site/api/image/${product.id}/${product.image}`}
                       alt="product"
+                      onError={(e) => {
+                        e.currentTarget.src = noImg;
+                      }}
                     />
                   </div>
                   <div className="cart-item-data">
@@ -344,25 +348,33 @@ const NewCart = () => {
                           Всегда в наличии
                         </div>
                       )}
-                      <IoMdTrash
-                        className="deleteCartItemIcon"
-                        onClick={() => dispatch(removeFromCart(product.id))}
-                      />
+                      <button className="deleteCartItemIcon">
+                        <IoMdTrash
+                          onClick={() => dispatch(removeFromCart(product.id))}
+                        />
+                      </button>
                     </div>
                     <div className="cart-right-block">
                       <div className="cart_right-prices">
                         <span className="cart-item-price">
-                          {formatNumber(displayQuantity * currentPrice)} ₽
+                          Итого:{" "}
+                          <span style={{ whiteSpace: "nowrap" }}>
+                            {formatNumber(displayQuantity * currentPrice)} ₽
+                          </span>
                         </span>
                         <span className="cart_item_discount">
                           <span>
-                            {formatNumber(
-                              displayQuantity >= product.recomendedMinimalSize
-                                ? product?.discountedPrice || product?.price
-                                : product?.price
-                            )}{" "}
-                            ₽
+                            Цена:{" "}
+                            <span style={{ whiteSpace: "nowrap" }}>
+                              {formatNumber(
+                                displayQuantity >= product.recomendedMinimalSize
+                                  ? product?.discountedPrice || product?.price
+                                  : product?.price
+                              )}{" "}
+                              ₽
+                            </span>
                           </span>
+
                           {product.accessabilitySettingsID == 223 ? (
                             <span
                               className="percent"
@@ -498,7 +510,7 @@ const NewCart = () => {
                 }
                 onClick={() => setDeliveryData("courier")}
               >
-                Курьером
+                Доставка
               </button>
             </div>
             <div className="deliveryInfoText">

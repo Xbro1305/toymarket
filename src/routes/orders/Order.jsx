@@ -11,7 +11,6 @@ function Order() {
   const nav = useNavigate();
   let userInfo = useSelector((state) => state.cart.userInfo);
   let ordersStory = userInfo?.orders;
-
   const back = useGoBackOrHome();
 
   const customDate = (orderDate) => {
@@ -28,8 +27,6 @@ function Order() {
 
     return `${date} ${hour}`;
   };
-
-  console.log(ordersStory);
 
   return (
     <div className="container orders">
@@ -76,19 +73,21 @@ function Order() {
                   {order?.statusName}
                 </p>
               </div>
-              <div className="order_address">{order?.address}</div>
+              <div className="order_address">
+                Доставка в пункт выдачи: {order?.address}
+              </div>
               <span className="dateLabel">
-                Кол-во товаров: {order?.products?.length}{" "}
+                Товары: {order?.products?.length}{" "}
               </span>
               <span className="price-orders">
-                <span>Сумма заказа:</span> {numberFormat(+order.total)} ₽
+                <span>Итого:</span> {numberFormat(+order.total)} ₽
               </span>
             </div>
             <button
               className="btn_more"
               onClick={() => nav(`/orderInfo/${order.orderId}`)}
             >
-              Подробнее
+              Детали заказa
             </button>
           </div>
         ))}

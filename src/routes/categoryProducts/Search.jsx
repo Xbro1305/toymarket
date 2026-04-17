@@ -4,7 +4,10 @@ import { useGetProductsBySearchQuery } from "../../context/service/productsApi";
 import filterIcon from "../../img/filter.svg";
 import sortIcon from "../../img/sort.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { decrementQuantity, incrementQuantity } from "../../context/cartSlice";
+import {
+  decrementQuantity,
+  incrementQuantity,
+} from "../../context/cartSlice";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import formatNumber from "../../utils/numberFormat";
 import { useNavigate, Link } from "react-router-dom";
@@ -208,7 +211,15 @@ function TypesProducts() {
                 {+product?.discountedPrice !== +product?.price &&
                 +product?.price &&
                 +product?.discountedPrice ? (
-                  <div className="mark_discount">%</div>
+                  <div className="mark_discount">
+                    -
+                    {Math.round(
+                      ((+product.price - +product.discountedPrice) /
+                        +product.price) *
+                        100
+                    )}
+                    %
+                  </div>
                 ) : null}
                 <img
                   src={`https://api.toymarket.site/api/image/${product.id}/${product.image}`}
@@ -276,7 +287,7 @@ function TypesProducts() {
                       nav(`/item/${product.productTypeID}/${product.id}`)
                     }
                   >
-                    {formatNumber(+product.price || +product.discountedPrice)} ₽
+                    {formatNumber(+product.discountedPrice || +product.price)} ₽
                   </div>
                 )
               ) : product.accessabilitySettingsID == 222 ? (
@@ -294,7 +305,7 @@ function TypesProducts() {
                     nav(`/item/${product.productTypeID}/${product.id}`)
                   }
                 >
-                  {formatNumber(+product.price || +product.discountedPrice)} ₽
+                  {formatNumber(+product.discountedPrice || +product.price)} ₽
                 </div>
               )}
             </div>

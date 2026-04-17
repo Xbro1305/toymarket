@@ -76,8 +76,8 @@
   width: 180px;
   min-width: 180px;
   max-width: 180px;
-  height: 360px;
-  max-height: 360px !important;
+  height: 380px;
+  max-height: 380px !important;
 }
 
 .product-img-link {
@@ -97,9 +97,10 @@
 }
 
 .mark_discount {
-  width: 24px;
+  width: fit-content;
   height: 24px;
   border-top-right-radius: 8px;
+  padding: 0 4px;
   border-bottom-left-radius: 8px;
   background-color: #fd3979;
   display: grid;
@@ -161,7 +162,7 @@
 .weight {
   color: #908f95;
   font-size: 12px;
-  padding: 0 5px;
+  padding: 5px;
   margin-bottom: auto;
   width: 100%;
 }
@@ -179,14 +180,14 @@
   display: flex;
   cursor: pointer;
   flex-wrap: wrap;
-  font-size: 16px;
+  font-size: 13px;
   line-height: 0;
   justify-content: center;
   height: 34px;
 }
 
 .price.notInStock {
-  background: #222222;
+  background: #222;
 }
 
 .cic-minus,
@@ -219,7 +220,7 @@
   user-select: none;
   padding: 0 0 1px 0;
   width: 100%;
-  background-color: #222;
+  background-color: #222222;
   color: #ffffff;
   align-items: center;
   border-radius: 8px;
@@ -245,7 +246,7 @@
   }
 
   .catalog {
-    margin-bottom: 120px !important;
+    margin-bottom: 150px !important;
   }
 
   .catalogItem_cards {

@@ -1,32 +1,16 @@
 import toast from "react-hot-toast";
 
 const getProducts = async () => {
-  try {
-    const req = await fetch("https://api.toymarket.site/api/products");
-    const res = await req.json();
+  const req = await fetch("https://api.toymarket.site/api/products");
+  const res = await req.json();
 
-    return res.data;
-  } catch (err) {
-    if (err.status == 401) {
-      localStorage.removeItem("user");
-      window.location.href = "/auth";
-    }
-  }
+  return res.data;
 };
 const getProductsByType = async (id) => {
-  try {
-    const req = await fetch(
-      "https://api.toymarket.site/api/products?type=" + id
-    );
-    const res = await req.json();
+  const req = await fetch("https://api.toymarket.site/api/products?type=" + id);
+  const res = await req.json();
 
-    return res.data;
-  } catch (err) {
-    if (err.status == 401) {
-      localStorage.removeItem("user");
-      window.location.href = "/auth";
-    }
-  }
+  return res.data;
 };
 const getProductsById = async (id) => {
   try {
@@ -75,6 +59,7 @@ const getProductsBySearch = async (value) => {
 const getUser = async () => {
   try {
     const user = JSON.parse(localStorage.getItem("user"));
+
     const req = await fetch("https://api.toymarket.site/api/user/get/", {
       method: "POST",
       headers: {
@@ -85,6 +70,7 @@ const getUser = async () => {
         tgUserData: user,
       }),
     });
+
     const res = await req.json();
 
     return res.data;
